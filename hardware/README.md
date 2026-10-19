@@ -10,6 +10,7 @@
 - [📂 资源目录](#resources)
 - [📐 装配模型](#assembly-model)
 - [📋 物料清单](#bill-of-materials)
+- [🔩 采购补充件](#purchase-parts)
 - [🔎 待确认事项](#confirmation)
 - [🛠️ 装配与校准](#assembly-and-calibration)
 - [✅ 验证状态](#validation-status)
@@ -58,7 +59,7 @@
 
 ## 物料清单
 
-下表列出一套所提供装配体中的 **16 种源项目、21 个顶层实例**。数量来自 STEP 装配引用，按源 PRODUCT 标识合并重复件。两类舵机子装配各出现 3 次，其内部零件已包含在子装配中，不再重复列为采购项。展开全部子装配后为 **99 个叶级实例／实体**，不代表需要采购 99 件物料。
+下表列出一套所提供装配体中的 **16 种源项目、21 个顶层实例**。数量来自 STEP 装配引用，按源 PRODUCT 标识合并重复件。两类舵机子装配各出现 3 次，其内部零件已包含在子装配中，不再重复列为采购项。展开全部子装配后为 **99 个叶级实例／实体**，不代表需要采购 99 件物料。装配实物另外需要 6 种不在该模型中的标准五金件，见[采购补充件](#purchase-parts)。
 
 结构件的资源标识与 STEP、图片文件名主体一致（不含扩展名）；螺钉采用 102 的“品名＋直径 × 长度”规格写法，链接仍指向对应 STEP。包括紧固件在内的全部简图均由源 STEP 几何渲染为 **1024 × 1024 白底图片**，点击可放大。统一灰色显示材质不代表实物材质、颜色或表面处理；各图独立缩放。
 
@@ -85,6 +86,23 @@
 
 规格写法参考 [Star Arm 102-HD 物料清单](https://github.com/servodevelop/Star-Arm-102/blob/main/hardware/102-hd/README.zh.md#bill-of-materials)。102 的 M3 × 10、M3 × 22、M2 × 8 等尺寸以及黑色表面、12.9 级等采购属性不自动适用于 R1；本表保留 R1 的实测尺寸和源实例数量。
 
+<a id="purchase-parts"></a>
+
+## 采购补充件
+
+上面的物料清单由 V3.1 装配体提取，只含建模进去的组件。装配实物还需要下列 **6 种标准五金件**，它们不在装配模型中，因此不在 CAD 提取的 BOM 内；序号接着上表编排，便于合成一张采购清单。品名与规格写法沿用 [102-FL 物料清单](https://github.com/servodevelop/Star-Arm-102/blob/main/hardware/102-fl/README.zh.md#bill-of-materials) 第 23、25、26、27、28、29 行的同款件；数量按 R1 的装配需求给定（2026-10-19）。
+
+规格、表面处理与强度等级取自 102 同款件的写法；与上段同一原则，这些采购属性**不自动适用于 R1**，只是采购时的起点，使用前须按实物与采购渠道复核。本表手工维护，不由 `scripts/extract_step_bom.py` 生成，也不写入 `bom.json`。图片为 102 同款件的外观示意图（AI 生成），仅用于识别类型，不代表 R1 实物外观；规格以文字为准。
+
+| 序号 | 品名 | 型号／规格 | 图片 | 描述 | 数量 |
+| :---: | --- | --- | :---: | --- | :---: |
+| 17 | 内六角圆柱头螺钉 | M2 × 8 | <a href="images/fasteners/m2-8-socket-head-cap-screw.png"><img src="images/fasteners/m2-8-socket-head-cap-screw.png" alt="M2 × 8 内六角圆柱头螺钉示意图" width="90"></a> | 黑色表面 | 16 |
+| 18 | 十字槽盘头自攻螺钉 | PB2.0 × 5 | <a href="images/fasteners/pb2-5-phillips-pan-head-self-tapping-screw.png"><img src="images/fasteners/pb2-5-phillips-pan-head-self-tapping-screw.png" alt="PB2.0 × 5 十字槽盘头自攻螺钉示意图" width="90"></a> | 黑色表面，加硬 | 21 |
+| 19 | 十字槽盘头螺钉 | M2 × 4.5 | <a href="images/fasteners/m2-4-5-phillips-pan-head-screw.png"><img src="images/fasteners/m2-4-5-phillips-pan-head-screw.png" alt="M2 × 4.5 十字槽盘头螺钉示意图" width="90"></a> | 黑色表面；靠近末端的约 2/3 螺纹段预涂蓝色锁固胶 | 52 |
+| 20 | 十字槽盘头螺钉 | M3 × 10 | <a href="images/fasteners/m3-10-phillips-pan-head-screw.png"><img src="images/fasteners/m3-10-phillips-pan-head-screw.png" alt="M3 × 10 十字槽盘头螺钉示意图" width="90"></a> | 黑色表面，加硬 | 1 |
+| 21 | 螺母 | M3 | <a href="images/fasteners/m3-nut.png"><img src="images/fasteners/m3-nut.png" alt="M3 螺母示意图" width="90"></a> | 黑色表面 | 1 |
+| 22 | 平垫圈 | M3（3 × 6 × 0.5 mm） | <a href="images/fasteners/m3-6-0-5-stainless-washer.png"><img src="images/fasteners/m3-6-0-5-stainless-washer.png" alt="M3（3 × 6 × 0.5 mm） 平垫圈示意图" width="90"></a> | 不锈钢 | 1 |
+
 <a id="confirmation"></a>
 
 ## 待确认事项
@@ -94,6 +112,7 @@
 - 台阶件 `M3X3X60001` 共 2 件，测得台阶段 Ø2.5 × 3 mm、末段 Ø2 × 4 mm；不据名称认定为 M3，也不把末段直径直接当作 M2 螺纹。需核对图纸或实物。
 - 确认 A000、B000 的用途，以及全部结构件的材质、制造工艺和公差。不预设 PLA、打印参数或加工方式。
 - 确认实物所需的完整紧固件、线缆、控制板、电源及配件。源装配树中只有 5 个顶层紧固件实例，不代表用 5 个紧固件就能完成装配。源名称中的关节 1–7 也不能据此认定机械臂的驱动自由度。
+- [采购补充件](#purchase-parts)（第 17–22 行）为装配实物所需的五金件，不存在于源装配模型中；供应商、材质、表面处理与强度等级按 102 同款件写法记录，需按 R1 实物与采购渠道复核。
 
 <a id="assembly-and-calibration"></a>
 
@@ -117,6 +136,7 @@
 | 零件简图 | 根据 CAD 网格渲染；使用中性显示材质；各图独立缩放 |
 | 干涉、配合与实物装配 | 尚未验证 |
 | 采购 BOM 完整性与硬件规格 | 待工程确认 |
+| 采购补充件 | 数量按 R1 装配需求给定（2026-10-19）；规格参照 102 同款件，供应商与采购属性待确认 |
 | 可打印性、URDF 与仿真 | 尚未验证；未提供打印文件和 URDF |
 | V3.1 的 Python 遥操作 | 尚未验证 |
 
