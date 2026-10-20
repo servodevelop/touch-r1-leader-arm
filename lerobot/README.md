@@ -2,63 +2,47 @@
 
 [← 首页](../README.md)　|　<sub>**简体中文**</sub>
 
-本教程依次完成：**环境搭建 → 接线与端口设置 → 配对校准 → 预览 → 遥操作 → 关节数据采集 → 动作回放**。
+本教程介绍 StarArm102 主臂与 Lumos 从臂的 LeRobot 接入流程，包括环境安装、配对校准、遥操作、关节数据采集和回放。数据包含六关节与可选夹爪，不包含图像或视频。
 
-本篇暂不配置摄像头，采集命令只保存关节和夹爪数据。
-
-本目录提供安装入口和操作教程。LeRobot 硬件适配器由 [stararm102-lumos-lerobot](https://github.com/VincentHSS/stararm102-lumos-lerobot) 维护，安装时下载到本目录的 `.dependencies/stararm102-lumos-lerobot/`，核心实现不复制到本仓库。首次安装需要能访问该依赖仓库；依赖无法访问时，新的安装无法完成。已安装的环境可继续使用本地副本。
-
-当前接入对象为 StarArm102 主臂与 Lumos 从臂，尚未验证 Touch R1 Leader Arm V3.1 的实机兼容性。请为本流程单独创建 Python 3.12 环境，避免混用 `python-sdk/` 教程中的 Python 3.10 环境。
+适用环境为 Ubuntu 22.04 / 24.04 x86_64、Python 3.12。Touch R1 Leader Arm 的实机兼容性尚未验证。
 
 ## 目录
 
-- [环境搭建](#environment)
-- [安装与调试](#installation)
-- [接线与端口](#connection)
-- [配对校准与限位](#calibration)
-- [预览与遥操作](#teleoperation)
-- [关节数据采集](#recording)
-- [动作回放](#replay)
-- [日常启动](#daily)
-- [常见问题](#faq)
-
-## 产品与系统组成
-
-| 设备 | 作用 | 与电脑的连接方式 |
-|---|---|---|
-| StarArm102 主臂（Leader） | 人手拖动，提供六关节与可选夹爪输入 | USB / UART |
-| Lumos 单臂（Follower） | 执行主臂映射得到的动作 | CAN，使用 Lumos SingleArm SDK |
-| Ubuntu 主机 | 运行 LeRobot、控制机械臂、保存数据 | 同时连接主从臂 |
-
-```text
-StarArm102 主臂 ── USB/UART ── Ubuntu / LeRobot ── CAN ── Lumos 从臂
-```
-
-本仓库的 LeRobot 设备类型分别是 `stararm102` 和 `lumos`。安装后自动发现，不需要将文件手动复制进 LeRobot 源码目录。
+- [1. 环境准备](#environment)
+- [2. 安装与检查](#installation)
+- [3. 接线与通信设置](#connection)
+- [4. 配对校准与关节限位](#calibration)
+- [5. 预览与遥操作](#teleoperation)
+- [6. 关节数据采集](#recording)
+- [7. 数据回放](#replay)
+- [8. 日常启动](#daily)
+- [9. 常见问题](#faq)
+- [10. 依赖与验证范围](#dependencies)
 
 <a id="environment"></a>
 
-## 初始环境搭建
+## 1. 环境准备
 
-使用 Ubuntu 22.04 / 24.04 x86_64、Python 3.12。遥操作和关节数据采集可以使用 CPU，不要求先搭建 CUDA 训练环境。Jetson/ARM 的 Lumos 原生 SDK 构建尚未验证。
+| 项目 | 要求 |
+| --- | --- |
+| 操作系统 | Ubuntu 22.04 / 24.04，x86_64 |
+| Python | 3.12，使用独立 Conda 环境 |
+| 主臂 | StarArm102，通过 USB/UART 连接 |
+| 从臂 | Lumos，通过 CAN 连接，速率 1 Mbps |
+| 网络与权限 | 可访问 GitHub、PyPI，具备 `sudo` 权限 |
 
-| 软件 | 本项目使用的版本 |
-|---|---|
-| Python | 3.12 |
-| 硬件适配器 | 固定 commit `454979c7c8b9d5ced15f1964a2d588acf531ae3f` |
-| LeRobot | 固定 commit `3991580a5673f5f0219a4e8835a5f973eeccf9a7`，版本字段 0.6.2 |
-| Lumos SDK | 固定 commit `040412542c0b6b6fd2bb6dd652c0de6c666631be` |
+遥操作与关节数据采集可使用 CPU。此流程使用独立的 Python 3.12 环境，与 [Python SDK 教程](../python-sdk/README.md)中的 Python 3.10 环境分开。
 
-### 1. 安装基础工具
+### 1.1 安装基础工具
 
 ```bash
 sudo apt-get update
 sudo apt-get install -y git curl can-utils
 ```
 
-### 2. 安装 Conda
+### 1.2 安装 Conda
 
-已经能运行 `conda --version` 时跳过本步。以下使用 Miniforge 官方 Linux x86_64 安装包；`~/miniforge3` 已存在时不要重复安装到该目录。
+已安装 Conda 时跳过本步。以下命令将 Miniforge 安装到 `~/miniforge3`；该目录已存在时，使用现有环境。
 
 ```bash
 mkdir -p ~/Downloads
@@ -69,9 +53,9 @@ bash Miniforge3-Linux-x86_64.sh -b -p "$HOME/miniforge3"
 source "$HOME/miniforge3/etc/profile.d/conda.sh"
 ```
 
-来源：[Miniforge 官方说明](https://github.com/conda-forge/miniforge)。已有 Miniconda / Anaconda 也可以直接使用。
+安装说明见 [Miniforge 文档](https://github.com/conda-forge/miniforge)。
 
-### 3. 创建并激活环境
+### 1.3 创建并激活环境
 
 ```bash
 conda create -n lumos-lerobot python=3.12 -y
@@ -83,9 +67,9 @@ python --version
 
 <a id="installation"></a>
 
-## 安装与调试
+## 2. 安装与检查
 
-### 1. 克隆本仓库
+### 2.1 克隆本仓库
 
 ```bash
 cd ~
@@ -93,21 +77,19 @@ git clone https://github.com/servodevelop/touch-r1-leader-arm.git
 cd ~/touch-r1-leader-arm/lerobot
 ```
 
-### 2. 安装 LeRobot、硬件 SDK 和适配器
+### 2.2 安装 LeRobot、硬件 SDK 和适配器
 
-保持 `lumos-lerobot` 环境已激活：
+在已激活的 `lumos-lerobot` 环境中执行：
 
 ```bash
 bash install_ubuntu.sh
 ```
 
-安装入口先下载并核对固定版本的硬件适配依赖，再调用其安装脚本，安装系统构建依赖、Lumos SDK、LeRobot 和适配器，并修正该版本的采集逻辑，让保存的 action 对应限速后实际发送的目标。需要网络和 `sudo` 权限。安装过程不连接机械臂。
+安装脚本下载固定版本的硬件适配器、LeRobot 和 Lumos SDK，并安装系统与 Python 依赖。安装过程中不连接机械臂；脚本正常结束后再继续。
 
-依赖源码、LeRobot 和 SDK 都保存在 `.dependencies/stararm102-lumos-lerobot/` 内，请保留整个目录。安装器不会重置版本不符或有本地修改的依赖目录；重跑时也不会自动升级到最新版本。升级需先审核新版本，再更新安装入口中的固定提交。
+依赖文件位于本目录的 `.dependencies/stararm102-lumos-lerobot/`，运行时需要保留。具体来源与版本见[依赖与验证范围](#dependencies)。
 
-安装正常结束后再继续。安装失败时先处理错误，不要跳过失败步骤启动机器人。
-
-### 3. 检查安装结果
+### 2.3 检查安装结果
 
 ```bash
 python -c "import serial, fashionstar_uart_sdk; from startouchclass import SingleArm; print('SDK OK')"
@@ -119,31 +101,30 @@ python -m pip check
 
 <a id="connection"></a>
 
-## 接线与端口设置
+## 3. 接线与通信设置
 
-### 1. 接线
+### 3.1 接线
 
-1. 按厂商说明连接机械臂、电源和急停，确认工作区域畅通。
-2. StarArm102 的 USB/UART 接到 Ubuntu 主机。
-3. Lumos 通过 CAN 适配器接到同一台主机，按硬件说明完成总线接线与终端电阻配置。
-4. 按厂商要求上电，保持急停可及。
+1. 将 StarArm102 的 USB/UART 接入 Ubuntu 主机。
+2. 将 Lumos 通过 CAN 适配器接入同一台主机，检查 CAN 总线接线与终端电阻配置。
+3. 连接主从臂电源与急停，清理机械臂活动范围后上电。
 
-**初始化 Lumos SDK 时可能使能电机，校准和预览也会初始化 SDK。** 预览只是“不发送运动目标”，不能当作断电状态。不要同时运行多个控制程序。
+**校准与预览也会初始化 Lumos SDK，可能使能电机。** 预览不发送从臂运动目标，HD 按钮仍可控制主臂保持。操作时保持急停可及，同一时间只运行一个控制程序。
 
-### 2. 找到 StarArm102 串口
+### 3.2 找到 StarArm102 串口
 
 ```bash
 ls -l /dev/ttyUSB* /dev/ttyACM* 2>/dev/null
 ls -l /dev/serial/by-id/ 2>/dev/null
 ```
 
-也可以使用 LeRobot 的端口识别工具，按终端提示插拔主臂的 USB：
+需要识别端口时，可运行以下工具，并按提示插拔主臂 USB：
 
 ```bash
 lerobot-find-port
 ```
 
-以下假设主臂为 `/dev/ttyUSB0`。Lumos 从臂使用 CAN，不需要填写第二个 UART 串口。
+后续示例使用 `/dev/ttyUSB0`，请按实际设备修改。Lumos 使用 CAN 接口。
 
 串口报 `Permission denied` 时：
 
@@ -151,9 +132,9 @@ lerobot-find-port
 sudo usermod -aG dialout "$USER"
 ```
 
-注销 Ubuntu 登录并重新登录，使组权限生效，再重新激活环境。不要用 `sudo lerobot-teleoperate ...` 绕过权限，避免进入另一套 Python 环境。
+注销并重新登录，使组权限生效，然后重新激活 Conda 环境。后续 LeRobot 命令使用当前用户执行。
 
-### 3. 设置 Lumos CAN 接口
+### 3.3 设置 Lumos CAN 接口
 
 ```bash
 ip -details link show can0
@@ -165,7 +146,7 @@ ip -details link show can0
 sudo ip link set can0 up type can bitrate 1000000
 ```
 
-已经 UP 且速率正确时直接继续。提示 `Device or resource busy` 时先检查接口状态。
+接口已启用且速率正确时跳过设置。提示 `Device or resource busy` 时，先检查当前接口状态。
 
 确实要重新设置速率时，先停止控制进程，再运行：
 
@@ -176,9 +157,9 @@ sudo ip link set can0 up type can bitrate 1000000
 
 找不到 `can0` 时，检查适配器驱动和实际接口名。
 
-### 4. 设置后续命令使用的端口与路径
+### 3.4 设置端口与路径
 
-回到仓库根目录，再设置以下变量。端口不是默认值时在这里替换：
+进入仓库的 `lerobot/` 目录，设置后续命令使用的端口与路径：
 
 ```bash
 cd ~/touch-r1-leader-arm/lerobot
@@ -191,15 +172,15 @@ export LUMOS_MAPPING_FILE="$HOME/.config/stararm102_lumos/calibration.json"
 export LUMOS_LIMITS_FILE="$PWD/lumos_joint_limits.json"
 ```
 
-变量只对当前终端生效，新开终端或重新登录后需要再次设置。
+将 `STARARM_PORT` 和 `LUMOS_CAN` 改为实际接口。以上变量仅在当前终端生效；后续命令均在 `lerobot/` 目录执行。
 
 <a id="calibration"></a>
 
-## 校准
+## 4. 配对校准与关节限位
 
-### 1. 配对校准主从臂
+### 4.1 配对校准主从臂
 
-本项目同时记录主从臂参考姿态，使用下面的配对向导：
+将主从臂放到相互对应的参考姿态，启动配对校准：
 
 ```bash
 python "$LEROBOT_CORE_ROOT/stararm102_lumos_teleop.py" \
@@ -218,15 +199,18 @@ python "$LEROBOT_CORE_ROOT/stararm102_lumos_teleop.py" \
 3. 记录主臂夹爪完全闭合与完全打开的位置。
 4. 等待提示校准文件保存成功。
 
-不要为了扩大范围强行碰撞机械限位。没有 HD 按钮板时增加 `--button-disable`；不用夹爪时删除 `--gripper`，后续主从臂命令中的 `gripper` 也都改为 `false`。
+校准时保持在机械限位以内。按实际配置调整参数：
 
-默认校准文件为 `~/.config/stararm102_lumos/calibration.json`。已有原项目的有效校准，且端口、关节顺序、夹爪设置和参考姿态一致时可以复用。
+| 配置 | 校准命令 | 后续 LeRobot 命令 |
+| --- | --- | --- |
+| 无 HD 按钮板 | 增加 `--button-disable` | 将 `--teleop.button_enabled` 设为 `false` |
+| 不使用夹爪 | 删除 `--gripper` | 将适用的 `--robot.gripper`、`--teleop.gripper` 均设为 `false` |
 
-适配器的 `calibrate()` 负责读取这份文件，分别调用 `lerobot-calibrate` 不能代替首次配对向导；遥操作启动时也不会自动完成配对参考姿态采集。
+校准文件保存到 `LUMOS_MAPPING_FILE` 指定的位置，默认为 `~/.config/stararm102_lumos/calibration.json`。端口、关节顺序、夹爪设置和参考姿态均未变化时，可复用已有文件。首次配对必须使用上述向导，单独运行 `lerobot-calibrate` 不能代替该步骤。
 
-### 2. 准备 Lumos 真实关节限位
+### 4.2 导出并核对从臂关节限位
 
-执行和采集模式必须有从臂限位文件，不能用主臂扫描范围代替。
+遥操作、采集与回放均需从臂关节限位文件；预览可在未提供限位文件时运行。限位数据应来自实际从臂模型。
 
 只有确认实际型号使用 SDK 的 `FastTouchV2.SLDASM.urdf`，且 `joint1` 到 `joint6` 与 SDK 关节顺序和方向一致时，才使用：
 
@@ -236,13 +220,13 @@ python "$LEROBOT_CORE_ROOT/tools/export_joint_limits.py" \
   --output "$LUMOS_LIMITS_FILE"
 ```
 
-其他型号改用对应 URDF 与实际关节名。核对文件中的 `lower_rad`、`upper_rad`，它们应各有六个 SDK 坐标下的 rad 数值。核实后保留，以后启动不用反复导出。文件已存在时工具会拒绝覆盖。
+其他型号使用对应的 URDF，并通过 `--joint-names` 指定 SDK 顺序下的六个关节名。导出后核对 `lower_rad`、`upper_rad`：各包含六个以 rad 为单位、与 SDK 关节方向一致的限位值。确认后保留文件；工具不会覆盖已存在的文件。
 
 <a id="teleoperation"></a>
 
-## 遥操作
+## 5. 预览与遥操作
 
-### 1. 先预览
+### 5.1 预览映射结果
 
 保持当前终端的环境变量有效，运行 LeRobot 原生命令：
 
@@ -267,9 +251,16 @@ lerobot-teleoperate \
 
 缓慢移动主臂，一次先检查一个关节，观察打印的目标。确认顺序、方向和夹爪开合方向后，按 `Ctrl+C` 停止。
 
-没有 HD 按钮板时，将 `--teleop.button_enabled=true` 改为 `false`。夹爪反向时增加 `--teleop.invert_gripper=true`。需要改变关节方向时，可使用 `--teleop.signs='[-1,1,1,1,-1,-1]'` 并调整对应项；改变 `joint_map` 后需重新配对校准。
+根据预览结果调整参数，并同步到后续遥操作和采集命令：
 
-### 2. 启动主从跟随
+| 参数 | 用途 |
+| --- | --- |
+| `--teleop.button_enabled=false` | 无 HD 按钮板时禁用按钮功能 |
+| `--teleop.invert_gripper=true` | 反转夹爪开合方向 |
+| `--teleop.signs='[-1,1,1,1,-1,-1]'` | 设置六个关节的映射方向，按实际结果调整各项 |
+| `--teleop.joint_map='[0,1,2,3,4,5]'` | 设置关节对应顺序，修改后重新配对校准 |
+
+### 5.2 启动主从跟随
 
 将 Lumos 恢复到校准参考姿态附近，确认急停、方向和限位，再运行：
 
@@ -295,18 +286,23 @@ lerobot-teleoperate \
 
 移动主臂，Lumos 会按映射跟随。首次先做小幅单关节动作，逐项确认六关节与夹爪。
 
-- 启动时第 2 关节距离参考姿态的允许偏差为 0.40 rad，其余五个关节为 0.15 rad。
-- 默认最大目标变化速度 50°/s，单帧最多变化 2°。
-- HD 按钮仍用于主臂保持，按钮板不参与六关节和夹爪映射。
-- `Ctrl+C` 正常退出；卡滞、碰撞或持续力矩报警时立即停止并使用硬件急停。
+| 项目 | 默认值或操作 |
+| --- | --- |
+| 启动姿态允许偏差 | 第 2 关节为 0.40 rad，其余五个关节为 0.15 rad |
+| 目标变化速度上限 | 50°/s |
+| 单次目标变化上限 | 2° |
+| HD 按钮 | 控制主臂六关节保持，不参与关节和夹爪映射 |
+| 正常退出 | `Ctrl+C` |
+
+启动姿态超限时，程序会显示当前姿态、校准姿态与差值。将对应关节恢复到参考姿态附近后重试。发生卡滞、碰撞或持续力矩报警时，立即使用硬件急停。
 
 <a id="recording"></a>
 
-## 数据集制作与采集
+## 6. 关节数据采集
 
 熟悉遥操作后再采集。采集程序本身会控制 Lumos，不要同时运行另一个遥操作进程。
 
-### 1. 记录 10 个回合
+### 6.1 记录 10 个回合
 
 示例每段 30 秒，段间留 15 秒重置场景，只保存在本地：
 
@@ -341,16 +337,14 @@ lerobot-record \
   --play_sounds=false
 ```
 
-第一次可以先把 `num_episodes` 改为 `3`、`episode_time_s` 改为 `15`，确认链路正常再扩大数量。重置阶段程序仍可能处理遥操作输入。
+首次可将 `dataset.num_episodes` 改为 `3`、`dataset.episode_time_s` 改为 `15`，确认采集正常后再增加数量。采集使用与遥操作相同的启动姿态检查、限位和速度限制；重置阶段仍可能处理主臂输入。
 
-启动时会检查 Lumos 是否位于配对校准参考姿态。第 2 关节允许偏差为 `0.40 rad`，其余五个关节为 `0.15 rad`；超限时报错并显示当前姿态、校准姿态、差值和各关节阈值。关节限位和速度限制仍生效。首次执行前确认目标姿态及运动路径安全。
+开始下一批采集时，同时修改 `dataset.repo_id` 和 `dataset.root`，例如将 `lumos_joint_demo_001` 改为 `lumos_joint_demo_002`。
 
-下一批数据同时修改名称与目录，例如将两处 `lumos_joint_demo_001` 改成 `lumos_joint_demo_002`，避免覆盖已有数据。
-
-### 2. 记录参数
+### 6.2 采集参数
 
 | 参数 | 含义 |
-|---|---|
+| --- | --- |
 | `dataset.repo_id` | 数据集名称，本例不会触发上传 |
 | `dataset.root` | 本地保存目录 |
 | `dataset.single_task` | 本批数据的任务描述 |
@@ -362,13 +356,17 @@ lerobot-record \
 | `dataset.no_stamp=true` | 名称不自动附加时间戳 |
 | `dataset.push_to_hub=false` | 只保存在本地 |
 
-### 3. 键盘控制
+### 6.3 键盘控制
 
-监听可用时：右方向键提前结束当前阶段，左方向键请求重录当前 episode，Esc 结束采集。图形桌面、SSH 和终端权限会影响监听，按终端提示确认是否可用。
+| 按键 | 功能 |
+| --- | --- |
+| 右方向键 | 提前结束当前阶段 |
+| 左方向键 | 请求重录当前回合 |
+| `Esc` | 结束采集 |
 
-没有键盘监听时，按设置的回合数量和时长完成。紧急停止使用硬件急停，不依赖键盘监听。
+键盘监听受桌面环境、SSH 和终端权限影响，以启动日志为准。监听不可用时，程序按设定的回合数和时长运行。紧急停止使用硬件急停。
 
-### 4. 检查数据
+### 6.4 检查数据
 
 等待正常结束并完成写盘，再查看：
 
@@ -397,13 +395,13 @@ PY
 
 启用夹爪时状态和动作都是 7 维（六关节 + 夹爪），不用夹爪时为 6 维。`observation.state` 是 Lumos 实测状态，`action` 是限速后最终发送的目标。这里没有图像或视频字段。
 
-安装器已对固定版本的 LeRobot 应用录制修正。如果你另行重装了 LeRobot，应在采集前重新运行安装器，或用 `$LEROBOT_CORE_ROOT/tools/patch_record.py` 修正实际运行环境中的录制文件。
+安装脚本已应用录制修正，使 `action` 保存限速后的实际下发目标。单独重装 LeRobot 后，应重新运行安装脚本再采集。
 
 <a id="replay"></a>
 
-## 重播一个回合
+## 7. 数据回放
 
-回放会真实驱动 Lumos。先确认数据内容、工作区和急停，并将 Lumos 恢复到校准参考姿态附近。回放不读取 StarArm102。
+回放会驱动 Lumos，不读取 StarArm102。确认数据对应当前机械臂，检查运动范围与急停，并将从臂恢复到校准参考姿态附近。
 
 `episode` 从 `0` 开始，下面回放第一个回合：
 
@@ -426,12 +424,9 @@ lerobot-replay \
 
 <a id="daily"></a>
 
-## 以后每天如何启动
+## 8. 日常启动
 
-首次安装、校准和限位核对完成后，不用每天重新安装或重新校准。
-
-1. 按厂商要求接线、上电，检查急停与工作区。
-2. 打开终端，激活环境并设置本终端变量：
+完成首次安装、校准与限位核对后，日常使用无需重复安装。检查接线、急停与机械臂活动范围，上电后打开终端：
 
 ```bash
 source "$HOME/miniforge3/etc/profile.d/conda.sh"
@@ -448,27 +443,19 @@ export LUMOS_LIMITS_FILE="$PWD/lumos_joint_limits.json"
 ip -details link show "$LUMOS_CAN"
 ```
 
-其他 Conda 安装位置使用你自己的激活方式；端口不是默认值时修改对应变量。CAN 重启后处于 DOWN 时按前文启用。
+Conda 安装位置、串口和 CAN 接口与示例不同时，修改对应路径与变量。CAN 接口为 `DOWN` 时，按[通信设置](#connection)启用。
 
-3. 确认 Lumos 在参考姿态附近，运行“先预览”的完整命令。
-4. 预览正常后按 `Ctrl+C` 退出，运行“启动主从跟随”的完整命令。
-5. 要采集时先退出遥操作，再运行“记录 10 个回合”的命令。
-
-## 训练与推理
-
-本篇先完成无摄像头的硬件接入、关节数据采集与回放，暂不提供视觉策略训练和部署命令。
-
-当前固定版本的 ACT 要求至少有图像输入或 `observation.environment_state`；本篇只有机械臂自身的 `observation.state`，直接套用视觉 ACT 训练命令会报错。不要通过伪造环境状态来绕过输入要求。
+确认从臂位于参考姿态附近后，先运行[预览命令](#teleoperation)，检查正常再启动遥操作。需要采集时，退出遥操作后运行[采集命令](#recording)。
 
 <a id="faq"></a>
 
-## FAQ
+## 9. 常见问题
 
 | 问题 | 处理方法 |
-|---|---|
-| 找不到 `conda` | source 你自己的 Conda 安装目录下的 `etc/profile.d/conda.sh` |
-| 无法下载硬件适配依赖 | 检查网络与依赖仓库访问权限；依赖不可用时无法完成新的安装 |
-| 依赖版本不符或有本地修改 | 检查安装器提示的目录，先保存并处理自己的修改，再重试；安装器不会自动重置 |
+| --- | --- |
+| 找不到 `conda` | 使用 `source` 加载实际 Conda 安装目录下的 `etc/profile.d/conda.sh` |
+| 无法下载硬件适配依赖 | 检查 GitHub 网络连接与仓库访问权限 |
+| 依赖版本不符或有本地修改 | 检查报错目录，保存并处理本地修改后重试；安装脚本不会重置已有目录 |
 | 找不到 `lerobot-teleoperate` | 激活 `lumos-lerobot` 环境，确认安装成功 |
 | 串口 `Permission denied` | 加入 `dialout` 组后注销 Ubuntu 登录并重新登录 |
 | 找不到 `/dev/ttyUSB0` | 查看实际串口和 `/dev/serial/by-id/`，修改 `STARARM_PORT` |
@@ -481,15 +468,21 @@ ip -details link show "$LUMOS_CAN"
 | `Lumos is away from calibrated home` | 查看报错中的当前姿态、校准姿态、差值和阈值；将超限关节恢复到参考姿态附近，或重新配对校准 |
 | SDK 找不到配置 | 检查 `LUMOS_SDK_ROOT/src/config/robot_kinematics.yaml` |
 | 数据目录已存在 | 为新采集换一个新名称和新目录 |
-| 方向不正确 | 先停在预览模式，逐关节核对 `joint_map` 与 `signs` |
+| 方向不正确 | 停止执行，在预览模式逐关节核对 `joint_map` 与 `signs` |
 | 卡滞、碰撞、力矩报警 | 停止并使用硬件急停，检查机械状态和映射，不提高保护阈值掩盖问题 |
 
-## 验证与参考
+<a id="dependencies"></a>
 
-上游固定版本的[验证记录](https://github.com/VincentHSS/stararm102-lumos-lerobot/blob/454979c7c8b9d5ced15f1964a2d588acf531ae3f/VALIDATION.md)记载了 20 项软件测试，覆盖真实 LeRobot 工厂、命令行、控制循环、数据集读写与回放函数。物理串口、CAN SDK 和其他硬件输入使用测试替身。这些是上游的软件验证结果；本仓库新增安装入口尚未完成 Ubuntu 系统依赖安装、SDK 编译及实机运动验收。
+## 10. 依赖与验证范围
 
-本文参考 [Cello / Violin 教程](https://github.com/servodevelop/lerobot/blob/docs/docs/cello-violin.md) 的实操章节组织，设备类型、端口、校准方式和命令都按本项目调整。
+安装脚本使用以下固定版本：
 
-- [原独立遥操作脚本](https://github.com/VincentHSS/stararm102-lumos-teleop)
-- [LeRobot 官方硬件接入说明](https://huggingface.co/docs/lerobot/integrate_hardware)
-- [Lumos SDK](https://github.com/lumos-open/startouch_sdk)
+| 依赖 | 来源 | 提交版本 |
+| --- | --- | --- |
+| LeRobot 硬件适配器 | [stararm102-lumos-lerobot](https://github.com/VincentHSS/stararm102-lumos-lerobot) | `454979c7c8b9d5ced15f1964a2d588acf531ae3f` |
+| LeRobot 0.6.2 | [huggingface/lerobot](https://github.com/huggingface/lerobot) | `3991580a5673f5f0219a4e8835a5f973eeccf9a7` |
+| Lumos SDK | [lumos-open/startouch_sdk](https://github.com/lumos-open/startouch_sdk) | `040412542c0b6b6fd2bb6dd652c0de6c666631be` |
+
+重新运行安装脚本会核对固定版本，不会自动升级或覆盖本地修改。
+
+上游[验证记录](https://github.com/VincentHSS/stararm102-lumos-lerobot/blob/454979c7c8b9d5ced15f1964a2d588acf531ae3f/VALIDATION.md)涵盖软件接口、控制循环、数据读写与回放，硬件通信使用测试替身。本仓库的 Ubuntu 完整安装、SDK 编译及实机运行尚未完成验证。本文不包含视觉策略训练与部署。
