@@ -5,3 +5,6 @@
 
 # Three.js 生成模块含保留空白的 GLSL 字符串；源码在 preview/viewer.js。
 hardware/robot-description/preview/app.js -whitespace linguist-generated=true
+
+# Ubuntu 安装入口使用 LF 换行。
+lerobot/*.sh text eol=lf

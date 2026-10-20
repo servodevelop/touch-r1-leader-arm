@@ -10,3 +10,7 @@ outputs/
 
 work/
 .dependencies/
+
+# LeRobot 本地采集数据与实机限位。
+lerobot/datasets/
+lerobot/lumos_joint_limits.json
