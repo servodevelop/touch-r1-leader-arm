@@ -1,4 +1,8 @@
-"""从 R1 简化 CAD 的圆柱面核查紧固件尺寸，不据此确认采购螺纹。"""
+"""从 R1 简化 CAD 的圆柱面核查紧固件尺寸，并输出按实物确认的品名与规格。
+
+品名、规格与材质来自用户对实物的确认（2026-10-20）；几何尺寸仍由 CAD 圆柱面测量，
+两者不一致之处写入 ``assessment_zh``，不据源名称推定螺纹。
+"""
 
 FASTENER_PRODUCTS = {35916, 36620, 99391, 101106}
 REFERENCE = 'https://github.com/servodevelop/Star-Arm-102/blob/main/hardware/102-hd/README.zh.md#bill-of-materials'
@@ -44,25 +48,27 @@ def describe_fastener(product, shape):
                                   shoulder_diameter_mm=2.5, shoulder_length_mm=3.0,
                                   tip_diameter_mm=2.0, tip_length_mm=4.0,
                                   under_head_length_mm=7.0)
-        name = '内六角台阶螺钉'
-        specification = '台阶段 Ø2.5 × 3 mm；末段 Ø2 × 4 mm（螺纹待确认）'
-        note = '源名称含 M3，但台阶段直径为 2.5 mm、末段为 2 mm；不能据名称确定 M3，也不能将末段直径直接认定为 M2 螺纹。'
+        name = '304 塞打螺丝（轴肩螺钉）'
+        specification = 'Ø2.5 × M2 × 3'
+        note = ('按实物确认为 304 塞打螺丝，规格 Ø2.5 × M2 × 3：轴肩 Ø2.5 × 3 mm、螺纹 M2。'
+                '源名称含 M3，与轴肩直径不一致，不据名称认定 M3。')
     else:
         shank_lo, _ = groups[1.5]
         dimensions.update({'shank_diameter_mm': 3.0,
                            'under_head_length_mm': round(head_lo - shank_lo, 4)})
         assert dimensions == dict(head_diameter_mm=5.5, head_height_mm=2.0,
                                   shank_diameter_mm=3.0, under_head_length_mm=4.0)
-        name = '内六角圆柱头螺钉'
-        specification = 'M3 × 4（CAD 推定，螺纹待确认）'
-        note = '按杆径 3 mm、头下长度 4 mm 推定；CAD 头高仅 2 mm，不据源名称确认 GB/T 70.1 标准符合性。'
+        name = '304 薄头内六角平尾自攻螺丝'
+        specification = 'HB3 × 5'
+        note = ('按实物确认为 304 薄头内六角平尾自攻螺丝 HB3 × 5：螺纹公称 Ø3 mm、长度 5 mm、薄头内六角、'
+                '平尾自攻。PRT0001、PRT0002、GB_T70_1-M3X400 三个源 PRODUCT 为同一采购件。')
     return {
         'name_zh': name,
         'specification_zh': specification,
         'dimensions_mm': dimensions,
         'measurement_basis_zh': '按圆柱面半径及轴向边界测量；含头总长不作为螺钉标称长度。',
         'assessment_zh': note,
-        'confirmation_status_zh': 'CAD 尺寸已核查；螺纹、螺距、标准、材质、强度等级及表面处理待工程确认。',
+        'confirmation_status_zh': '品名、规格与 304 不锈钢材质按实物确认（2026-10-20）；螺纹精度、强度等级及表面处理待采购确认。',
         'format_reference': REFERENCE,
         'reference_scope_zh': '仅参考 102 的品名与规格表达方式，不继承其尺寸、数量和采购属性。',
     }

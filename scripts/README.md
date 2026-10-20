@@ -38,9 +38,9 @@ PYTHONPATH=/Applications/FreeCAD.app/Contents/Resources/lib \
 
 ## 螺钉规格维护
 
-`fastener_specs.py` 按圆柱面半径与轴向边界核查 4 种紧固件，区分头下长度、头高、台阶段与末段；提取程序将结果写入 `bom.json` 的 `fastener_specification`。源尺寸变化时检查会中止，需复核后更新规格。
+`fastener_specs.py` 记录了 4 个紧固件源模型的品名与规格；脚本仍按圆柱面半径与轴向边界测量，测量值写入 `dimensions_mm` 供核对，不作为采购规格来源。源尺寸变化时检查会中止，需复核后更新。提取程序把结果写入 `bom.json` 的 `fastener_specification`。
 
-`bom.json` 第 2 版保留英文机器字段名，展示名称使用 `name_zh`，不再生成 `name_en`。规格中的 M3 × 4 是 CAD 推定，不能作为已确认的采购螺纹。材质、强度等级和表面处理须另有依据。
+`bom.json` 第 2 版保留英文机器字段名，展示名称使用 `name_zh`，不再生成 `name_en`。品名与规格按实物确认（2026-10-20）：`PRT0001`、`PRT0002`、`GB_T70_1-M3X400` 是同一件 304 薄头内六角平尾自攻螺丝 HB3 × 5，`M3X3X60001` 是 304 塞打螺丝 Ø2.5 × M2 × 3。`bom.json` 仍按源 PRODUCT 保留 4 行，README 采购表内合并为 2 行，品名与型号直接按标准件给定。
 
 中文正文更新后，运行 `python scripts/check_readme_sync.py --write-redirects` 更新旧 `README.zh.md` 兼容页，再运行文档检查。兼容页保留已发布的显式章节锚点，正文只维护一份。
 

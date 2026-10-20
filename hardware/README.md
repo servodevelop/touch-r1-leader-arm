@@ -60,11 +60,11 @@
 
 ## 物料清单
 
-下表列出一套所提供装配体中的 **16 种源项目、21 个顶层实例**。数量来自 STEP 装配引用，按源 PRODUCT 标识合并重复件。两类舵机子装配各出现 3 次，其内部零件已包含在子装配中，不再重复列为采购项。展开全部子装配后为 **99 个叶级实例／实体**，不代表需要采购 99 件物料。装配实物另外需要 6 种不在该模型中的标准五金件，见[采购补充件](#purchase-parts)。
+下表列出一套所提供装配体中的 **12 种结构件与舵机子装配、16 个顶层实例**。数量来自 STEP 装配引用，按源 PRODUCT 标识合并重复件。装配体另有 5 个紧固件实例，属标准采购件，按采购规格列在[采购补充件](#purchase-parts)第 13、14 行；其源 PRODUCT 对应关系保留在 `bom.json`。两类舵机子装配各出现 3 次，其内部零件已包含在子装配中，不再重复列为采购项。展开全部子装配后为 **99 个叶级实例／实体**，不代表需要采购 99 件物料。装配实物另外还需要 6 种不在该模型中的标准五金件，同样见[采购补充件](#purchase-parts)。
 
-结构件的资源标识与 STEP、图片文件名主体一致（不含扩展名）；螺钉采用 102 的“品名＋直径 × 长度”规格写法，链接仍指向对应 STEP。包括紧固件在内的全部简图均由源 STEP 几何渲染为 **1024 × 1024 白底图片**，点击可放大。统一灰色显示材质不代表实物材质、颜色或表面处理；各图独立缩放。
+结构件的资源标识与 STEP、图片文件名主体一致（不含扩展名）。全部简图均由源 STEP 几何渲染为 **1024 × 1024 白底图片**，点击可放大。统一灰色显示材质不代表实物材质、颜色或表面处理；各图独立缩放。
 
-表内 CAD 包围尺寸为**零件本地坐标轴 X × Y × Z 的包围盒尺寸**，四舍五入到 0.01 mm，仅描述模型外包范围，不是工程尺寸、公差、螺纹尺寸或采购规格。螺钉条目另按圆柱面测量杆径、头径、头高及头下长度，**M3 × 4 为 CAD 推定规格**，不表示螺纹已确认。这份 CAD 提取 BOM 需要工程确认后才能用于采购；不会推测补入源模型中缺失的组件。
+表内 CAD 包围尺寸为**零件本地坐标轴 X × Y × Z 的包围盒尺寸**，四舍五入到 0.01 mm，仅描述模型外包范围，不是工程尺寸、公差、螺纹尺寸或采购规格。紧固件按标准采购件列出，品名与规格按实物确认（2026-10-20），不据 CAD 或源名称推定螺纹。这份 CAD 提取 BOM 需要工程确认后才能用于采购；不会推测补入源模型中缺失的组件。
 
 | 序号 | 品名 | 型号／规格 | 图片 | 描述 | 数量 |
 | :---: | --- | --- | :---: | --- | :---: |
@@ -80,10 +80,6 @@
 | 10 | 垫片 | [touch-r1-spacer](step/parts/touch-r1-spacer.step) | <a href="images/touch-r1-spacer.png"><img src="images/touch-r1-spacer.png" alt="touch-r1-spacer" width="90"></a> | 源名称：`垫片`<br>CAD 包围尺寸：20.00 × 2.30 × 20.00 mm。<br>带孔垫片；材质与配合公差待确认。 | 1 |
 | 11 | 支架 A000（用途待确认） | [touch-r1-part-a000](step/parts/touch-r1-part-a000.step) | <a href="images/touch-r1-part-a000.png"><img src="images/touch-r1-part-a000.png" alt="touch-r1-part-a000" width="90"></a> | 源名称：`A000`<br>CAD 包围尺寸：41.12 × 41.76 × 8.00 mm。<br>保留源编号；用途、材质及工艺待确认。 | 1 |
 | 12 | 支架 B000（用途待确认） | [touch-r1-part-b000](step/parts/touch-r1-part-b000.step) | <a href="images/touch-r1-part-b000.png"><img src="images/touch-r1-part-b000.png" alt="touch-r1-part-b000" width="90"></a> | 源名称：`B000`<br>CAD 包围尺寸：10.00 × 22.11 × 13.51 mm。<br>保留源编号；用途、材质及工艺待确认。 | 1 |
-| 13 | 内六角圆柱头螺钉 | [M3 × 4（CAD 推定，螺纹待确认）](step/parts/touch-r1-fastener-prt0001.step) | <a href="images/touch-r1-fastener-prt0001.png"><img src="images/touch-r1-fastener-prt0001.png" alt="内六角圆柱头螺钉 CAD 简图" width="90"></a> | 源名称：`PRT0001`<br>CAD：杆径 Ø3 mm，头下长 4 mm；头径 Ø5.5 mm，头高 2 mm。<br>螺纹／螺距、标准、材质、强度等级及表面处理待确认。 | 1 |
-| 14 | 内六角圆柱头螺钉 | [M3 × 4（CAD 推定，螺纹待确认）](step/parts/touch-r1-fastener-prt0002.step) | <a href="images/touch-r1-fastener-prt0002.png"><img src="images/touch-r1-fastener-prt0002.png" alt="内六角圆柱头螺钉 CAD 简图" width="90"></a> | 源名称：`PRT0002`<br>CAD：杆径 Ø3 mm，头下长 4 mm；头径 Ø5.5 mm，头高 2 mm。<br>螺纹／螺距、标准、材质、强度等级及表面处理待确认。 | 1 |
-| 15 | 内六角圆柱头螺钉 | [M3 × 4（CAD 推定，螺纹待确认）](step/parts/touch-r1-fastener-gb-t70-1-m3x400.step) | <a href="images/touch-r1-fastener-gb-t70-1-m3x400.png"><img src="images/touch-r1-fastener-gb-t70-1-m3x400.png" alt="内六角圆柱头螺钉 CAD 简图" width="90"></a> | 源名称：`GB_T70_1-M3X400`<br>CAD：杆径 Ø3 mm，头下长 4 mm；头径 Ø5.5 mm，头高 2 mm。<br>螺纹／螺距、标准、材质、强度等级及表面处理待确认。 | 1 |
-| 16 | 内六角台阶螺钉 | [台阶段 Ø2.5 × 3 mm；末段 Ø2 × 4 mm（螺纹待确认）](step/parts/touch-r1-fastener-m3x3x60001.step) | <a href="images/touch-r1-fastener-m3x3x60001.png"><img src="images/touch-r1-fastener-m3x3x60001.png" alt="内六角台阶螺钉 CAD 简图" width="90"></a> | 源名称：`M3X3X60001`<br>CAD：头径 Ø5 mm，头高 2.5 mm；头下总长 7 mm。<br>源名称含 M3，与实测分段直径不一致；螺纹／螺距、标准、材质、强度等级及表面处理待确认。 | 2 |
 
 规格写法参考 [Star Arm 102-HD 物料清单](https://github.com/servodevelop/Star-Arm-102/blob/main/hardware/102-hd/README.zh.md#bill-of-materials)。102 的 M3 × 10、M3 × 22、M2 × 8 等尺寸以及黑色表面、12.9 级等采购属性不自动适用于 R1；本表保留 R1 的实测尺寸和源实例数量。
 
@@ -91,29 +87,30 @@
 
 ## 采购补充件
 
-上面的物料清单由 V3.1 装配体提取，只含建模进去的组件。装配实物还需要下列 **6 种标准五金件**，它们不在装配模型中，因此不在 CAD 提取的 BOM 内；序号接着上表编排，便于合成一张采购清单。品名与规格写法沿用 [102-FL 物料清单](https://github.com/servodevelop/Star-Arm-102/blob/main/hardware/102-fl/README.zh.md#bill-of-materials) 第 23、25、26、27、28、29 行的同款件；数量按 R1 的装配需求给定（2026-10-19）。
+下表列出装配实物所需的 **8 种标准五金件**，序号接着上表编排，可合成一张采购清单。第 13、14 行按实物确认的品名与规格列出（2026-10-20）；第 15–20 行品名与规格写法沿用 [102-FL 物料清单](https://github.com/servodevelop/Star-Arm-102/blob/main/hardware/102-fl/README.zh.md#bill-of-materials) 第 23、25、26、27、28、29 行的同款件，数量按 R1 的装配需求给定（2026-10-19）。
 
-规格、表面处理与强度等级取自 102 同款件的写法；与上段同一原则，这些采购属性**不自动适用于 R1**，只是采购时的起点，使用前须按实物与采购渠道复核。本表手工维护，不由 `scripts/extract_step_bom.py` 生成，也不写入 `bom.json`。图片为 102 同款件的外观示意图（AI 生成），仅用于识别类型，不代表 R1 实物外观；规格以文字为准。
+第 13、14 行的数据按型号给定；第 15–20 行的表面处理与强度等级取自 102 同款件的写法，与上一节同一原则，这些采购属性**不自动适用于 R1**，只是采购时的起点，使用前须按实物与采购渠道复核。本表手工维护，不由 `scripts/extract_step_bom.py` 生成。图片只用于识别类型：第 13、14 行沿用仓库已有的紧固件简图，第 15–20 行为 102 同款件的外观示意图（AI 生成）；规格以文字为准。
 
 | 序号 | 品名 | 型号／规格 | 图片 | 描述 | 数量 |
 | :---: | --- | --- | :---: | --- | :---: |
-| 17 | 内六角圆柱头螺钉 | M2 × 8 | <a href="images/fasteners/m2-8-socket-head-cap-screw.png"><img src="images/fasteners/m2-8-socket-head-cap-screw.png" alt="M2 × 8 内六角圆柱头螺钉示意图" width="90"></a> | 黑色表面 | 16 |
-| 18 | 十字槽盘头自攻螺钉 | PB2.0 × 5 | <a href="images/fasteners/pb2-5-phillips-pan-head-self-tapping-screw.png"><img src="images/fasteners/pb2-5-phillips-pan-head-self-tapping-screw.png" alt="PB2.0 × 5 十字槽盘头自攻螺钉示意图" width="90"></a> | 黑色表面，加硬 | 21 |
-| 19 | 十字槽盘头螺钉 | M2 × 4.5 | <a href="images/fasteners/m2-4-5-phillips-pan-head-screw.png"><img src="images/fasteners/m2-4-5-phillips-pan-head-screw.png" alt="M2 × 4.5 十字槽盘头螺钉示意图" width="90"></a> | 黑色表面；靠近末端的约 2/3 螺纹段预涂蓝色锁固胶 | 52 |
-| 20 | 十字槽盘头螺钉 | M3 × 10 | <a href="images/fasteners/m3-10-phillips-pan-head-screw.png"><img src="images/fasteners/m3-10-phillips-pan-head-screw.png" alt="M3 × 10 十字槽盘头螺钉示意图" width="90"></a> | 黑色表面，加硬 | 1 |
-| 21 | 螺母 | M3 | <a href="images/fasteners/m3-nut.png"><img src="images/fasteners/m3-nut.png" alt="M3 螺母示意图" width="90"></a> | 黑色表面 | 1 |
-| 22 | 平垫圈 | M3（3 × 6 × 0.5 mm） | <a href="images/fasteners/m3-6-0-5-stainless-washer.png"><img src="images/fasteners/m3-6-0-5-stainless-washer.png" alt="M3（3 × 6 × 0.5 mm） 平垫圈示意图" width="90"></a> | 不锈钢 | 1 |
+| 13 | 304 薄头内六角平尾自攻螺丝 | HB3 × 5 | <a href="images/touch-r1-fastener-prt0001.png"><img src="images/touch-r1-fastener-prt0001.png" alt="HB3 × 5 薄头内六角平尾自攻螺丝简图" width="90"></a> | 304 不锈钢；螺纹公称 Ø3，长度 5 mm；薄头内六角，平尾（钝头）自攻。 | 3 |
+| 14 | 304 塞打螺丝（轴肩螺钉） | Ø2.5 × M2 × 3 | <a href="images/touch-r1-fastener-m3x3x60001.png"><img src="images/touch-r1-fastener-m3x3x60001.png" alt="Ø2.5 × M2 × 3 塞打螺丝简图" width="90"></a> | 304 不锈钢；轴肩 Ø2.5 × 3 mm，螺纹 M2。 | 2 |
+| 15 | 内六角圆柱头螺钉 | M2 × 8 | <a href="images/fasteners/m2-8-socket-head-cap-screw.png"><img src="images/fasteners/m2-8-socket-head-cap-screw.png" alt="M2 × 8 内六角圆柱头螺钉示意图" width="90"></a> | 黑色表面 | 16 |
+| 16 | 十字槽盘头自攻螺钉 | PB2.0 × 5 | <a href="images/fasteners/pb2-5-phillips-pan-head-self-tapping-screw.png"><img src="images/fasteners/pb2-5-phillips-pan-head-self-tapping-screw.png" alt="PB2.0 × 5 十字槽盘头自攻螺钉示意图" width="90"></a> | 黑色表面，加硬 | 21 |
+| 17 | 十字槽盘头螺钉 | M2 × 4.5 | <a href="images/fasteners/m2-4-5-phillips-pan-head-screw.png"><img src="images/fasteners/m2-4-5-phillips-pan-head-screw.png" alt="M2 × 4.5 十字槽盘头螺钉示意图" width="90"></a> | 黑色表面；靠近末端的约 2/3 螺纹段预涂蓝色锁固胶 | 52 |
+| 18 | 十字槽盘头螺钉 | M3 × 10 | <a href="images/fasteners/m3-10-phillips-pan-head-screw.png"><img src="images/fasteners/m3-10-phillips-pan-head-screw.png" alt="M3 × 10 十字槽盘头螺钉示意图" width="90"></a> | 黑色表面，加硬 | 1 |
+| 19 | 螺母 | M3 | <a href="images/fasteners/m3-nut.png"><img src="images/fasteners/m3-nut.png" alt="M3 螺母示意图" width="90"></a> | 黑色表面 | 1 |
+| 20 | 平垫圈 | M3（3 × 6 × 0.5 mm） | <a href="images/fasteners/m3-6-0-5-stainless-washer.png"><img src="images/fasteners/m3-6-0-5-stainless-washer.png" alt="M3（3 × 6 × 0.5 mm） 平垫圈示意图" width="90"></a> | 不锈钢 | 1 |
 
 <a id="confirmation"></a>
 
 ## 待确认事项
 
 - 确认 `_25-50KG-0001_ASM_ASM` 的准确采购型号与交付内容。不能仅凭名称确定扭矩、电压、编码器或输出轴规格；标注为 RP8-U45H-M-C028 的子装配也需核对实际配置。
-- `PRT0001`、`PRT0002`、`GB_T70_1-M3X400` 的杆径均为 3 mm、头下长均为 4 mm，暂按 **M3 × 4（CAD 推定）** 表达；CAD 头高均为 2 mm，不能根据第三项源名称直接确认 GB/T 70.1 标准符合性。三个源 PRODUCT 各 1 件，在采购规格及互换性确认前保留三行。
-- 台阶件 `M3X3X60001` 共 2 件，测得台阶段 Ø2.5 × 3 mm、末段 Ø2 × 4 mm；不据名称认定为 M3，也不把末段直径直接当作 M2 螺纹。需核对图纸或实物。
+- 第 13 行 `HB3 × 5`（3 件）与第 14 行 `Ø2.5 × M2 × 3`（2 件）的品名、规格与材质按实物确认（2026-10-20）；螺纹精度、表面处理、用量与安装位置需按实物与采购渠道复核。
 - 确认 A000、B000 的用途，以及全部结构件的材质、制造工艺和公差。不预设 PLA、打印参数或加工方式。
 - 确认实物所需的完整紧固件、线缆、控制板、电源及配件。源装配树中只有 5 个顶层紧固件实例，不代表用 5 个紧固件就能完成装配。源名称中的关节 1–7 也不能据此认定机械臂的驱动自由度。
-- [采购补充件](#purchase-parts)（第 17–22 行）为装配实物所需的五金件，不存在于源装配模型中；供应商、材质、表面处理与强度等级按 102 同款件写法记录，需按 R1 实物与采购渠道复核。
+- [采购补充件](#purchase-parts)（第 13–20 行）为装配实物所需的五金件；第 13、14 行品名与规格按实物确认，第 15–20 行按 102 同款件写法记录，供应商、材质、表面处理与强度等级均需按 R1 实物与采购渠道复核。
 
 <a id="assembly-and-calibration"></a>
 
@@ -133,7 +130,7 @@
 | CAD 导入 | 99 个实体；通过 FreeCAD 形体有效性检查 |
 | 16 份 STEP 导出件 | 已成功重新导入；实体数不变，最大相对体积差低于 0.0011%，包围尺寸差低于 0.001 mm |
 | BOM 数量 | 已交叉核对 STEP 引用与导入对象；源映射保留于 bom.json |
-| 螺钉尺寸 | 已核查 4 种源模型的圆柱面与头下长度；螺纹及采购属性待确认 |
+| 标准件 | 第 13、14 行品名、规格与材质按实物确认（2026-10-20）；第 15–20 行规格沿用 102 同款件，待采购复核 |
 | 零件简图 | 根据 CAD 网格渲染；使用中性显示材质；各图独立缩放 |
 | 干涉、配合与实物装配 | 尚未验证 |
 | 采购 BOM 完整性与硬件规格 | 待工程确认 |
