@@ -2,7 +2,6 @@
 from pathlib import Path
 import hashlib
 import json
-import math
 import struct
 import xml.etree.ElementTree as ET
 import FreeCAD as App
@@ -15,15 +14,39 @@ OUTPUT = HARDWARE / 'robot-description'
 PACKAGE = OUTPUT / 'touch_r1_description'
 COLORS = {'structure': '0.82 0.86 0.88 1', 'servo': '0.18 0.23 0.28 1',
           'horn': '0.62 0.68 0.73 1', 'hardware': '0.38 0.43 0.48 1'}
-# (BOM 序号, 实例索引)：沿基座到手柄的六轴顺序。
-SERVOS = [(1, 0), (2, 0), (2, 1), (2, 2), (1, 1), (1, 2)]
-# 非舵机件所属 link；辅助夹持件暂固定到基座，不虚构额外活动轴。
-ATTACHMENTS = {3: 0, 4: 1, 5: 2, 6: 3, 7: 4, 8: 5, 9: 6,
-               10: 1, 11: 0, 12: 0, 13: 0, 14: 0, 15: 5, 16: 0}
+ASSEMBLY = OUTPUT / 'source/r1-hd-urdf-only.FCStd'
+ASSEMBLY_SHA256 = 'bc9729fcb833e0f48c11398f8416999aee14ef24f35c7c52049bd3bf8c46faa9'
+# FCStd 对象标识，按基座到手柄排序；不再从含限位块的旧 BOM 回填零件。
+SERVOS = [
+    ('RP8_U45H_M_C028_STEP_ASM', 'rp8-u45h-m-c028'),
+    ('_25_50KG_0001_ASM_ASM', 'rp8-u45h-m'),
+    ('_25_50KG_0001_ASM_ASM001', 'rp8-u45h-m'),
+    ('_25_50KG_0001_ASM_ASM002', 'rp8-u45h-m'),
+    ('RP8_U45H_M_C028_STEP_ASM001', 'rp8-u45h-m-c028'),
+    ('RP8_U45H_M_C028_STEP_ASM002', 'rp8-u45h-m-c028'),
+]
+STRUCTURES = ['Part__Feature', 'Part__Feature016', 'Part__Feature033',
+              'Part__Feature048', 'Part__Feature063', 'Part__Feature078', 'Part__Feature093']
+ATTACHMENTS = {'Part__Feature015': (1, 'structure'),
+               'Part__Feature017': (0, 'hardware'), 'Part__Feature018': (0, 'hardware'),
+               'Part__Feature094': (5, 'hardware'),
+               'Part__Feature096': (0, 'hardware'), 'Part__Feature097': (0, 'hardware')}
 
 
-def vector(values):
-    return App.Vector(*values)
+def leaves(obj):
+    """只遍历装配的实体叶节点；App::Part 的缓存 Shape 不能重复计入。"""
+    if obj.TypeId == 'App::Part':
+        return [leaf for child in obj.Group for leaf in leaves(child)]
+    if obj.TypeId == 'Part::Feature' and obj.Shape.Solids:
+        return [obj]
+    raise ValueError(f'未审核的装配对象：{obj.Name} ({obj.TypeId})')
+
+
+def global_shape(obj):
+    shape = obj.Shape.copy()
+    shape.Placement = obj.getGlobalPlacement()
+    assert shape.isValid(), obj.Name
+    return shape
 
 
 def values(v):
@@ -89,45 +112,48 @@ def write_stl(path, shapes, origin, rotation, floor):
 
 
 def main():
-    bom = json.loads((HARDWARE / 'bom.json').read_text())
-    assembly = HARDWARE / bom['source_file']
-    assert hashlib.sha256(assembly.read_bytes()).hexdigest() == bom['source_sha256']
-    items = {x['no']: x for x in bom['items']}
-    models = {1: HARDWARE / 'step/components/rp8-u45h-m-c028.step',
-              2: HARDWARE / 'step/components/rp8-u45h-m.step'}
-    sources, replacements, shapes = [], [], {}
-    for number, item in items.items():
-        path = models.get(number, HARDWARE / item['step_file'])
-        shape = Part.read(str(path))
-        assert shape.isValid()
-        sources.append({'file': str(path.relative_to(HARDWARE)),
-                        'sha256': hashlib.sha256(path.read_bytes()).hexdigest()})
-        if number in models:
-            original = Part.read(str(HARDWARE / item['step_file']))
-            p, d, _, _ = shaft(shape); op, od, _, _ = shaft(original)
-            mismatch = (p-op).cross(d).Length
-            bb, ob = shape.BoundBox, original.BoundBox
-            bbox_delta = max(abs(getattr(bb,k)-getattr(ob,k)) for k in
-                             ['XMin','YMin','ZMin','XMax','YMax','ZMax'])
-            assert mismatch < .01 and d.cross(od).Length < 1e-6 and bbox_delta < .02
-            replacements.append({'bom_no': number, 'model': path.stem,
-                                 'axis_offset_mm': mismatch, 'bbox_max_difference_mm': bbox_delta,
-                                 'original_solids': len(original.Solids), 'replacement_solids': len(shape.Solids),
-                                 'relative_volume_difference': abs(shape.Volume-original.Volume)/original.Volume})
-        for index, occurrence in enumerate(item['occurrences']):
-            placed = shape.copy()
-            placed.Placement = App.Placement(App.Matrix(*occurrence['placement_matrix']))
-            shapes[number, index] = placed
+    assert hashlib.sha256(ASSEMBLY.read_bytes()).hexdigest() == ASSEMBLY_SHA256, '源装配已变化，请复核零件映射'
+    doc = App.openDocument(str(ASSEMBLY))
+    root = doc.getObject('_45_X2_535551FA8235673A_X0__ASM')
+    assert root is not None
+    leaf_objects = leaves(root)
+    leaf_names = [obj.Name for obj in leaf_objects]
+    assert len(leaf_names) == len(set(leaf_names)) == 97
+    assert not any(obj.Label in {'A000', 'B000'} for obj in leaf_objects)
+    shapes = {obj.Name: global_shape(obj) for obj in leaf_objects}
+    assert sum(len(shape.Solids) for shape in shapes.values()) == 97
+    models = {model: Part.read(str(HARDWARE/f'step/components/{model}.step'))
+              for model in sorted({model for _, model in SERVOS})}
+    source_paths = [ASSEMBLY] + [HARDWARE/f'step/components/{model}.step' for model in models]
+    sources = [{'file': str(path.relative_to(HARDWARE)),
+                'sha256': hashlib.sha256(path.read_bytes()).hexdigest()} for path in source_paths]
+    replacements, used = [], set()
     rotation = App.Rotation(App.Vector(1,0,0), 90)
-    floor = -shapes[3,0].BoundBox.YMin
+    floor = -shapes[STRUCTURES[0]].BoundBox.YMin
     convert = lambda p: rotation.multVec(p) + App.Vector(0,0,floor)
     groups = [{category: [] for category in COLORS} for _ in range(7)]
     origins = [App.Vector()]
     joints, mapping = [], []
-    for index, key in enumerate(SERVOS, 1):
-        p, axis, horns, body = shaft(shapes[key])
+    for index, (object_name, model) in enumerate(SERVOS, 1):
+        obj = doc.getObject(object_name)
+        servo_leaves = leaves(obj)
+        original = Part.makeCompound([shapes[leaf.Name] for leaf in servo_leaves])
+        shape = models[model].copy()
+        shape.Placement = obj.getGlobalPlacement()
+        assert shape.isValid()
+        p, axis, horns, body = shaft(shape)
+        op, od, _, _ = shaft(original)
+        mismatch = (p-op).cross(axis).Length
+        bb, ob = shape.BoundBox, original.BoundBox
+        bbox_delta = max(abs(getattr(bb,k)-getattr(ob,k)) for k in
+                         ['XMin','YMin','ZMin','XMax','YMax','ZMax'])
+        assert mismatch < .01 and axis.cross(od).Length < 1e-6 and bbox_delta < .02
+        replacements.append({'source_object': object_name, 'model': model,
+                             'axis_offset_mm': mismatch, 'bbox_max_difference_mm': bbox_delta,
+                             'original_solids': len(original.Solids), 'replacement_solids': len(shape.Solids),
+                             'relative_volume_difference': abs(shape.Volume-original.Volume)/original.Volume})
         # 用下游结构件的同轴圆柱面再次核对轴线。
-        structural = shapes[index+3, 0]
+        structural = shapes[STRUCTURES[index]]
         matches = []
         for face in structural.Faces:
             cylinder = face.Surface
@@ -143,25 +169,33 @@ def main():
                        'child': f'link_{index}', 'origin_xyz': values((origin-origins[-1])/1000),
                        'axis': values(converted_axis), 'cad_axis_point_mm': values(p),
                        'cad_axis_direction': values(axis), 'coaxial_error_mm': error,
-                       'servo_bom_no': key[0], 'servo_occurrence_index': key[1],
+                       'source_object': object_name, 'servo_model': model,
                        'preview_range_deg': [-90,90], 'status_zh': 'CAD 推导轴线及连接关系，实物方向与限位待确认'})
         origins.append(origin)
         groups[index-1]['servo'].extend(body)
         groups[index]['horn'].extend(horns)
-        mapping.append({'bom_no': key[0], 'occurrence_index': key[1],
+        names = [leaf.Name for leaf in servo_leaves]
+        assert not used.intersection(names)
+        used.update(names)
+        mapping.append({'source_object': object_name, 'source_leaf_objects': names,
                         'body_link': index-1, 'horn_link': index,
                         'body_solids': len(body), 'horn_solids': len(horns)})
-    for (number, occurrence), shape in shapes.items():
-        if number in models:
-            continue
-        link = ATTACHMENTS[number]
-        category = 'structure' if number in range(3,13) else 'hardware'
+    attachments = {name: (index, 'structure') for index, name in enumerate(STRUCTURES)}
+    attachments.update(ATTACHMENTS)
+    for name, (link, category) in attachments.items():
+        assert name not in used
+        used.add(name)
+        shape = shapes[name]
         groups[link][category].extend(shape.Solids)
-        mapping.append({'bom_no': number, 'occurrence_index': occurrence, 'link': link,
+        mapping.append({'source_object': name, 'source_label': doc.getObject(name).Label, 'link': link,
                         'solids': len(shape.Solids),
-                        'status_zh': '按结构顺序归属' if number in range(3,10) else '附件固定归属待装配工程复核'})
+                        'status_zh': '按结构顺序归属' if name in STRUCTURES else '垫片／紧固件固定归属待装配工程复核'})
+    assert used == set(leaf_names), ('存在未归属或重复零件', used.symmetric_difference(leaf_names))
     count = sum(len(s) for g in groups for s in g.values())
-    assert count == sum(len(s.Solids) for s in shapes.values())
+    assert count == 100  # 97 个源实体，三个双出轴舵机替换后各增加一个实体。
+    # 仅清理本生成器管理的旧网格，防止下载包保留已不被 URDF 引用的几何。
+    for old_mesh in (PACKAGE/'meshes').glob('*.stl'):
+        old_mesh.unlink()
     robot = ET.Element('robot', name='touch_r1_leader_arm_preview')
     robot.append(ET.Comment('运动学预览草案：continuous 仅为无已知限位时的可视化表示；不是实机无限旋转声明。未提供惯量、碰撞模型或控制接口。'))
     meshes = []
@@ -189,18 +223,23 @@ def main():
     ET.indent(robot,space='  ')
     ET.ElementTree(robot).write(PACKAGE/'urdf/touch-r1.urdf',encoding='utf-8',xml_declaration=True)
     manifest = {'model': 'Touch R1 Leader Arm V3.1', 'status_zh': '六轴运动学预览草案',
-                'source_assembly_sha256': bom['source_sha256'], 'source_length_unit': 'mm', 'urdf_length_unit': 'm',
+                'source_assembly': str(ASSEMBLY.relative_to(HARDWARE)),
+                'source_assembly_sha256': sources[0]['sha256'], 'source_format': 'FCStd',
+                'source_length_unit': 'mm', 'urdf_length_unit': 'm',
                 'cad_to_urdf_zh': f'绕 X 轴 +90°（Y 向上改为 Z 向上），再沿 Z 平移 {floor:.6f} mm，使基座底面为 Z=0。',
                 'floor_offset_mm': floor, 'servo_replacements': replacements, 'sources': sources,
-                'zero_pose_zh': '源 STEP 装配姿态，不是实机编码器零位。',
+                'zero_pose_zh': '源 FCStd 装配姿态，不是实机编码器零位。',
                 'joint_limits_zh': '未确认；URDF 使用 continuous 供可视化，界面 ±90° 仅为演示范围。',
-                'auxiliary_parts_zh': 'A000、B000 及其夹持螺钉暂固定到基座，不增加第七轴或夹爪运动。',
+                'removed_parts_zh': '新源文件已移除 A000、B000 两个限位块；生成器仅使用当前装配叶节点，不从旧 BOM 回填。',
+                'auxiliary_parts_zh': '保留当前源文件中的垫片和五个紧固件，固定归属待实物复核。',
                 'inertia_collision_control_zh': '未提供质量、惯量、碰撞模型、驱动参数或控制接口；仅用于可视化。',
-                'original_assembly_solids': bom['expanded_leaf_occurrences'], 'replacement_assembly_solids': count,
+                'original_assembly_solids': 97, 'replacement_assembly_solids': count,
+                'source_leaf_objects': leaf_names,
                 'links': 7, 'joints': joints, 'meshes': meshes, 'source_mapping': mapping}
     (OUTPUT/'kinematics.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')
     print(f'Generated 7 links, 6 joints, {len(meshes)} meshes, {count} solids.', flush=True)
     print(json.dumps(replacements,ensure_ascii=False,indent=2),flush=True)
+    App.closeDocument(doc.Name)
 
 
 if __name__ == '__main__':

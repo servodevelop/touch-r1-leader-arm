@@ -15,6 +15,22 @@ def main():
     path = PACKAGE / 'urdf/touch-r1.urdf'
     robot = ET.parse(path).getroot()
     manifest = json.loads((DIRECTORY/'kinematics.json').read_text())
+    assert manifest['source_format'] == 'FCStd'
+    assert manifest['original_assembly_solids'] == 97
+    assert manifest['replacement_assembly_solids'] == 100
+    mapped = []
+    solids = 0
+    for item in manifest['source_mapping']:
+        assert item.get('source_label') not in {'A000', 'B000'}, '限位块不能重新进入 URDF'
+        if 'source_leaf_objects' in item:
+            mapped.extend(item['source_leaf_objects'])
+            solids += item['body_solids'] + item['horn_solids']
+        else:
+            mapped.append(item['source_object'])
+            solids += item['solids']
+    assert len(mapped) == len(set(mapped)) == 97
+    assert set(mapped) == set(manifest['source_leaf_objects'])
+    assert solids == 100
     links = {link.attrib['name']: link for link in robot.findall('link')}
     joints = robot.findall('joint')
     assert len(links)==7 and len(joints)==6
@@ -59,13 +75,16 @@ def main():
                 assert abs(high[i]-declared['bounds_m'][1][i])<1e-6
             loaded.add(str(meshpath));triangles+=n
     assert loaded==set(expected_meshes)
+    assert loaded == {str(p.resolve()) for p in (PACKAGE/'meshes').glob('*.stl')}, '有残留的旧网格'
     assert all(.03<hi-lo<1 for lo,hi in zip(all_low,all_high)), '检查毫米到米的转换'
     assert abs(all_low[2])<.001, '基座底面应在 Z=0 附近'
     for source in manifest['sources']:
         assert hashlib.sha256((ROOT/'hardware'/source['file']).read_bytes()).hexdigest()==source['sha256']
+    assert hashlib.sha256((ROOT/'hardware'/manifest['source_assembly']).read_bytes()).hexdigest() == manifest['source_assembly_sha256']
     print(f'URDF 检查通过：7 个连杆，6 个活动关节，{len(loaded)} 个网格，{triangles} 个三角面。')
     print('零位包围尺寸（米）：', [round(hi-lo,6) for lo,hi in zip(all_low,all_high)])
     print('已核对连通树、轴单位向量、CAD 零位映射、源文件和网格校验值；不代表实机／动力学验证。')
+    print('97 个源实体均唯一归属；替换舵机后 100 个实体，未包含 A000／B000 限位块。')
 
 
 if __name__=='__main__':

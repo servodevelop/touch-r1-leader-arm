@@ -46,7 +46,7 @@ PYTHONPATH=/Applications/FreeCAD.app/Contents/Resources/lib \
 
 ## URDF 与交互预览
 
-`generate_urdf.py` 从现有装配实例位置、结构件 STEP 和用户提供的两个舵机 STEP 生成 URDF 与米制 STL。舵机机壳归上游连杆，舵盘归下游连杆；六轴与结构件同轴圆柱面交叉核对。`check_urdf.py` 检查连接树、轴向、零位映射、网格路径、校验值与米制尺寸；`package_urdf.py` 打包可下载的预览资源。
+`generate_urdf.py` 从去除限位块的 [FCStd 装配体](../hardware/robot-description/source/r1-hd-urdf-only.FCStd) 和用户提供的两个舵机 STEP 生成 URDF 与米制 STL。只提取装配树的实体叶节点，排除父装配缓存和基准几何；按对象标识检查 97 个源实体全部唯一归属，A000、B000 不从旧 BOM 回填。源文件 SHA-256 已锁定，修改装配后需复核并更新脚本映射。舵机机壳归上游连杆，舵盘归下游连杆；六轴与结构件同轴圆柱面交叉核对。`check_urdf.py` 检查连接树、轴向、零位映射、网格路径、校验值与米制尺寸；`package_urdf.py` 打包可下载的预览资源。
 
 生成方法和未确认参数见 [机器人描述](../hardware/robot-description/README.md)。文档更新后照常运行文档检查；网格和 URDF 更新后必须运行 `python scripts/check_urdf.py`，再执行 `python scripts/package_urdf.py`。
 

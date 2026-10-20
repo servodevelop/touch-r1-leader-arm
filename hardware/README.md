@@ -42,7 +42,7 @@
 | [printing/stl/](printing/stl/) | 可打印的零件网格 | 待补充 |
 | [printing/3mf/](printing/3mf/) | 独立零件与整套打印项目 | 待补充 |
 | [drawings/](drawings/) | 带尺寸工程图纸，PDF／DWG | 待补充 |
-| [robot-description/](robot-description/) | 六轴 URDF、网格和交互预览 | 已生成运动学预览草案；实机参数待确认 |
+| [robot-description/](robot-description/) | 六轴 URDF、网格和交互预览 | 基于去除两个限位块的 FCStd 生成运动学预览；实机参数待确认 |
 
 <a id="assembly-model"></a>
 

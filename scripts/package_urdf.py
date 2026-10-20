@@ -18,10 +18,11 @@ python -m http.server 8765 --bind 127.0.0.1
 URDF: touch_r1_description/urdf/touch-r1.urdf
 请保持 URDF 和 meshes 的相对位置。预览依赖已包含，不需联网。
 
-0° 是源 STEP 装配姿态，不是实机编码器零位。
+源模型：r1-hd-urdf-only.FCStd，已移除 A000、B000 两个限位块。
+0° 是源 FCStd 装配姿态，不是实机编码器零位。
 continuous 仅供可视化，不代表实机可无限旋转；±90° 是界面演示范围。
 未提供实机限位、质量、惯量、碰撞模型、控制接口或 ROS 启动包。
-附件夹持件暂固定到基座，具体归属需工程复核。
+保留源文件中的垫片和紧固件，固定归属需工程复核。
 参考记录与源文件校验值见 kinematics.json。
 完整说明：https://github.com/servodevelop/touch-r1-leader-arm/tree/main/hardware/robot-description
 ''')
