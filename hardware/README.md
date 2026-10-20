@@ -36,12 +36,13 @@
 | 目录／文件 | 内容 | 状态 |
 | --- | --- | --- |
 | [step/assembly/](step/assembly/) | 原始 V3.1 装配体 STEP | 源文件字节保持不变；已检查 CAD 导入 |
+| [step/components/](step/components/) | 用户提供的 RP8-U45H-M / C028 舵机 STEP | 用于 URDF 视觉模型，保留原文件内容 |
 | [step/parts/](step/parts/) | 16 份独立零件或子装配 STEP | 已通过导出与重新导入检查 |
 | [bom.json](bom.json) | BOM 数量、源编号、实例位置及几何检查结果 | 根据源装配树提取 |
 | [printing/stl/](printing/stl/) | 可打印的零件网格 | 待补充 |
 | [printing/3mf/](printing/3mf/) | 独立零件与整套打印项目 | 待补充 |
 | [drawings/](drawings/) | 带尺寸工程图纸，PDF／DWG | 待补充 |
-| [robot-description/](robot-description/) | URDF、网格和可视化说明 | 仅有框架；模型待补充 |
+| [robot-description/](robot-description/) | 六轴 URDF、网格和交互预览 | 已生成运动学预览草案；实机参数待确认 |
 
 <a id="assembly-model"></a>
 
@@ -137,7 +138,8 @@
 | 干涉、配合与实物装配 | 尚未验证 |
 | 采购 BOM 完整性与硬件规格 | 待工程确认 |
 | 采购补充件 | 数量按 R1 装配需求给定（2026-10-19）；规格参照 102 同款件，供应商与采购属性待确认 |
-| 可打印性、URDF 与仿真 | 尚未验证；未提供打印文件和 URDF |
+| URDF 与交互预览 | 已提供 7 连杆、6 活动关节的运动学草案；[查看预览说明](robot-description/) |
+| 可打印性与动力学仿真 | 尚未验证；未提供打印文件、碰撞模型与惯量参数 |
 | V3.1 的 Python 遥操作 | 尚未验证 |
 
 几何检查用于验证 CAD 导入导出一致性，不代表通过制造验收。重新生成导出件和简图的方法见 [生成说明](../scripts/README.md)。

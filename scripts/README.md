@@ -43,3 +43,22 @@ PYTHONPATH=/Applications/FreeCAD.app/Contents/Resources/lib \
 `bom.json` 第 2 版保留英文机器字段名，展示名称使用 `name_zh`，不再生成 `name_en`。规格中的 M3 × 4 是 CAD 推定，不能作为已确认的采购螺纹。材质、强度等级和表面处理须另有依据。
 
 中文正文更新后，运行 `python scripts/check_readme_sync.py --write-redirects` 更新旧 `README.zh.md` 兼容页，再运行文档检查。兼容页保留已发布的显式章节锚点，正文只维护一份。
+
+## URDF 与交互预览
+
+`generate_urdf.py` 从现有装配实例位置、结构件 STEP 和用户提供的两个舵机 STEP 生成 URDF 与米制 STL。舵机机壳归上游连杆，舵盘归下游连杆；六轴与结构件同轴圆柱面交叉核对。`check_urdf.py` 检查连接树、轴向、零位映射、网格路径、校验值与米制尺寸；`package_urdf.py` 打包可下载的预览资源。
+
+生成方法和未确认参数见 [机器人描述](../hardware/robot-description/README.md)。文档更新后照常运行文档检查；网格和 URDF 更新后必须运行 `python scripts/check_urdf.py`，再执行 `python scripts/package_urdf.py`。
+
+修改预览的 `preview/viewer.js` 后，从仓库根目录重新构建离线模块：
+
+```bash
+npm install --prefix /tmp/touch-r1-viewer --ignore-scripts --no-audit --no-fund three@0.180.0 esbuild@0.25.10
+NODE_PATH=/tmp/touch-r1-viewer/node_modules \
+  /tmp/touch-r1-viewer/node_modules/.bin/esbuild \
+  hardware/robot-description/preview/viewer.js --bundle --minify --format=esm \
+  --outfile=hardware/robot-description/preview/app.js
+python scripts/package_urdf.py
+```
+
+预览直接读取交付的 URDF 与 STL，不额外维护一套独立运动学模型。第三方 Three.js 许可随资源包保留。
