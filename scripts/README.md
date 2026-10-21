@@ -16,7 +16,7 @@ python scripts/check_readme_sync.py
 
 ## 重新生成 CAD BOM 与简图
 
-[硬件 BOM](../hardware/README.md#bill-of-materials) 根据以校验值锁定的 V3.1 装配体提取。`extract_step_bom.py` 需要可导入 FreeCAD、Part、Import 的 Python 环境；`render_bom.py` 在 Blender 内运行。生成资源已使用 FreeCAD 1.1.4 和 Blender 5.2.2 检查。
+[硬件 BOM](../hardware/README.md#bill-of-materials) 根据以校验值锁定的 V3.2 装配体提取。`extract_step_bom.py` 需要可导入 FreeCAD、Part、Import 的 Python 环境；`render_bom.py` 在 Blender 内运行。生成资源已使用 FreeCAD 1.1.4 和 Blender 5.2.2 检查。
 
 在 macOS 上，FreeCAD 与 Blender 安装于 `/Applications` 时，在仓库根目录执行：
 
@@ -30,7 +30,7 @@ PYTHONPATH=/Applications/FreeCAD.app/Contents/Resources/lib \
   --mesh-dir /tmp/touch-r1-bom-meshes
 ```
 
-第一条命令重新生成 16 份 `step/parts/` 导出件及 `bom.json`；第二条生成 17 张图片（16 项 BOM 及装配体）。临时三角网格保存在仓库外，不改写装配体源文件。重复的源 PRODUCT 引用按实例计数；舵机内部零件保留在子装配内。外形相似但源 PRODUCT 标识不同的组件不会自动合并。
+第一条命令重新生成 18 份 `step/parts/` 导出件及 `bom.json`；第二条生成 19 张图片（18 项 BOM 及装配体）。临时三角网格保存在仓库外，不改写装配体源文件。重复的源 PRODUCT 引用按实例计数；舵机内部零件保留在子装配内。外形相似但源 PRODUCT 标识不同的组件不会自动合并。
 
 导出件会重新导入，检查形体有效性、实体数，以及包围尺寸差小于 0.001 mm、体积差不超过 0.001 mm³ 与 0.01% 中的较大值。源 CAD 公差和实测误差保留在 `bom.json`。这些数值检查阈值不是制造公差。独立导出时移除组件在总装中的位置变换，保留子装配内部的位置变换。
 
@@ -40,7 +40,7 @@ PYTHONPATH=/Applications/FreeCAD.app/Contents/Resources/lib \
 
 `fastener_specs.py` 记录了 4 个紧固件源模型的品名与规格；脚本仍按圆柱面半径与轴向边界测量，测量值写入 `dimensions_mm` 供核对，不作为采购规格来源。源尺寸变化时检查会中止，需复核后更新。提取程序把结果写入 `bom.json` 的 `fastener_specification`。
 
-`bom.json` 第 2 版保留英文机器字段名，展示名称使用 `name_zh`，不再生成 `name_en`。品名与规格按实物确认（2026-10-20）：`PRT0001`、`PRT0002`、`GB_T70_1-M3X400` 是同一件 304 薄头内六角平尾自攻螺丝 HB3 × 5，`M3X3X60001` 是 304 塞打螺丝 Ø2.5 × M2 × 3。`bom.json` 仍按源 PRODUCT 保留 4 行，README 采购表内合并为 2 行，品名与型号直接按标准件给定。
+`bom.json` 第 2 版保留英文机器字段名，展示名称使用 `name_zh`，不再生成 `name_en`。品名与规格按实物确认（2026-10-20）：`PRT0001`、`PRT0002`、`GB_T70_1-M3X400` 是同一件 304 薄头内六角平尾自攻螺丝 HB3 × 5，`M2X4X30001`（V3.2 起，原 V3.1 名为 `M3X3X60001`）是 304 塞打螺丝 Ø2.5 × M2 × 3。`bom.json` 仍按源 PRODUCT 保留 4 行，README 采购表内合并为 2 行，品名与型号直接按标准件给定。
 
 中文正文更新后，运行 `python scripts/check_readme_sync.py --write-redirects` 更新旧 `README.zh.md` 兼容页，再运行文档检查。兼容页保留已发布的显式章节锚点，正文只维护一份。
 

@@ -4,15 +4,15 @@
 两者不一致之处写入 ``assessment_zh``，不据源名称推定螺纹。
 """
 
-FASTENER_PRODUCTS = {35916, 36620, 99391, 101106}
+FASTENER_PRODUCTS = {35916, 36620, 91375, 93090}
 REFERENCE = 'https://github.com/servodevelop/Star-Arm-102/blob/main/hardware/102-hd/README.zh.md#bill-of-materials'
 
 
 def describe_fastener(product, shape):
     if product not in FASTENER_PRODUCTS:
         return None
-    # 前三种沿 Z 轴，台阶件沿 Y 轴；测量头下长度而不是总包围长度。
-    axis = 'Y' if product == 101106 else 'Z'
+    # 前三种沿 Z 轴，塞打螺丝沿 Y 轴；测量头下长度而不是总包围长度。
+    axis = 'Y' if product == 93090 else 'Z'
     import Part
     groups = {}
     for face in shape.Faces:
@@ -25,7 +25,7 @@ def describe_fastener(product, shape):
         hi = getattr(face.BoundBox, axis + 'Max')
         previous = groups.get(radius, (lo, hi))
         groups[radius] = (min(previous[0], lo), max(previous[1], hi))
-    expected = {1.0, 1.25, 2.5} if product == 101106 else {1.5, 2.75}
+    expected = {1.0, 1.25, 2.5} if product == 93090 else {1.5, 2.75}
     assert set(groups) == expected, '圆柱尺寸变化，请重新审核规格'
     head_radius = max(groups)
     head_lo, head_hi = groups[head_radius]
@@ -33,7 +33,7 @@ def describe_fastener(product, shape):
         'head_diameter_mm': round(2 * head_radius, 4),
         'head_height_mm': round(head_hi - head_lo, 4),
     }
-    if product == 101106:
+    if product == 93090:
         shoulder_lo, shoulder_hi = groups[1.25]
         tip_lo, tip_hi = groups[1.0]
         assert abs(shoulder_lo - head_hi) < 1e-4 and abs(tip_lo - shoulder_hi) < 1e-4
@@ -72,3 +72,4 @@ def describe_fastener(product, shape):
         'format_reference': REFERENCE,
         'reference_scope_zh': '仅参考 102 的品名与规格表达方式，不继承其尺寸、数量和采购属性。',
     }
+

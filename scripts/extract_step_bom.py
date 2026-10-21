@@ -1,4 +1,4 @@
-"""Extract the supplied Touch R1 V3.1 STEP's top-level CAD BOM with FreeCAD.
+﻿"""Extract the supplied Touch R1 V3.2 STEP's top-level CAD BOM with FreeCAD.
 
 Run with FreeCAD's Python environment. Paths are resolved from this repository.
 This is an assembly-instance BOM, not a complete manufacturing/purchasing BOM.
@@ -18,8 +18,8 @@ from fastener_specs import describe_fastener
 
 ROOT = Path(__file__).resolve().parents[1]
 MODEL = ROOT / 'hardware'
-SOURCE = MODEL / 'step/assembly/touch-leader-arm-v3.1-1013.stp'
-SOURCE_SHA256 = 'af5f44cd08a8293b5a976a71977836e1e3b505324ef570e67f32b18da1b52e1f'
+SOURCE = MODEL / 'step/assembly/touch-r1-leader-arm-v3.2-1013.stp'
+SOURCE_SHA256 = 'f2654e3ba64084a5638cb16c66ebac0a958ef50be641a09abca82bdf0ccb2bc0'
 
 # The source PRODUCT IDs retain the distinction between similarly shaped models.
 # Names describe the supplied CAD geometry, not approved supplier specifications.
@@ -32,14 +32,16 @@ ITEMS = [
     (77328, 'touch-r1-joint-4', '关节 4 结构件'),
     (86268, 'touch-r1-joint-5', '关节 5 结构件'),
     (90662, 'touch-r1-joint-6', '关节 6 结构件'),
-    (98686, 'touch-r1-joint-7', '关节 7 手柄结构件'),
+    (103509, 'touch-r1-handle-assembly', '手柄装配'),
+    (107734, 'touch-r1-finger-left', '左手指'),
+    (111955, 'touch-r1-finger-right', '右手指'),
     (29465, 'touch-r1-spacer', '垫片'),
-    (100621, 'touch-r1-part-a000', '支架 A000（用途待确认）'),
-    (101587, 'touch-r1-part-b000', '支架 B000（用途待确认）'),
+    (92606, 'touch-r1-part-a000', '支架 A000（用途待确认）'),
+    (93572, 'touch-r1-part-b000', '支架 B000（用途待确认）'),
     (35916, 'touch-r1-fastener-prt0001', '内六角紧固件 PRT0001'),
     (36620, 'touch-r1-fastener-prt0002', '内六角紧固件 PRT0002'),
-    (99391, 'touch-r1-fastener-gb-t70-1-m3x400', '内六角紧固件 GB_T70_1-M3X400'),
-    (101106, 'touch-r1-fastener-m3x3x60001', '台阶内六角紧固件'),
+    (91375, 'touch-r1-fastener-gb-t70-1-m3x400', '内六角紧固件 GB_T70_1-M3X400'),
+    (93090, 'touch-r1-fastener-m3x3x60001', '塞打螺丝 M2X4X30001'),
 ]
 
 
@@ -102,14 +104,14 @@ def main():
     top_edges = [e for e in edges if e['parent_definition'] == root_id]
     counts = Counter(definitions[e['child_definition']] for e in top_edges)
     assert set(counts) == {p for p, *_ in ITEMS}
-    assert sum(counts.values()) == 21 and len(counts) == 16
+    assert sum(counts.values()) == 24 and len(counts) == 18
     by_parent = defaultdict(list)
     for edge in edges:
         by_parent[edge['parent_definition']].append(edge['child_definition'])
     def leaves(definition):
         children = by_parent[definition]
         return sum(leaves(child) for child in children) if children else 1
-    assert leaves(root_id) == 99
+    assert leaves(root_id) == 115
 
     pref = App.ParamGet('User parameter:BaseApp/Preferences/Mod/Import')
     # Change only this Python process's preferences; do not save user settings.
@@ -173,11 +175,11 @@ def main():
             row['name_zh'] = fastener['name_zh']
             row['fastener_specification'] = fastener
         rows.append(row)
-        (args.mesh_dir / f'{identifier}.json').write_text(json.dumps(mesh_data(shape)))
+        (args.mesh_dir / f'{identifier}.json').write_text(json.dumps(mesh_data(shape)), encoding='utf-8')
         print(f"Exported {number:02d}: {identifier} x {counts[product]}", flush=True)
-    (args.mesh_dir / 'touch-r1-assembly.json').write_text(json.dumps(mesh_data(assembly.Shape)))
-    manifest = {'schema_version': 2, 'model': 'Touch R1 Leader Arm', 'revision': 'V3.1',
-                'source_file': str(SOURCE.relative_to(MODEL)), 'source_sha256': SOURCE_SHA256,
+    (args.mesh_dir / 'touch-r1-assembly.json').write_text(json.dumps(mesh_data(assembly.Shape)), encoding='utf-8')
+    manifest = {'schema_version': 2, 'model': 'Touch R1 Leader Arm', 'revision': 'V3.2',
+                'source_file': SOURCE.relative_to(MODEL).as_posix(), 'source_sha256': SOURCE_SHA256,
                 'source_length_unit': 'mm', 'root_product_entity': definitions[root_id],
                 'root_definition_entity': root_id, 'top_level_occurrences': len(top_edges),
                 'unique_bom_items': len(rows), 'expanded_leaf_occurrences': leaves(root_id),
@@ -189,13 +191,14 @@ def main():
                 'source_products': {str(p): {'raw_name': name, 'decoded_name': decode_name(name)} for p,name in products.items()},
                 'source_product_definitions': definitions, 'source_assembly_edges': edges,
                 'tool': {'freecad': '.'.join(App.Version()[:3])}}
-    (MODEL / 'bom.json').write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + '\n')
+    (MODEL / 'bom.json').write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
     placeholder = parts / '.gitkeep'
     if placeholder.exists():
         placeholder.unlink()
     App.closeDocument(document.Name)
-    print('Verified 16 STEP exports; 21 top-level occurrences; 99 expanded solids.')
+    print('Verified 18 STEP exports; 24 top-level occurrences; 115 expanded solids.')
 
 
 if __name__ == '__main__':
     main()
+
