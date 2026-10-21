@@ -18,10 +18,6 @@
 
 [查看：物料清单](README.md#bill-of-materials)
 
-<a id="purchase-parts"></a>
-
-[查看：采购补充件](README.md#purchase-parts)
-
 <a id="confirmation"></a>
 
 [查看：待确认事项](README.md#confirmation)

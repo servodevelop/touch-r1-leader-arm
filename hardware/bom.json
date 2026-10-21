@@ -31,7 +31,7 @@
     {
       "no": 1,
       "id": "touch-r1-servo-rp8-u45h-m-c028",
-      "name_zh": "舵机子装配",
+      "name_zh": "舵机 RP8-U45H-M-C028",
       "source_product_entity": 28683,
       "source_name": "RP8-U45H-M-C028_STEP_ASM",
       "decoded_source_name": "RP8-U45H-M-C028_STEP_ASM",
@@ -151,7 +151,7 @@
     {
       "no": 2,
       "id": "touch-r1-servo-25-50kg-0001",
-      "name_zh": "舵机子装配（型号待确认）",
+      "name_zh": "舵机 RP8-U45H-M",
       "source_product_entity": 55700,
       "source_name": "_25-50KG-0001_ASM_ASM",
       "decoded_source_name": "_25-50KG-0001_ASM_ASM",
