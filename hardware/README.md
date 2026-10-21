@@ -42,7 +42,7 @@
 | [printing/stl/](printing/stl/) | 可打印的零件网格 | 待补充 |
 | [printing/3mf/](printing/3mf/) | 独立零件与整套打印项目 | 待补充 |
 | [drawings/](drawings/) | 带尺寸工程图纸，PDF／DWG | 待补充 |
-| [robot-description/](robot-description/) | 六轴 URDF、网格和交互预览 | 基于去除两个限位块的 FCStd 生成运动学预览；实机参数待确认 |
+| [robot-description/](robot-description/) | V3.2 七轴 URDF、网格和交互预览 | 包含 J7 舵机与双 finger，排除两个限位块；实机参数待确认 |
 
 <a id="assembly-model"></a>
 
@@ -135,7 +135,7 @@
 | 干涉、配合与实物装配 | 尚未验证 |
 | 采购 BOM 完整性与硬件规格 | 待工程确认 |
 | 采购补充件 | 数量按 R1 装配需求给定（2026-10-19）；规格参照 102 同款件，供应商与采购属性待确认 |
-| URDF 与交互预览 | 已提供 7 连杆、6 活动关节的运动学草案；[查看预览说明](robot-description/) |
+| URDF 与交互预览 | 已提供 9 连杆、7 控制关节及 1 从动关节的运动学草案；[查看预览说明](robot-description/) |
 | 可打印性与动力学仿真 | 尚未验证；未提供打印文件、碰撞模型与惯量参数 |
 | V3.1 的 Python 遥操作 | 尚未验证 |
 

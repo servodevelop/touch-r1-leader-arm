@@ -1,0 +1,21 @@
+{
+  "revision": "V3.2",
+  "original_step_name": "遥操臂V3.2_1013(1).stp",
+  "original_step_sha256": "f2654e3ba64084a5638cb16c66ebac0a958ef50be641a09abca82bdf0ccb2bc0",
+  "original_step_solids": 115,
+  "excluded_objects": [
+    {
+      "object": "Part__Feature094",
+      "label": "A000",
+      "solids": 1
+    },
+    {
+      "object": "Part__Feature097",
+      "label": "B000",
+      "solids": 1
+    }
+  ],
+  "snapshot_solids": 113,
+  "snapshot_sha256": "b6cac35a9807eb45ec3ebaecfee955961dbb27ddb454c4c01f6b9bc63b60346f",
+  "note_zh": "FCStd 由指定 STEP 导入，移除 A000、B000；原 STEP 不复制进仓库。"
+}

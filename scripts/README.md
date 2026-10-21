@@ -46,7 +46,7 @@ PYTHONPATH=/Applications/FreeCAD.app/Contents/Resources/lib \
 
 ## URDF 与交互预览
 
-`generate_urdf.py` 从去除限位块的 [FCStd 装配体](../hardware/robot-description/source/r1-hd-urdf-only.FCStd) 和用户提供的两个舵机 STEP 生成 URDF 与米制 STL。只提取装配树的实体叶节点，排除父装配缓存和基准几何；按对象标识检查 97 个源实体全部唯一归属，A000、B000 不从旧 BOM 回填。源文件 SHA-256 已锁定，修改装配后需复核并更新脚本映射。舵机机壳归上游连杆，舵盘归下游连杆；六轴与结构件同轴圆柱面交叉核对。`check_urdf.py` 检查连接树、轴向、零位映射、网格路径、校验值与米制尺寸；`package_urdf.py` 打包可下载的预览资源。
+`import_urdf_source.py` 从指定 V3.2 STEP 导入 [FCStd 快照](../hardware/robot-description/source/r1-hd-urdf-only.FCStd)，排除 A000、B000 并保存源校验记录；原 STEP 留在本地。`generate_urdf.py` 读取快照及两款舵机 STEP，生成七轴与双 finger URDF。113 个保留源实体全部唯一归属；J7 驱动右 finger，左 finger 通过 URDF `mimic` 反向联动。机壳归上游、舵盘归下游；轴线由 CAD 圆柱面交叉核对。`check_urdf.py` 检查实体覆盖、连接树、联动关系、轴向、米制尺寸及资源校验；`package_urdf.py` 打包资源。
 
 生成方法和未确认参数见 [机器人描述](../hardware/robot-description/README.md)。文档更新后照常运行文档检查；网格和 URDF 更新后必须运行 `python scripts/check_urdf.py`，再执行 `python scripts/package_urdf.py`。
 
@@ -62,3 +62,15 @@ python scripts/package_urdf.py
 ```
 
 预览直接读取交付的 URDF 与 STL，不额外维护一套独立运动学模型。第三方 Three.js 许可随资源包保留。
+
+
+从实际交付的 URDF / STL 渲染预览图：
+
+```bash
+/Applications/Blender.app/Contents/MacOS/Blender --background --factory-startup \
+  --python scripts/render_urdf_preview.py
+/Applications/Blender.app/Contents/MacOS/Blender --background --factory-startup \
+  --python scripts/render_urdf_preview.py -- --j7 25 --closeup --output finger-open.png
+```
+
+`preview/joint-motion.mjs` 根据 URDF 的 `mimic` 关系计算从动角度。修改预览源码或该模块后须重新构建离线模块。
