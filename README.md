@@ -10,7 +10,7 @@ Touch R1 Leader Arm 硬件资源，以及 Star Arm 102 → Lumos 的 Python 遥�
 
 | 任务 | 入口 | 状态 |
 | --- | --- | --- |
-| 查看硬件规格与 CAD 资料 | [硬件资源](hardware/) | 已提供 V3.1 装配体、16 份 STEP 导出件、图文 CAD BOM 及 V3.2 七轴（含双 finger）URDF 预览；采购规格与实机参数待确认 |
+| 查看硬件规格与 CAD 资料 | [硬件资源](hardware/) | 已提供 V3.1／V3.2 装配体、16 份 V3.1 STEP 导出件、图文 CAD BOM 及 V3.2 七轴（含双 finger）URDF 预览；采购规格与实机参数待确认 |
 | 查阅装配、校准与使用指南 | [文档中心](docs/) | 已有中文遥操作指南；其他指南待补 |
 | 安装依赖并运行遥操作 | [Python SDK](python-sdk/) | 已有 Star Arm 102 → Lumos 脚本与指南；Touch R1 Leader Arm V3.1 兼容性尚未验证 |
 | 使用 LeRobot 遥操作、采集关节数据与回放 | [LeRobot 完整实操教程](lerobot/README.md) | 提供 Python 3.12 安装入口，按固定版本获取外部适配依赖；Touch R1 Leader Arm V3.1 兼容性尚未验证 |

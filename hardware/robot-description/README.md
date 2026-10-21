@@ -42,7 +42,7 @@ python -m http.server 8765 --bind 127.0.0.1
 
 | 来源 | 使用方式 |
 | --- | --- |
-| 用户提供的 `遥操臂V3.2_1013(1).stp` | 本次装配几何与安装位置依据；原文件留在用户本地，不复制入仓库 |
+| [V3.2 原始 STEP](../step/assembly/touch-r1-leader-arm-v3.2-1013.stp) | 本次装配几何与安装位置依据；原文件名为 `遥操臂V3.2_1013(1).stp`，保存内容与附件完全一致 |
 | [URDF 专用 FCStd 快照](source/r1-hd-urdf-only.FCStd) | 从 V3.2 STEP 导入，排除 A000、B000 两个限位块；沿用已有文件名以保持链接可用 |
 | [来源及排除记录](source/assembly-source.json) | 原 STEP 名称、SHA-256、源实体数、排除对象及 FCStd 校验值 |
 | [RP8-U45H-M-C028](../step/components/rp8-u45h-m-c028.step) | 替换 4 个 C028 舵机实例，包含新增 J7 舵机 |
@@ -112,12 +112,12 @@ python scripts/check_urdf.py
 python scripts/package_urdf.py
 ```
 
-如需从本次原始 STEP 重建快照，先运行下列命令，再执行上述生成步骤。替换路径为本地文件路径；源 STEP 校验值不一致时会中止，需先审核零件映射。
+如需从本次原始 STEP 重建快照，先运行下列命令，再执行上述生成步骤。命令使用仓库内的 V3.2 源文件；源 STEP 校验值不一致时会中止，需先审核零件映射。
 
 ```bash
 PYTHONPATH=/Applications/FreeCAD.app/Contents/Resources/lib \
   /Applications/FreeCAD.app/Contents/Resources/bin/python \
-  scripts/import_urdf_source.py '/path/to/遥操臂V3.2_1013(1).stp'
+  scripts/import_urdf_source.py hardware/step/assembly/touch-r1-leader-arm-v3.2-1013.stp
 ```
 
 生成使用 FreeCAD 1.1.4；网格线性离散 0.12 mm、角度离散 0.35 rad，均为显示参数而非制造公差。预览使用 Three.js 0.180.0，附带 [MIT 许可](preview/THREE-LICENSE.txt)；脚本及渲染方法见 [维护说明](../../scripts/README.md)。

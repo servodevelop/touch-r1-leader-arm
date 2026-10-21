@@ -23,7 +23,7 @@
     ],
     "snapshot_solids": 113,
     "snapshot_sha256": "b6cac35a9807eb45ec3ebaecfee955961dbb27ddb454c4c01f6b9bc63b60346f",
-    "note_zh": "FCStd 由指定 STEP 导入，移除 A000、B000；原 STEP 不复制进仓库。"
+    "note_zh": "FCStd 由指定 STEP 导入，移除 A000、B000；原 STEP 原样保存在 hardware/step/assembly/touch-r1-leader-arm-v3.2-1013.stp。"
   },
   "source_length_unit": "mm",
   "urdf_length_unit": "m",
@@ -101,7 +101,7 @@
     },
     {
       "file": "robot-description/source/assembly-source.json",
-      "sha256": "b42f84c0d09f0b94719ecf2701e533aac55a91a4b57bf63eef03de2003517007"
+      "sha256": "1f74e3a6917988a9abdefb96b76598ccc35dcfb772321a1c38180e380bc1991c"
     },
     {
       "file": "step/components/rp8-u45h-m.step",

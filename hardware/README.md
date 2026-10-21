@@ -2,7 +2,7 @@
 
 [← 首页](../README.md)　|　<sub>**简体中文**</sub>
 
-所提供 V3.1 模型的 CAD 资源及按装配体提取的物料清单。
+提供 V3.1／V3.2 装配体 CAD 资源；当前物料清单及独立零件导出件仍基于 V3.1，七轴 URDF 基于 V3.2。
 
 **目录：**
 
@@ -21,7 +21,7 @@
 
 | 规格 | Touch R1 Leader Arm |
 | --- | --- |
-| 硬件版本 | V3.1，依据所提供装配体的文件名标注 |
+| 硬件版本 | V3.1／V3.2，依据所提供装配体的文件名标注；BOM 仍基于 V3.1 |
 | 产品类型 | 遥操作主臂 |
 | 自由度 | 待确认 |
 | 臂展与重量 | 待确认 |
@@ -35,7 +35,7 @@
 
 | 目录／文件 | 内容 | 状态 |
 | --- | --- | --- |
-| [step/assembly/](step/assembly/) | 原始 V3.1 装配体 STEP | 源文件字节保持不变；已检查 CAD 导入 |
+| [step/assembly/](step/assembly/) | 原始 V3.1／V3.2 装配体 STEP | 源文件字节保持不变；已检查 CAD 导入 |
 | [step/components/](step/components/) | 用户提供的 RP8-U45H-M / C028 舵机 STEP | 用于 URDF 视觉模型，保留原文件内容 |
 | [step/parts/](step/parts/) | 16 份独立零件或子装配 STEP | 已通过导出与重新导入检查 |
 | [bom.json](bom.json) | BOM 数量、源编号、实例位置及几何检查结果 | 根据源装配树提取 |
@@ -48,7 +48,10 @@
 
 ## 装配模型
 
-[下载 V3.1 装配体 STEP](step/assembly/touch-leader-arm-v3.1-1013.stp)。
+- [下载 V3.2 装配体 STEP](step/assembly/touch-r1-leader-arm-v3.2-1013.stp)：当前七轴 URDF 的源装配体，包含 J7 舵机和左右 finger。
+- [下载 V3.1 装配体 STEP](step/assembly/touch-leader-arm-v3.1-1013.stp)：当前 BOM 和独立零件导出件的依据。
+
+V3.2 原文件 `遥操臂V3.2_1013(1).stp` 仅规范保存名称，文件内容保持不变，共 115 个实体，包含 A000、B000。URDF 专用快照另外排除这两个限位块；[来源记录](robot-description/source/assembly-source.json) 保存原文件 SHA-256。
 
 <a href="images/touch-r1-assembly.png"><img src="images/touch-r1-assembly.png" alt="Touch R1 V3.1 CAD 装配体" width="320"></a>
 
@@ -126,8 +129,9 @@
 
 | 项目 | 状态 |
 | --- | --- |
-| 源装配体 | SHA-256 与附件一致；1 个根装配、21 个顶层实例 |
-| CAD 导入 | 99 个实体；通过 FreeCAD 形体有效性检查 |
+| V3.1 源装配体 | SHA-256 与附件一致；1 个根装配、21 个顶层实例 |
+| V3.2 源装配体 | SHA-256 与附件一致；24 个顶层实例、115 个实体；用于七轴 URDF |
+| V3.1 CAD 导入 | 99 个实体；通过 FreeCAD 形体有效性检查 |
 | 16 份 STEP 导出件 | 已成功重新导入；实体数不变，最大相对体积差低于 0.0011%，包围尺寸差低于 0.001 mm |
 | BOM 数量 | 已交叉核对 STEP 引用与导入对象；源映射保留于 bom.json |
 | 标准件 | 第 13、14 行品名、规格与材质按实物确认（2026-10-20）；第 15–20 行规格沿用 102 同款件，待采购复核 |

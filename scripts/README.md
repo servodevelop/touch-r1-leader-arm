@@ -46,7 +46,7 @@ PYTHONPATH=/Applications/FreeCAD.app/Contents/Resources/lib \
 
 ## URDF 与交互预览
 
-`import_urdf_source.py` 从指定 V3.2 STEP 导入 [FCStd 快照](../hardware/robot-description/source/r1-hd-urdf-only.FCStd)，排除 A000、B000 并保存源校验记录；原 STEP 留在本地。`generate_urdf.py` 读取快照及两款舵机 STEP，生成七轴与双 finger URDF。113 个保留源实体全部唯一归属；J7 驱动右 finger，左 finger 通过 URDF `mimic` 反向联动。机壳归上游、舵盘归下游；轴线由 CAD 圆柱面交叉核对。`check_urdf.py` 检查实体覆盖、连接树、联动关系、轴向、米制尺寸及资源校验；`package_urdf.py` 打包资源。
+`import_urdf_source.py` 从指定 V3.2 STEP 导入 [FCStd 快照](../hardware/robot-description/source/r1-hd-urdf-only.FCStd)，排除 A000、B000 并保存源校验记录；原 STEP 保存在 [V3.2 装配体](../hardware/step/assembly/touch-r1-leader-arm-v3.2-1013.stp)，内容与用户附件一致。`generate_urdf.py` 读取快照及两款舵机 STEP，生成七轴与双 finger URDF。113 个保留源实体全部唯一归属；J7 驱动右 finger，左 finger 通过 URDF `mimic` 反向联动。机壳归上游、舵盘归下游；轴线由 CAD 圆柱面交叉核对。`check_urdf.py` 检查实体覆盖、连接树、联动关系、轴向、米制尺寸及资源校验；`package_urdf.py` 打包资源。
 
 生成方法和未确认参数见 [机器人描述](../hardware/robot-description/README.md)。文档更新后照常运行文档检查；网格和 URDF 更新后必须运行 `python scripts/check_urdf.py`，再执行 `python scripts/package_urdf.py`。
 

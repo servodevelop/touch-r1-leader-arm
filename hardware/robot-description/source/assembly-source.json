@@ -17,5 +17,5 @@
   ],
   "snapshot_solids": 113,
   "snapshot_sha256": "b6cac35a9807eb45ec3ebaecfee955961dbb27ddb454c4c01f6b9bc63b60346f",
-  "note_zh": "FCStd 由指定 STEP 导入，移除 A000、B000；原 STEP 不复制进仓库。"
+  "note_zh": "FCStd 由指定 STEP 导入，移除 A000、B000；原 STEP 原样保存在 hardware/step/assembly/touch-r1-leader-arm-v3.2-1013.stp。"
 }

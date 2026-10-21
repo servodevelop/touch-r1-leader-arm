@@ -1,4 +1,4 @@
-"""把指定 V3.2 STEP 导入为 URDF 专用 FCStd 快照，保留原 STEP 在用户本地。"""
+"""把指定 V3.2 STEP 导入为 URDF 专用 FCStd 快照，不修改原 STEP。"""
 from pathlib import Path
 import argparse
 import hashlib
@@ -45,7 +45,7 @@ def main():
                 'original_step_sha256': SOURCE_SHA256, 'original_step_solids': 115,
                 'excluded_objects': excluded, 'snapshot_solids': 113,
                 'snapshot_sha256': hashlib.sha256(snapshot.read_bytes()).hexdigest(),
-                'note_zh': 'FCStd 由指定 STEP 导入，移除 A000、B000；原 STEP 不复制进仓库。'}
+                'note_zh': 'FCStd 由指定 STEP 导入，移除 A000、B000；原 STEP 原样保存在 hardware/step/assembly/touch-r1-leader-arm-v3.2-1013.stp。'}
     (OUTPUT/'assembly-source.json').write_text(json.dumps(metadata, ensure_ascii=False, indent=2)+'\n')
     App.closeDocument(doc.Name)
     print('已导入 V3.2：115 个源实体，排除两个限位块后保留 113 个实体。')
