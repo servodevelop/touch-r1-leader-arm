@@ -1,4 +1,4 @@
-﻿"""Extract the supplied Touch R1 V3.2 STEP's top-level CAD BOM with FreeCAD.
+"""Extract the supplied Touch R1 V3.3 STEP's top-level CAD BOM with FreeCAD.
 
 Run with FreeCAD's Python environment. Paths are resolved from this repository.
 This is an assembly-instance BOM, not a complete manufacturing/purchasing BOM.
@@ -9,6 +9,7 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import struct
 
 import FreeCAD as App
 import Import
@@ -18,31 +19,37 @@ from fastener_specs import describe_fastener
 
 ROOT = Path(__file__).resolve().parents[1]
 MODEL = ROOT / 'hardware'
-SOURCE = MODEL / 'step/assembly/touch-r1-leader-arm-v3.2-1013.stp'
-SOURCE_SHA256 = 'f2654e3ba64084a5638cb16c66ebac0a958ef50be641a09abca82bdf0ccb2bc0'
+SOURCE = MODEL / 'step/assembly/touch-r1-leader-arm-v3.3-1023.stp'
+SOURCE_SHA256 = '7f96310c42fe7f7440359c246477c20b67a0f7d25fc3f097860783a02cfce782'
 
 # The source PRODUCT IDs retain the distinction between similarly shaped models.
 # Names describe the supplied CAD geometry, not approved supplier specifications.
 ITEMS = [
-    (28683, 'touch-r1-servo-rp8-u45h-m-c028', '舵机子装配'),
-    (55700, 'touch-r1-servo-25-50kg-0001', '舵机子装配（型号待确认）'),
-    (7112, 'touch-r1-joint-1', '关节 1 结构件'),
-    (35211, 'touch-r1-joint-2', '关节 2 结构件'),
-    (66078, 'touch-r1-joint-3', '关节 3 结构件'),
-    (77328, 'touch-r1-joint-4', '关节 4 结构件'),
-    (86268, 'touch-r1-joint-5', '关节 5 结构件'),
-    (90662, 'touch-r1-joint-6', '关节 6 结构件'),
-    (103509, 'touch-r1-handle-assembly', '手柄装配'),
-    (107734, 'touch-r1-finger-left', '左手指'),
-    (111955, 'touch-r1-finger-right', '右手指'),
-    (29465, 'touch-r1-spacer', '垫片'),
-    (92606, 'touch-r1-part-a000', '支架 A000（用途待确认）'),
-    (93572, 'touch-r1-part-b000', '支架 B000（用途待确认）'),
-    (35916, 'touch-r1-fastener-prt0001', '内六角紧固件 PRT0001'),
-    (36620, 'touch-r1-fastener-prt0002', '内六角紧固件 PRT0002'),
-    (91375, 'touch-r1-fastener-gb-t70-1-m3x400', '内六角紧固件 GB_T70_1-M3X400'),
-    (93090, 'touch-r1-fastener-m3x3x60001', '塞打螺丝 M2X4X30001'),
+    (28758, 'touch-r1-servo-rp8-u45h-m-c028', '舵机子装配'),
+    (53697, 'touch-r1-servo-25-50kg-0001', '舵机子装配（型号待确认）'),
+    (7186, 'touch-r1-joint-1', '关节 1 结构件'),
+    (34617, 'touch-r1-joint-2', '关节 2 结构件'),
+    (64264, 'touch-r1-joint-3', '关节 3 结构件'),
+    (75582, 'touch-r1-joint-4', '关节 4 结构件'),
+    (84888, 'touch-r1-joint-5', '关节 5 结构件'),
+    (89282, 'touch-r1-joint-6', '关节 6 结构件'),
+    (101568, 'touch-r1-handle-assembly', '手柄装配'),
+    (105793, 'touch-r1-finger-left', '左手指'),
+    (110016, 'touch-r1-finger-right', '右手指'),
+    (91198, 'touch-r1-part-a000', '支架 A000（用途待确认）'),
+    (112460, 'touch-r1-base-plate', '底座（固定板底座）'),
+    (89966, 'touch-r1-fastener-gb-t70-1-m3x530001', '内六角紧固件 GB_T70_1-M3X530001'),
+    (91683, 'touch-r1-fastener-m3x3x60001', '塞打螺丝 M2X4X30001'),
+    (113237, 'touch-r1-fastener-prt0007', '紧固件 PRT0007'),
+    (29540, 'touch-r1-spacer', '垫片'),
 ]
+
+# Parts get an STL mesh alongside the STEP export; purchased sub-assemblies and
+# standard fasteners do not. The spacer is excluded because it is not a real part.
+STL_ITEMS = {'touch-r1-joint-1', 'touch-r1-joint-2', 'touch-r1-joint-3', 'touch-r1-joint-4',
+             'touch-r1-joint-5', 'touch-r1-joint-6', 'touch-r1-handle-assembly',
+             'touch-r1-finger-left', 'touch-r1-finger-right', 'touch-r1-part-a000',
+             'touch-r1-base-plate'}
 
 
 def decode_name(text):
@@ -91,10 +98,36 @@ def mesh_data(shape):
     return {'vertices': vertices, 'triangles': triangles}
 
 
+def write_stl(shape, path, tolerance=0.05, angle=0.3):
+    """Write a binary STL plus a watertightness report for one solid or sub-assembly."""
+    import MeshPart
+    mesh = MeshPart.meshFromShape(Shape=shape, LinearDeflection=tolerance,
+                                  AngularDeflection=angle, Relative=False)
+    points = [(point.Vector.x, point.Vector.y, point.Vector.z) for point in mesh.Points]
+    triangles = [[points[i] for i in facet.PointIndices] for facet in mesh.Facets]
+    edges = Counter()
+    for triangle in triangles:
+        for a, b in ((0, 1), (1, 2), (2, 0)):
+            edges[frozenset((triangle[a], triangle[b]))] += 1
+    open_edges = sum(1 for count in edges.values() if count != 2)
+    with path.open('wb') as stream:
+        stream.write(b'Touch R1 leader arm printable mesh'.ljust(80, b'\0'))
+        stream.write(struct.pack('<I', len(triangles)))
+        for triangle in triangles:
+            stream.write(struct.pack('<3f', 0, 0, 0))
+            for point in triangle:
+                stream.write(struct.pack('<3f', *point))
+            stream.write(struct.pack('<H', 0))
+    return {'triangles': len(triangles), 'vertices': len(points),
+            'open_edges': open_edges, 'bytes': path.stat().st_size}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--mesh-dir', type=Path, required=True,
                         help='Temporary directory for render meshes; keep outside the repository')
+    parser.add_argument('--stl-dir', type=Path, default=MODEL / 'printing/stl',
+                        help='Directory for the printable STL meshes (default: hardware/printing/stl)')
     args = parser.parse_args()
     data = SOURCE.read_bytes()
     assert hashlib.sha256(data).hexdigest() == SOURCE_SHA256, 'Source changed: review the mapping first'
@@ -104,7 +137,7 @@ def main():
     top_edges = [e for e in edges if e['parent_definition'] == root_id]
     counts = Counter(definitions[e['child_definition']] for e in top_edges)
     assert set(counts) == {p for p, *_ in ITEMS}
-    assert sum(counts.values()) == 24 and len(counts) == 18
+    assert sum(counts.values()) == 24 and len(counts) == 17
     by_parent = defaultdict(list)
     for edge in edges:
         by_parent[edge['parent_definition']].append(edge['child_definition'])
@@ -150,8 +183,11 @@ def main():
 
     parts = MODEL / 'step/parts'
     parts.mkdir(exist_ok=True, parents=True)
+    stl_dir = args.stl_dir
+    stl_dir.mkdir(exist_ok=True, parents=True)
     args.mesh_dir.mkdir(exist_ok=True, parents=True)
     rows = []
+    meshes = []
     for number, (product, identifier, zh) in enumerate(ITEMS, 1):
         shape = shapes[product]
         filename = parts / f'{identifier}.step'
@@ -174,17 +210,26 @@ def main():
         if fastener:
             row['name_zh'] = fastener['name_zh']
             row['fastener_specification'] = fastener
+        if identifier in STL_ITEMS:
+            stl_path = stl_dir / f'{identifier}.stl'
+            mesh = write_stl(shape, stl_path)
+            assert mesh['triangles'] and mesh['open_edges'] == 0, (identifier, mesh)
+            row['stl_file'] = f'printing/stl/{identifier}.stl'
+            row['stl_mesh'] = mesh
+            meshes.append((identifier, mesh))
         rows.append(row)
         (args.mesh_dir / f'{identifier}.json').write_text(json.dumps(mesh_data(shape)), encoding='utf-8')
         print(f"Exported {number:02d}: {identifier} x {counts[product]}", flush=True)
     (args.mesh_dir / 'touch-r1-assembly.json').write_text(json.dumps(mesh_data(assembly.Shape)), encoding='utf-8')
-    manifest = {'schema_version': 2, 'model': 'Touch R1 Leader Arm', 'revision': 'V3.2',
+    manifest = {'schema_version': 2, 'model': 'Touch R1 Leader Arm', 'revision': 'V3.3',
                 'source_file': SOURCE.relative_to(MODEL).as_posix(), 'source_sha256': SOURCE_SHA256,
                 'source_length_unit': 'mm', 'root_product_entity': definitions[root_id],
                 'root_definition_entity': root_id, 'top_level_occurrences': len(top_edges),
                 'unique_bom_items': len(rows), 'expanded_leaf_occurrences': leaves(root_id),
                 'assembly_geometry': metrics(assembly.Shape),
                 'export_check_tolerances': {'relative_volume': 1e-4, 'absolute_volume_mm3': 1e-3, 'bbox_mm': .001},
+                'stl_tessellation': {'linear_deflection_mm': .05, 'angular_deflection_rad': .3,
+                                     'format': 'binary STL', 'closed_mesh_required': True},
                 'quantity_basis': '按根装配直接子项统计，合并重复 PRODUCT 引用；舵机内部零件不重复列为 BOM 行。',
                 'procurement_status': '由 CAD 提取；采购规格、未建模组件与清单完整性待工程确认。',
                 'items': rows,
@@ -192,11 +237,13 @@ def main():
                 'source_product_definitions': definitions, 'source_assembly_edges': edges,
                 'tool': {'freecad': '.'.join(App.Version()[:3])}}
     (MODEL / 'bom.json').write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
-    placeholder = parts / '.gitkeep'
-    if placeholder.exists():
-        placeholder.unlink()
+    for directory in (parts, stl_dir):
+        placeholder = directory / '.gitkeep'
+        if placeholder.exists():
+            placeholder.unlink()
     App.closeDocument(document.Name)
-    print('Verified 18 STEP exports; 24 top-level occurrences; 115 expanded solids.')
+    print(f'Verified {len(rows)} STEP exports; {len(meshes)} closed STL meshes; '
+          f'{len(top_edges)} top-level occurrences; {leaves(root_id)} expanded solids.')
 
 
 if __name__ == '__main__':

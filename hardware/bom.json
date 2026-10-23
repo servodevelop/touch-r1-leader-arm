@@ -1,23 +1,23 @@
 {
   "schema_version": 2,
   "model": "Touch R1 Leader Arm",
-  "revision": "V3.2",
-  "source_file": "step/assembly/touch-r1-leader-arm-v3.2-1013.stp",
-  "source_sha256": "f2654e3ba64084a5638cb16c66ebac0a958ef50be641a09abca82bdf0ccb2bc0",
+  "revision": "V3.3",
+  "source_file": "step/assembly/touch-r1-leader-arm-v3.3-1023.stp",
+  "source_sha256": "7f96310c42fe7f7440359c246477c20b67a0f7d25fc3f097860783a02cfce782",
   "source_length_unit": "mm",
-  "root_product_entity": 111983,
-  "root_definition_entity": 111985,
+  "root_product_entity": 113282,
+  "root_definition_entity": 113284,
   "top_level_occurrences": 24,
-  "unique_bom_items": 18,
+  "unique_bom_items": 17,
   "expanded_leaf_occurrences": 115,
   "assembly_geometry": {
     "solid_count": 115,
     "valid": true,
-    "volume_mm3": 648060.4709586963,
+    "volume_mm3": 1156742.3442234749,
     "local_bbox_mm": [
-      105.0000359643,
-      191.51444620828414,
-      304.86000000048296
+      250.0,
+      201.51444620828417,
+      304.86000000309366
     ]
   },
   "export_check_tolerances": {
@@ -25,14 +25,20 @@
     "absolute_volume_mm3": 0.001,
     "bbox_mm": 0.001
   },
+  "stl_tessellation": {
+    "linear_deflection_mm": 0.05,
+    "angular_deflection_rad": 0.3,
+    "format": "binary STL",
+    "closed_mesh_required": true
+  },
   "quantity_basis": "按根装配直接子项统计，合并重复 PRODUCT 引用；舵机内部零件不重复列为 BOM 行。",
   "procurement_status": "由 CAD 提取；采购规格、未建模组件与清单完整性待工程确认。",
   "items": [
     {
       "no": 1,
       "id": "touch-r1-servo-rp8-u45h-m-c028",
-      "name_zh": "舵机 RP8-U45H-M-C028",
-      "source_product_entity": 28683,
+      "name_zh": "舵机子装配",
+      "source_product_entity": 28758,
       "source_name": "RP8-U45H-M-C028_STEP_ASM",
       "decoded_source_name": "RP8-U45H-M-C028_STEP_ASM",
       "quantity": 4,
@@ -42,7 +48,7 @@
       "geometry": {
         "solid_count": 14,
         "valid": true,
-        "volume_mm3": 9112.260499582282,
+        "volume_mm3": 9112.260499582286,
         "local_bbox_mm": [
           40.10099483394926,
           45.80000000000356,
@@ -51,12 +57,12 @@
       },
       "source_shape_max_tolerance_mm": 0.002687723576375987,
       "export_roundtrip_valid": true,
-      "export_volume_relative_error": 6.952443348393277e-07,
+      "export_volume_relative_error": 6.952443352385674e-07,
       "export_bbox_max_error_mm": 8.256506589532364e-12,
       "occurrences": [
         {
-          "source_occurrence_entity": 28686,
-          "source_definition_entity": 28685,
+          "source_occurrence_entity": 28761,
+          "source_definition_entity": 28760,
           "imported_label": "RP8-U45H-M-C028_STEP_ASM",
           "placement_matrix": [
             -0.005424275513599808,
@@ -78,21 +84,21 @@
           ]
         },
         {
-          "source_occurrence_entity": 86282,
-          "source_definition_entity": 28685,
+          "source_occurrence_entity": 84902,
+          "source_definition_entity": 28760,
           "imported_label": "RP8-U45H-M-C028_STEP_ASM001",
           "placement_matrix": [
-            0.005424275513592147,
-            1.1534614227490337e-15,
-            0.9999852885093622,
+            0.005424275513590593,
+            1.1562028317084917e-15,
+            0.9999852885093625,
             -40.1996384115,
-            2.1264801536329192e-13,
-            -1.0,
-            -2.524354896707238e-29,
+            2.1315341169739202e-13,
+            -1.0000000000000004,
+            -1.262177448353619e-29,
             127.070303471,
-            0.9999852885093622,
-            2.126448869940048e-13,
-            -0.005424275513592036,
+            0.9999852885093625,
+            2.1315027589297147e-13,
+            -0.005424275513590926,
             -53.77005978711,
             0.0,
             0.0,
@@ -101,22 +107,22 @@
           ]
         },
         {
-          "source_occurrence_entity": 90676,
-          "source_definition_entity": 28685,
+          "source_occurrence_entity": 89296,
+          "source_definition_entity": 28760,
           "imported_label": "RP8-U45H-M-C028_STEP_ASM002",
           "placement_matrix": [
-            0.005424275513592702,
-            1.0547118733938987e-15,
-            0.9999852885093623,
-            -40.1996384115,
+            0.0054242755135937015,
+            6.7835570494168e-11,
+            0.9999852885093624,
+            -40.19963841246,
             -0.9999852885093623,
-            -2.1183055309847987e-13,
-            0.005424275513592702,
-            67.84935951986,
-            2.1188606424971113e-13,
+            -2.1382895454280515e-13,
+            0.005424275513593757,
+            67.84935951985,
+            5.81756864903582e-13,
             -1.0,
-            0.0,
-            -49.51428921281,
+            6.783340555926998e-11,
+            -49.51428921553,
             0.0,
             0.0,
             0.0,
@@ -124,22 +130,22 @@
           ]
         },
         {
-          "source_occurrence_entity": 103521,
-          "source_definition_entity": 28685,
+          "source_occurrence_entity": 101580,
+          "source_definition_entity": 28760,
           "imported_label": "RP8-U45H-M-C028_STEP_ASM003",
           "placement_matrix": [
             -0.9999852885093627,
-            1.1136924715771102e-15,
-            0.005424275513592796,
-            -3.335086688428,
-            -0.005424275513592796,
-            -2.05613304160579e-13,
+            6.783487009956457e-11,
+            0.005424275513593797,
+            -3.335086685719,
+            -0.005424275513593797,
+            -2.0583534876550402e-13,
             -0.9999852885093625,
             120.2090846198,
-            4.336808689942018e-19,
+            -6.783275633900909e-11,
             -1.0000000000000002,
-            2.0516921495072893e-13,
-            -103.6142892128,
+            5.734301922188934e-13,
+            -103.614289213,
             0.0,
             0.0,
             0.0,
@@ -151,8 +157,8 @@
     {
       "no": 2,
       "id": "touch-r1-servo-25-50kg-0001",
-      "name_zh": "舵机 RP8-U45H-M",
-      "source_product_entity": 55700,
+      "name_zh": "舵机子装配（型号待确认）",
+      "source_product_entity": 53697,
       "source_name": "_25-50KG-0001_ASM_ASM",
       "decoded_source_name": "_25-50KG-0001_ASM_ASM",
       "quantity": 3,
@@ -162,7 +168,7 @@
       "geometry": {
         "solid_count": 14,
         "valid": true,
-        "volume_mm3": 10052.789651106665,
+        "volume_mm3": 10052.789651106656,
         "local_bbox_mm": [
           40.10034909030999,
           52.6,
@@ -171,12 +177,12 @@
       },
       "source_shape_max_tolerance_mm": 0.002613290455982457,
       "export_roundtrip_valid": true,
-      "export_volume_relative_error": 8.438354384176638e-07,
+      "export_volume_relative_error": 8.438354382367208e-07,
       "export_bbox_max_error_mm": 1.8474111129762605e-13,
       "occurrences": [
         {
-          "source_occurrence_entity": 55703,
-          "source_definition_entity": 55702,
+          "source_occurrence_entity": 53700,
+          "source_definition_entity": 53699,
           "imported_label": "_25-50KG-0001_ASM_ASM",
           "placement_matrix": [
             -2.220446049250313e-16,
@@ -198,8 +204,8 @@
           ]
         },
         {
-          "source_occurrence_entity": 66092,
-          "source_definition_entity": 55702,
+          "source_occurrence_entity": 64278,
+          "source_definition_entity": 53699,
           "imported_label": "_25-50KG-0001_ASM_ASM001",
           "placement_matrix": [
             -2.220446049250313e-16,
@@ -221,21 +227,21 @@
           ]
         },
         {
-          "source_occurrence_entity": 77342,
-          "source_definition_entity": 55702,
+          "source_occurrence_entity": 75596,
+          "source_definition_entity": 53699,
           "imported_label": "_25-50KG-0001_ASM_ASM002",
           "placement_matrix": [
             -4.440892098500626e-16,
             1.0000000000000002,
-            -2.7755575615628914e-16,
-            -6.455857262721,
-            0.005424275513707666,
+            -1.6653345369377348e-16,
+            -6.45585726272,
+            0.005424275513708776,
             0.0,
             0.9999852885093621,
             38.41480779678,
             0.9999852885093621,
-            1.6653345369377348e-16,
-            -0.0054242755137079435,
+            5.551115123125783e-17,
+            -0.005424275513709054,
             -5.025059787097,
             0.0,
             0.0,
@@ -249,7 +255,7 @@
       "no": 3,
       "id": "touch-r1-joint-1",
       "name_zh": "关节 1 结构件",
-      "source_product_entity": 7112,
+      "source_product_entity": 7186,
       "source_name": "_X2_51738282_X0_1_NEW",
       "decoded_source_name": "关节1_NEW",
       "quantity": 1,
@@ -259,21 +265,21 @@
       "geometry": {
         "solid_count": 1,
         "valid": true,
-        "volume_mm3": 140700.69700584127,
+        "volume_mm3": 140145.26745065497,
         "local_bbox_mm": [
           120.03447515176,
           56.00000000007688,
           120.02276070238
         ]
       },
-      "source_shape_max_tolerance_mm": 0.0037574629656554914,
+      "source_shape_max_tolerance_mm": 0.0015235942859630422,
       "export_roundtrip_valid": true,
-      "export_volume_relative_error": 1.3072871165586393e-13,
+      "export_volume_relative_error": 1.2439374343997524e-13,
       "export_bbox_max_error_mm": 0.0,
       "occurrences": [
         {
-          "source_occurrence_entity": 7120,
-          "source_definition_entity": 7114,
+          "source_occurrence_entity": 7194,
+          "source_definition_entity": 7188,
           "imported_label": "_X2_51738282_X0_1_NEW",
           "placement_matrix": [
             1.0,
@@ -294,13 +300,20 @@
             1.0
           ]
         }
-      ]
+      ],
+      "stl_file": "printing/stl/touch-r1-joint-1.stl",
+      "stl_mesh": {
+        "triangles": 12854,
+        "vertices": 6405,
+        "open_edges": 0,
+        "bytes": 642784
+      }
     },
     {
       "no": 4,
       "id": "touch-r1-joint-2",
       "name_zh": "关节 2 结构件",
-      "source_product_entity": 35211,
+      "source_product_entity": 34617,
       "source_name": "_X2_51738282_X0_2__X2_65B0_X0_",
       "decoded_source_name": "关节2_新",
       "quantity": 1,
@@ -310,27 +323,27 @@
       "geometry": {
         "solid_count": 1,
         "valid": true,
-        "volume_mm3": 16809.919501258322,
+        "volume_mm3": 16831.14658189834,
         "local_bbox_mm": [
-          69.26757314953,
-          27.416152789353248,
+          69.26757314953022,
+          25.68293597177325,
           46.154772957830005
         ]
       },
-      "source_shape_max_tolerance_mm": 0.008004395718196382,
+      "source_shape_max_tolerance_mm": 0.0026533734882536507,
       "export_roundtrip_valid": true,
-      "export_volume_relative_error": 9.80765693538515e-12,
-      "export_bbox_max_error_mm": 1.9539925233402755e-13,
+      "export_volume_relative_error": 3.4410384537431677e-13,
+      "export_bbox_max_error_mm": 2.2737367544323206e-13,
       "occurrences": [
         {
-          "source_occurrence_entity": 35216,
-          "source_definition_entity": 35213,
+          "source_occurrence_entity": 34622,
+          "source_definition_entity": 34619,
           "imported_label": "_X2_51738282_X0_2__X2_65B0_X0_",
           "placement_matrix": [
             2.220446049250313e-16,
             0.0,
             1.0,
-            4.584683066522e-14,
+            4.584683230237e-14,
             0.0,
             1.0,
             0.0,
@@ -345,13 +358,20 @@
             1.0
           ]
         }
-      ]
+      ],
+      "stl_file": "printing/stl/touch-r1-joint-2.stl",
+      "stl_mesh": {
+        "triangles": 10700,
+        "vertices": 5318,
+        "open_edges": 0,
+        "bytes": 535084
+      }
     },
     {
       "no": 5,
       "id": "touch-r1-joint-3",
       "name_zh": "关节 3 结构件",
-      "source_product_entity": 66078,
+      "source_product_entity": 64264,
       "source_name": "_X2_51738282_X0_3",
       "decoded_source_name": "关节3",
       "quantity": 1,
@@ -361,7 +381,7 @@
       "geometry": {
         "solid_count": 1,
         "valid": true,
-        "volume_mm3": 117517.52135064578,
+        "volume_mm3": 117464.81659635708,
         "local_bbox_mm": [
           170.96262221107276,
           30.306981608187037,
@@ -370,12 +390,12 @@
       },
       "source_shape_max_tolerance_mm": 0.01826507030015742,
       "export_roundtrip_valid": true,
-      "export_volume_relative_error": 6.318365533336942e-06,
+      "export_volume_relative_error": 6.253414919166611e-06,
       "export_bbox_max_error_mm": 7.105427357601002e-15,
       "occurrences": [
         {
-          "source_occurrence_entity": 66083,
-          "source_definition_entity": 66080,
+          "source_occurrence_entity": 64269,
+          "source_definition_entity": 64266,
           "imported_label": "_X2_51738282_X0_3",
           "placement_matrix": [
             2.220446049250313e-16,
@@ -396,13 +416,20 @@
             1.0
           ]
         }
-      ]
+      ],
+      "stl_file": "printing/stl/touch-r1-joint-3.stl",
+      "stl_mesh": {
+        "triangles": 22450,
+        "vertices": 11191,
+        "open_edges": 0,
+        "bytes": 1122584
+      }
     },
     {
       "no": 6,
       "id": "touch-r1-joint-4",
       "name_zh": "关节 4 结构件",
-      "source_product_entity": 77328,
+      "source_product_entity": 75582,
       "source_name": "_X2_51738282_X0_4",
       "decoded_source_name": "关节4",
       "quantity": 1,
@@ -412,48 +439,55 @@
       "geometry": {
         "solid_count": 1,
         "valid": true,
-        "volume_mm3": 117503.58029575353,
+        "volume_mm3": 119063.34598120612,
         "local_bbox_mm": [
-          167.35348620665022,
+          167.51287083320182,
           70.37525681347066,
           63.64784400584789
         ]
       },
-      "source_shape_max_tolerance_mm": 0.011561009569267887,
+      "source_shape_max_tolerance_mm": 0.016008793682779087,
       "export_roundtrip_valid": true,
-      "export_volume_relative_error": 4.776249029940067e-06,
-      "export_bbox_max_error_mm": 3.979039320256561e-13,
+      "export_volume_relative_error": 4.728007487021462e-06,
+      "export_bbox_max_error_mm": 0.0,
       "occurrences": [
         {
-          "source_occurrence_entity": 77333,
-          "source_definition_entity": 77330,
+          "source_occurrence_entity": 75587,
+          "source_definition_entity": 75584,
           "imported_label": "_X2_51738282_X0_4",
           "placement_matrix": [
             2.220446049250313e-16,
-            -2.524354896707238e-29,
+            -1.262177448353619e-29,
             -1.0,
-            -1.031314465785e-12,
-            2.0933865258499997e-13,
+            9.649152590725e-14,
+            2.093271670107e-13,
             1.0,
-            2.524354896707238e-29,
+            1.262177448353619e-29,
             -33.36055379171,
             1.0,
-            -2.0933865258499997e-13,
+            -2.093271670107e-13,
             2.220446049250313e-16,
-            0.06485352449562,
+            0.06485352449569,
             0.0,
             0.0,
             0.0,
             1.0
           ]
         }
-      ]
+      ],
+      "stl_file": "printing/stl/touch-r1-joint-4.stl",
+      "stl_mesh": {
+        "triangles": 28712,
+        "vertices": 14320,
+        "open_edges": 0,
+        "bytes": 1435684
+      }
     },
     {
       "no": 7,
       "id": "touch-r1-joint-5",
       "name_zh": "关节 5 结构件",
-      "source_product_entity": 86268,
+      "source_product_entity": 84888,
       "source_name": "_X2_51738282_X0_5_NEW",
       "decoded_source_name": "关节5_NEW",
       "quantity": 1,
@@ -463,7 +497,7 @@
       "geometry": {
         "solid_count": 1,
         "valid": true,
-        "volume_mm3": 33553.36666414968,
+        "volume_mm3": 33898.66028651824,
         "local_bbox_mm": [
           69.51882605431416,
           53.851238427179474,
@@ -472,24 +506,24 @@
       },
       "source_shape_max_tolerance_mm": 0.010711089958440025,
       "export_roundtrip_valid": true,
-      "export_volume_relative_error": 1.0859944927363597e-05,
+      "export_volume_relative_error": 1.0198915605815414e-05,
       "export_bbox_max_error_mm": 3.0169644560373854e-11,
       "occurrences": [
         {
-          "source_occurrence_entity": 86273,
-          "source_definition_entity": 86270,
+          "source_occurrence_entity": 84893,
+          "source_definition_entity": 84890,
           "imported_label": "_X2_51738282_X0_5_NEW",
           "placement_matrix": [
             1.0,
             0.0,
             0.0,
-            -0.0999999999968,
+            -0.1000000000002,
             0.0,
             -1.0,
-            -2.085380181813e-13,
+            -2.089285408351e-13,
             115.0144462083,
             0.0,
-            2.085380181813e-13,
+            2.089285408351e-13,
             -1.0,
             -64.93514647554,
             0.0,
@@ -498,13 +532,20 @@
             1.0
           ]
         }
-      ]
+      ],
+      "stl_file": "printing/stl/touch-r1-joint-5.stl",
+      "stl_mesh": {
+        "triangles": 19040,
+        "vertices": 9490,
+        "open_edges": 0,
+        "bytes": 952084
+      }
     },
     {
       "no": 8,
       "id": "touch-r1-joint-6",
       "name_zh": "关节 6 结构件",
-      "source_product_entity": 90662,
+      "source_product_entity": 89282,
       "source_name": "_X2_51738282_X0_6_NEW",
       "decoded_source_name": "关节6_NEW",
       "quantity": 1,
@@ -527,35 +568,42 @@
       "export_bbox_max_error_mm": 1.4210854715202004e-13,
       "occurrences": [
         {
-          "source_occurrence_entity": 90667,
-          "source_definition_entity": 90664,
+          "source_occurrence_entity": 89287,
+          "source_definition_entity": 89284,
           "imported_label": "_X2_51738282_X0_6_NEW",
           "placement_matrix": [
-            0.0,
+            -6.783840156288079e-11,
             -1.0,
-            0.0,
-            -12.35,
-            2.078337502098293e-13,
+            -1.1102230246251565e-16,
+            -12.35000000052,
+            2.099431739566171e-13,
             0.0,
             -1.0,
             68.11444620828,
             1.0,
-            0.0,
-            2.078337502098293e-13,
-            -55.97014647553,
+            -6.783829054057833e-11,
+            2.0983215165415459e-13,
+            -55.97014647636,
             0.0,
             0.0,
             0.0,
             1.0
           ]
         }
-      ]
+      ],
+      "stl_file": "printing/stl/touch-r1-joint-6.stl",
+      "stl_mesh": {
+        "triangles": 7226,
+        "vertices": 3579,
+        "open_edges": 0,
+        "bytes": 361384
+      }
     },
     {
       "no": 9,
       "id": "touch-r1-handle-assembly",
       "name_zh": "手柄装配",
-      "source_product_entity": 103509,
+      "source_product_entity": 101568,
       "source_name": "SHOUBING_ASM",
       "decoded_source_name": "SHOUBING_ASM",
       "quantity": 1,
@@ -565,21 +613,21 @@
       "geometry": {
         "solid_count": 1,
         "valid": true,
-        "volume_mm3": 113036.06977186038,
+        "volume_mm3": 112988.08391922647,
         "local_bbox_mm": [
-          50.399513922176524,
-          138.31945667114024,
-          65.06760014686
+          50.39951392478652,
+          138.31945667113843,
+          65.06760014786845
         ]
       },
-      "source_shape_max_tolerance_mm": 0.01600972372744169,
+      "source_shape_max_tolerance_mm": 0.016009723727941943,
       "export_roundtrip_valid": true,
-      "export_volume_relative_error": 9.480489382410163e-07,
-      "export_bbox_max_error_mm": 6.224354365258478e-11,
+      "export_volume_relative_error": 9.344982358064952e-07,
+      "export_bbox_max_error_mm": 7.142375579860527e-11,
       "occurrences": [
         {
-          "source_occurrence_entity": 103512,
-          "source_definition_entity": 103511,
+          "source_occurrence_entity": 101571,
+          "source_definition_entity": 101570,
           "imported_label": "SHOUBING_ASM",
           "placement_matrix": [
             -0.9999933130457002,
@@ -600,13 +648,20 @@
             1.0
           ]
         }
-      ]
+      ],
+      "stl_file": "printing/stl/touch-r1-handle-assembly.stl",
+      "stl_mesh": {
+        "triangles": 21078,
+        "vertices": 10523,
+        "open_edges": 0,
+        "bytes": 1053984
+      }
     },
     {
       "no": 10,
       "id": "touch-r1-finger-left",
       "name_zh": "左手指",
-      "source_product_entity": 107734,
+      "source_product_entity": 105793,
       "source_name": "LEFT_ZHUA",
       "decoded_source_name": "LEFT_ZHUA",
       "quantity": 1,
@@ -616,7 +671,7 @@
       "geometry": {
         "solid_count": 1,
         "valid": true,
-        "volume_mm3": 11019.873379210072,
+        "volume_mm3": 11019.873379210076,
         "local_bbox_mm": [
           92.13227914539779,
           42.99203873799828,
@@ -625,39 +680,46 @@
       },
       "source_shape_max_tolerance_mm": 0.004774368067699173,
       "export_roundtrip_valid": true,
-      "export_volume_relative_error": 3.939155103286265e-07,
+      "export_volume_relative_error": 3.9391550999849746e-07,
       "export_bbox_max_error_mm": 2.8954616482224083e-12,
       "occurrences": [
         {
-          "source_occurrence_entity": 107739,
-          "source_definition_entity": 107736,
+          "source_occurrence_entity": 105798,
+          "source_definition_entity": 105795,
           "imported_label": "LEFT_ZHUA",
           "placement_matrix": [
             0.08769663855801568,
             0.9961472278662552,
-            1.262177448353619e-29,
-            -15.425,
+            -6.783892211474001e-11,
+            -15.42499999481,
             -0.9961472278662552,
             0.08769663855801568,
-            2.0845256089450004e-13,
-            80.10944620827,
-            2.0764944067667795e-13,
-            -1.8280588889257788e-14,
+            2.0941117813110994e-13,
+            80.10944620826,
+            6.157849797441253e-12,
+            6.755918954963449e-11,
             1.0,
-            -140.1701464755,
+            -140.1701464766,
             0.0,
             0.0,
             0.0,
             1.0
           ]
         }
-      ]
+      ],
+      "stl_file": "printing/stl/touch-r1-finger-left.stl",
+      "stl_mesh": {
+        "triangles": 12436,
+        "vertices": 6216,
+        "open_edges": 0,
+        "bytes": 621884
+      }
     },
     {
       "no": 11,
       "id": "touch-r1-finger-right",
       "name_zh": "右手指",
-      "source_product_entity": 111955,
+      "source_product_entity": 110016,
       "source_name": "RIGHT_ZHUA",
       "decoded_source_name": "RIGHT_ZHUA",
       "quantity": 1,
@@ -667,7 +729,7 @@
       "geometry": {
         "solid_count": 1,
         "valid": true,
-        "volume_mm3": 11545.435805699042,
+        "volume_mm3": 11545.43580569904,
         "local_bbox_mm": [
           92.61698903600548,
           40.26820070271524,
@@ -676,90 +738,46 @@
       },
       "source_shape_max_tolerance_mm": 0.0012989080674625799,
       "export_roundtrip_valid": true,
-      "export_volume_relative_error": 4.282331790303699e-06,
+      "export_volume_relative_error": 4.28233178731024e-06,
       "export_bbox_max_error_mm": 1.4335199693960021e-11,
       "occurrences": [
         {
-          "source_occurrence_entity": 111960,
-          "source_definition_entity": 111957,
+          "source_occurrence_entity": 110021,
+          "source_definition_entity": 110018,
           "imported_label": "RIGHT_ZHUA",
           "placement_matrix": [
             0.2593434803719967,
             0.9657851516711881,
-            1.262177448353619e-29,
-            6.575000000002,
+            -6.783817882759e-11,
+            6.575000005191,
             -0.9657851516711881,
             0.2593434803719967,
-            2.0889726124230003e-13,
+            2.0923043656831085e-13,
             80.10944620826,
-            2.017498731325905e-13,
-            -5.417614277075632e-14,
+            1.7795461048160442e-11,
+            6.546284327848181e-11,
             1.0,
-            -140.1701464755,
+            -140.1701464751,
             0.0,
             0.0,
             0.0,
             1.0
           ]
         }
-      ]
+      ],
+      "stl_file": "printing/stl/touch-r1-finger-right.stl",
+      "stl_mesh": {
+        "triangles": 13288,
+        "vertices": 6626,
+        "open_edges": 0,
+        "bytes": 664484
+      }
     },
     {
       "no": 12,
-      "id": "touch-r1-spacer",
-      "name_zh": "垫片",
-      "source_product_entity": 29465,
-      "source_name": "_X2_57AB7247_X0_",
-      "decoded_source_name": "垫片",
-      "quantity": 1,
-      "unit": "piece",
-      "step_file": "step/parts/touch-r1-spacer.step",
-      "image": "images/touch-r1-spacer.png",
-      "geometry": {
-        "solid_count": 1,
-        "valid": true,
-        "volume_mm3": 413.66921266143584,
-        "local_bbox_mm": [
-          20.0,
-          2.3,
-          20.0
-        ]
-      },
-      "source_shape_max_tolerance_mm": 1e-07,
-      "export_roundtrip_valid": true,
-      "export_volume_relative_error": 0.0,
-      "export_bbox_max_error_mm": 0.0,
-      "occurrences": [
-        {
-          "source_occurrence_entity": 29470,
-          "source_definition_entity": 29467,
-          "imported_label": "_X2_57AB7247_X0_",
-          "placement_matrix": [
-            0.9982369836694827,
-            0.0,
-            0.05935422844627899,
-            5.000966595899e-14,
-            0.0,
-            1.0,
-            0.0,
-            3.8,
-            -0.05935422844627899,
-            0.0,
-            0.9982369836694827,
-            0.004999999998358,
-            0.0,
-            0.0,
-            0.0,
-            1.0
-          ]
-        }
-      ]
-    },
-    {
-      "no": 13,
       "id": "touch-r1-part-a000",
       "name_zh": "支架 A000（用途待确认）",
-      "source_product_entity": 92606,
+      "source_product_entity": 91198,
       "source_name": "A000",
       "decoded_source_name": "A000",
       "quantity": 1,
@@ -782,8 +800,8 @@
       "export_bbox_max_error_mm": 0.0,
       "occurrences": [
         {
-          "source_occurrence_entity": 92611,
-          "source_definition_entity": 92608,
+          "source_occurrence_entity": 91203,
+          "source_definition_entity": 91200,
           "imported_label": "A000",
           "placement_matrix": [
             1.0,
@@ -804,89 +822,126 @@
             1.0
           ]
         }
-      ]
+      ],
+      "stl_file": "printing/stl/touch-r1-part-a000.stl",
+      "stl_mesh": {
+        "triangles": 1116,
+        "vertices": 554,
+        "open_edges": 0,
+        "bytes": 55884
+      }
     },
     {
-      "no": 14,
-      "id": "touch-r1-part-b000",
-      "name_zh": "支架 B000（用途待确认）",
-      "source_product_entity": 93572,
-      "source_name": "B000",
-      "decoded_source_name": "B000",
+      "no": 13,
+      "id": "touch-r1-base-plate",
+      "name_zh": "底座（固定板底座）",
+      "source_product_entity": 112460,
+      "source_name": "0002",
+      "decoded_source_name": "0002",
       "quantity": 1,
       "unit": "piece",
-      "step_file": "step/parts/touch-r1-part-b000.step",
-      "image": "images/touch-r1-part-b000.png",
+      "step_file": "step/parts/touch-r1-base-plate.step",
+      "image": "images/touch-r1-base-plate.png",
       "geometry": {
         "solid_count": 1,
         "valid": true,
-        "volume_mm3": 1604.2245409272623,
+        "volume_mm3": 508877.19656226004,
         "local_bbox_mm": [
-          10.0,
-          22.11471019338797,
-          13.50979728867051
+          250.0,
+          24.17034556013,
+          194.0
         ]
       },
-      "source_shape_max_tolerance_mm": 0.0028728780811577833,
+      "source_shape_max_tolerance_mm": 0.0057295773900782184,
       "export_roundtrip_valid": true,
-      "export_volume_relative_error": 8.433192077371243e-14,
-      "export_bbox_max_error_mm": 4.2099657093785936e-13,
+      "export_volume_relative_error": 8.162808964269675e-07,
+      "export_bbox_max_error_mm": 0.0,
       "occurrences": [
         {
-          "source_occurrence_entity": 93577,
-          "source_definition_entity": 93574,
-          "imported_label": "B000",
+          "source_occurrence_entity": 112465,
+          "source_definition_entity": 112462,
+          "imported_label": "0002",
           "placement_matrix": [
             1.0,
-            -7.085461513302e-10,
-            1.946709809979e-09,
-            4.53809787085e-08,
-            7.085461513302e-10,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
             1.0,
-            6.896668718086827e-19,
-            -13.92836969422,
-            -1.946709809979e-09,
-            6.896668718086827e-19,
+            0.0,
+            -57.0,
+            0.0,
+            0.0,
             1.0,
-            -28.50417278048,
+            -5.128460948447e-14,
             0.0,
             0.0,
             0.0,
             1.0
           ]
         }
-      ]
+      ],
+      "stl_file": "printing/stl/touch-r1-base-plate.stl",
+      "stl_mesh": {
+        "triangles": 4054,
+        "vertices": 2013,
+        "open_edges": 0,
+        "bytes": 202784
+      }
     },
     {
-      "no": 15,
-      "id": "touch-r1-fastener-prt0001",
+      "no": 14,
+      "id": "touch-r1-fastener-gb-t70-1-m3x530001",
       "name_zh": "304 薄头内六角平尾自攻螺丝",
-      "source_product_entity": 35916,
-      "source_name": "PRT0001",
-      "decoded_source_name": "PRT0001",
-      "quantity": 1,
+      "source_product_entity": 89966,
+      "source_name": "GB_T70_1-M3X530001",
+      "decoded_source_name": "GB_T70_1-M3X530001",
+      "quantity": 3,
       "unit": "piece",
-      "step_file": "step/parts/touch-r1-fastener-prt0001.step",
-      "image": "images/touch-r1-fastener-prt0001.png",
+      "step_file": "step/parts/touch-r1-fastener-gb-t70-1-m3x530001.step",
+      "image": "images/touch-r1-fastener-gb-t70-1-m3x530001.png",
       "geometry": {
         "solid_count": 1,
         "valid": true,
-        "volume_mm3": 68.93963232934722,
+        "volume_mm3": 93.53520512830933,
         "local_bbox_mm": [
           5.5,
           5.5,
-          6.0
+          7.0
         ]
       },
-      "source_shape_max_tolerance_mm": 1.8317530891679084e-06,
+      "source_shape_max_tolerance_mm": 4.949856337316889e-05,
       "export_roundtrip_valid": true,
-      "export_volume_relative_error": 1.6490780974649928e-15,
+      "export_volume_relative_error": 3.0386109049972995e-16,
       "export_bbox_max_error_mm": 0.0,
       "occurrences": [
         {
-          "source_occurrence_entity": 35921,
-          "source_definition_entity": 35918,
-          "imported_label": "PRT0001",
+          "source_occurrence_entity": 89971,
+          "source_definition_entity": 89968,
+          "imported_label": "GB_T70_1-M3X530001",
+          "placement_matrix": [
+            0.992031555144034,
+            0.12598965671240434,
+            6.783906689622001e-11,
+            -0.09999999875202,
+            0.12598965671240434,
+            -0.9920315551440344,
+            -2.1001030768210188e-13,
+            94.11444620827,
+            6.727203590600636e-11,
+            8.755357602070744e-12,
+            -1.0000000000000004,
+            -82.07014647553,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "source_occurrence_entity": 113251,
+          "source_definition_entity": 89968,
+          "imported_label": "GB_T70_1-M3X530002",
           "placement_matrix": [
             1.0,
             -0.0,
@@ -905,54 +960,11 @@
             0.0,
             1.0
           ]
-        }
-      ],
-      "fastener_specification": {
-        "name_zh": "304 薄头内六角平尾自攻螺丝",
-        "specification_zh": "HB3 × 5",
-        "dimensions_mm": {
-          "head_diameter_mm": 5.5,
-          "head_height_mm": 2.0,
-          "shank_diameter_mm": 3.0,
-          "under_head_length_mm": 4.0
         },
-        "measurement_basis_zh": "按圆柱面半径及轴向边界测量；含头总长不作为螺钉标称长度。",
-        "assessment_zh": "按实物确认为 304 薄头内六角平尾自攻螺丝 HB3 × 5：螺纹公称 Ø3 mm、长度 5 mm、薄头内六角、平尾自攻。PRT0001、PRT0002、GB_T70_1-M3X400 三个源 PRODUCT 为同一采购件。",
-        "confirmation_status_zh": "品名、规格与 304 不锈钢材质按实物确认（2026-10-20）；螺纹精度、强度等级及表面处理待采购确认。",
-        "format_reference": "https://github.com/servodevelop/Star-Arm-102/blob/main/hardware/102-hd/README.zh.md#bill-of-materials",
-        "reference_scope_zh": "仅参考 102 的品名与规格表达方式，不继承其尺寸、数量和采购属性。"
-      }
-    },
-    {
-      "no": 16,
-      "id": "touch-r1-fastener-prt0002",
-      "name_zh": "304 薄头内六角平尾自攻螺丝",
-      "source_product_entity": 36620,
-      "source_name": "PRT0002",
-      "decoded_source_name": "PRT0002",
-      "quantity": 1,
-      "unit": "piece",
-      "step_file": "step/parts/touch-r1-fastener-prt0002.step",
-      "image": "images/touch-r1-fastener-prt0002.png",
-      "geometry": {
-        "solid_count": 1,
-        "valid": true,
-        "volume_mm3": 68.93963233820622,
-        "local_bbox_mm": [
-          5.5,
-          5.5,
-          6.0
-        ]
-      },
-      "source_shape_max_tolerance_mm": 1.8314837300163778e-06,
-      "export_roundtrip_valid": true,
-      "export_volume_relative_error": 1.0306738107831751e-15,
-      "export_bbox_max_error_mm": 0.0,
-      "occurrences": [
         {
-          "source_occurrence_entity": 36625,
-          "source_definition_entity": 36622,
-          "imported_label": "PRT0002",
+          "source_occurrence_entity": 113260,
+          "source_definition_entity": 89968,
+          "imported_label": "GB_T70_1-M3X530003",
           "placement_matrix": [
             1.0,
             -0.0,
@@ -978,91 +990,25 @@
         "specification_zh": "HB3 × 5",
         "dimensions_mm": {
           "head_diameter_mm": 5.5,
-          "head_height_mm": 2.0,
+          "head_height_mm": 3.0,
           "shank_diameter_mm": 3.0,
           "under_head_length_mm": 4.0
         },
         "measurement_basis_zh": "按圆柱面半径及轴向边界测量；含头总长不作为螺钉标称长度。",
-        "assessment_zh": "按实物确认为 304 薄头内六角平尾自攻螺丝 HB3 × 5：螺纹公称 Ø3 mm、长度 5 mm、薄头内六角、平尾自攻。PRT0001、PRT0002、GB_T70_1-M3X400 三个源 PRODUCT 为同一采购件。",
+        "assessment_zh": "按实物确认为 304 薄头内六角平尾自攻螺丝 HB3 × 5：螺纹公称 Ø3 mm、长度 5 mm、薄头内六角、平尾自攻。V3.3 装配体中三颗合并为一个源件 GB_T70_1-M3X530001；头厚由 V3.2 的 2.00 mm 改为 3.00 mm（头下长度与螺纹不变），实物是否同步加厚待确认，确认后「薄头」的表述需一并复核。",
         "confirmation_status_zh": "品名、规格与 304 不锈钢材质按实物确认（2026-10-20）；螺纹精度、强度等级及表面处理待采购确认。",
         "format_reference": "https://github.com/servodevelop/Star-Arm-102/blob/main/hardware/102-hd/README.zh.md#bill-of-materials",
         "reference_scope_zh": "仅参考 102 的品名与规格表达方式，不继承其尺寸、数量和采购属性。"
       }
     },
     {
-      "no": 17,
-      "id": "touch-r1-fastener-gb-t70-1-m3x400",
-      "name_zh": "304 薄头内六角平尾自攻螺丝",
-      "source_product_entity": 91375,
-      "source_name": "GB_T70_1-M3X400",
-      "decoded_source_name": "GB_T70_1-M3X400",
-      "quantity": 1,
-      "unit": "piece",
-      "step_file": "step/parts/touch-r1-fastener-gb-t70-1-m3x400.step",
-      "image": "images/touch-r1-fastener-gb-t70-1-m3x400.png",
-      "geometry": {
-        "solid_count": 1,
-        "valid": true,
-        "volume_mm3": 68.93963232934718,
-        "local_bbox_mm": [
-          5.5,
-          5.5,
-          6.0
-        ]
-      },
-      "source_shape_max_tolerance_mm": 1.8317530891679084e-06,
-      "export_roundtrip_valid": true,
-      "export_volume_relative_error": 1.0306738109156211e-15,
-      "export_bbox_max_error_mm": 0.0,
-      "occurrences": [
-        {
-          "source_occurrence_entity": 91380,
-          "source_definition_entity": 91377,
-          "imported_label": "GB_T70_1-M3X400",
-          "placement_matrix": [
-            0.9999999999708646,
-            7.633529682459733e-06,
-            7.94682673814354e-19,
-            -0.09999999999632,
-            7.633529682459733e-06,
-            -0.9999999999708646,
-            -2.0820844533526692e-13,
-            94.11444620828,
-            -7.94682673814354e-19,
-            2.0820844533526692e-13,
-            -1.0,
-            -82.07014647553,
-            0.0,
-            0.0,
-            0.0,
-            1.0
-          ]
-        }
-      ],
-      "fastener_specification": {
-        "name_zh": "304 薄头内六角平尾自攻螺丝",
-        "specification_zh": "HB3 × 5",
-        "dimensions_mm": {
-          "head_diameter_mm": 5.5,
-          "head_height_mm": 2.0,
-          "shank_diameter_mm": 3.0,
-          "under_head_length_mm": 4.0
-        },
-        "measurement_basis_zh": "按圆柱面半径及轴向边界测量；含头总长不作为螺钉标称长度。",
-        "assessment_zh": "按实物确认为 304 薄头内六角平尾自攻螺丝 HB3 × 5：螺纹公称 Ø3 mm、长度 5 mm、薄头内六角、平尾自攻。PRT0001、PRT0002、GB_T70_1-M3X400 三个源 PRODUCT 为同一采购件。",
-        "confirmation_status_zh": "品名、规格与 304 不锈钢材质按实物确认（2026-10-20）；螺纹精度、强度等级及表面处理待采购确认。",
-        "format_reference": "https://github.com/servodevelop/Star-Arm-102/blob/main/hardware/102-hd/README.zh.md#bill-of-materials",
-        "reference_scope_zh": "仅参考 102 的品名与规格表达方式，不继承其尺寸、数量和采购属性。"
-      }
-    },
-    {
-      "no": 18,
+      "no": 15,
       "id": "touch-r1-fastener-m3x3x60001",
       "name_zh": "304 塞打螺丝（轴肩螺钉）",
-      "source_product_entity": 93090,
+      "source_product_entity": 91683,
       "source_name": "M2X4X30001",
       "decoded_source_name": "M2X4X30001",
-      "quantity": 2,
+      "quantity": 1,
       "unit": "piece",
       "step_file": "step/parts/touch-r1-fastener-m3x3x60001.step",
       "image": "images/touch-r1-fastener-m3x3x60001.png",
@@ -1082,8 +1028,8 @@
       "export_bbox_max_error_mm": 0.0,
       "occurrences": [
         {
-          "source_occurrence_entity": 93095,
-          "source_definition_entity": 93092,
+          "source_occurrence_entity": 91688,
+          "source_definition_entity": 91685,
           "imported_label": "M2X4X30001",
           "placement_matrix": [
             1.0,
@@ -1098,29 +1044,6 @@
             -1.0,
             2.220446049250313e-16,
             50.5,
-            0.0,
-            0.0,
-            0.0,
-            1.0
-          ]
-        },
-        {
-          "source_occurrence_entity": 93104,
-          "source_definition_entity": 93092,
-          "imported_label": "M2X4X30002",
-          "placement_matrix": [
-            1.0,
-            2.0716456860316883e-09,
-            -4.1359030627651384e-25,
-            -8.994087211818e-08,
-            7.085445544566244e-10,
-            -0.34202014332569974,
-            -0.9396926207858975,
-            29.4793098245,
-            -1.9467101640469155e-09,
-            0.9396926207858975,
-            -0.34202014332569974,
-            -40.7919398575,
             0.0,
             0.0,
             0.0,
@@ -1141,517 +1064,630 @@
           "under_head_length_mm": 7.0
         },
         "measurement_basis_zh": "按圆柱面半径及轴向边界测量；含头总长不作为螺钉标称长度。",
-        "assessment_zh": "按实物确认为 304 塞打螺丝，规格 Ø2.5 × M2 × 3：轴肩 Ø2.5 × 3 mm、螺纹 M2。源名称含 M3，与轴肩直径不一致，不据名称认定 M3。",
+        "assessment_zh": "按实物确认为 304 塞打螺丝，规格 Ø2.5 × M2 × 3：轴肩 Ø2.5 × 3 mm、螺纹 M2。源名称含 M3，与轴肩直径不一致，不据名称认定 M3。V3.3 装配体只用 1 件。",
         "confirmation_status_zh": "品名、规格与 304 不锈钢材质按实物确认（2026-10-20）；螺纹精度、强度等级及表面处理待采购确认。",
         "format_reference": "https://github.com/servodevelop/Star-Arm-102/blob/main/hardware/102-hd/README.zh.md#bill-of-materials",
         "reference_scope_zh": "仅参考 102 的品名与规格表达方式，不继承其尺寸、数量和采购属性。"
       }
+    },
+    {
+      "no": 16,
+      "id": "touch-r1-fastener-prt0007",
+      "name_zh": "内六角圆柱头螺钉",
+      "source_product_entity": 113237,
+      "source_name": "PRT0007",
+      "decoded_source_name": "PRT0007",
+      "quantity": 1,
+      "unit": "piece",
+      "step_file": "step/parts/touch-r1-fastener-prt0007.step",
+      "image": "images/touch-r1-fastener-prt0007.png",
+      "geometry": {
+        "solid_count": 1,
+        "valid": true,
+        "volume_mm3": 134.57389877816996,
+        "local_bbox_mm": [
+          5.953157101608167,
+          5.953157101608167,
+          13.0
+        ]
+      },
+      "source_shape_max_tolerance_mm": 4.949856337316889e-05,
+      "export_roundtrip_valid": true,
+      "export_volume_relative_error": 3.505883242057338e-14,
+      "export_bbox_max_error_mm": 0.0,
+      "occurrences": [
+        {
+          "source_occurrence_entity": 113242,
+          "source_definition_entity": 113239,
+          "imported_label": "PRT0007",
+          "placement_matrix": [
+            1.0,
+            -0.0,
+            0.0,
+            -47.5,
+            0.0,
+            2.220446049250313e-16,
+            1.0,
+            -44.0,
+            -0.0,
+            -1.0,
+            2.220446049250313e-16,
+            30.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      ],
+      "fastener_specification": {
+        "name_zh": "内六角圆柱头螺钉",
+        "specification_zh": "M3 × 10",
+        "dimensions_mm": {
+          "head_diameter_mm": 5.5,
+          "head_height_mm": 2.7,
+          "shank_diameter_mm": 3.0,
+          "shank_cylinder_length_mm": 9.33,
+          "under_head_length_mm": 9.5
+        },
+        "measurement_basis_zh": "按圆柱面半径及轴向边界测量；含头总长不作为螺钉标称长度。",
+        "assessment_zh": "V3.3 新增的 1 件紧固件，源名称为 PRT0007，未沿用既有紧固件源名的 M2X4X30001 一类命名。按实物确认为 M3 × 10 内六角圆柱头螺钉（2026-10-23）。CAD 圆柱面实测：头部 Ø5.50 × 2.70 mm、杆部 Ø3.00 mm、头下长度 9.50 mm，另有 6 个环面与 6 个锥面，杆部按螺纹建模；包围盒 5.95 × 5.95 × 13.00 mm。CAD 头下长度比标称 10 mm 短 0.5 mm，差值来自螺纹收尾与头部倒角的建模方式，采购仍按 M3 × 10。",
+        "confirmation_status_zh": "品名与规格按实物确认（2026-10-23，M3 × 10 内六角圆柱头螺钉）；材质、强度等级与表面处理待采购确认。",
+        "format_reference": "https://github.com/servodevelop/Star-Arm-102/blob/main/hardware/102-hd/README.zh.md#bill-of-materials",
+        "reference_scope_zh": "仅参考 102 的品名与规格表达方式，不继承其尺寸、数量和采购属性。"
+      }
+    },
+    {
+      "no": 17,
+      "id": "touch-r1-spacer",
+      "name_zh": "垫片",
+      "source_product_entity": 29540,
+      "source_name": "_X2_57AB7247_X0_",
+      "decoded_source_name": "垫片",
+      "quantity": 1,
+      "unit": "piece",
+      "step_file": "step/parts/touch-r1-spacer.step",
+      "image": "images/touch-r1-spacer.png",
+      "geometry": {
+        "solid_count": 1,
+        "valid": true,
+        "volume_mm3": 413.66921266143584,
+        "local_bbox_mm": [
+          20.0,
+          2.3,
+          20.0
+        ]
+      },
+      "source_shape_max_tolerance_mm": 1e-07,
+      "export_roundtrip_valid": true,
+      "export_volume_relative_error": 0.0,
+      "export_bbox_max_error_mm": 0.0,
+      "occurrences": [
+        {
+          "source_occurrence_entity": 29545,
+          "source_definition_entity": 29542,
+          "imported_label": "_X2_57AB7247_X0_",
+          "placement_matrix": [
+            0.9982369836694827,
+            0.0,
+            0.05935422844627899,
+            5.000966595899e-14,
+            0.0,
+            1.0,
+            0.0,
+            3.8,
+            -0.05935422844627899,
+            0.0,
+            0.9982369836694827,
+            0.004999999998358,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      ]
     }
   ],
   "source_products": {
-    "7112": {
+    "7186": {
       "raw_name": "_X2_51738282_X0_1_NEW",
       "decoded_name": "关节1_NEW"
     },
-    "11862": {
+    "11936": {
       "raw_name": "MAIN-HORN-25T-8HOLES-3D_STEP_1_",
       "decoded_name": "MAIN-HORN-25T-8HOLES-3D_STEP_1_"
     },
-    "12189": {
+    "12263": {
       "raw_name": "_________RA8-RP8-RX8-SERIES-3D_",
       "decoded_name": "_________RA8-RP8-RX8-SERIES-3D_"
     },
-    "17622": {
+    "17696": {
       "raw_name": "____-_____RA8-RP8-RX8-SERIES-3D",
       "decoded_name": "____-_____RA8-RP8-RX8-SERIES-3D"
     },
-    "18080": {
+    "18154": {
       "raw_name": "NONE-28056",
       "decoded_name": "NONE-28056"
     },
-    "18204": {
+    "18278": {
       "raw_name": "NONE-33063",
       "decoded_name": "NONE-33063"
     },
-    "18326": {
+    "18400": {
       "raw_name": "NONE-33553",
       "decoded_name": "NONE-33553"
     },
-    "18447": {
+    "18521": {
       "raw_name": "NONE-68253",
       "decoded_name": "NONE-68253"
     },
-    "18479": {
+    "18553": {
       "raw_name": "3PIN_____STEP_RA8-RP8-RX8-SERIE_ASM",
       "decoded_name": "3PIN_____STEP_RA8-RP8-RX8-SERIE_ASM"
     },
-    "21386": {
+    "21460": {
       "raw_name": "_____________RA8-RP8-RX8-SERIES",
       "decoded_name": "_____________RA8-RP8-RX8-SERIES"
     },
-    "26797": {
+    "26872": {
       "raw_name": "000",
       "decoded_name": "000"
     },
-    "26828": {
+    "26903": {
       "raw_name": "RA8-RP8-RX8-SERIES-3D_2__RA8-RP_ASM",
       "decoded_name": "RA8-RP8-RX8-SERIES-3D_2__RA8-RP_ASM"
     },
-    "28652": {
+    "28727": {
       "raw_name": "_________1_STEP",
       "decoded_name": "_________1_STEP"
     },
-    "28683": {
+    "28758": {
       "raw_name": "RP8-U45H-M-C028_STEP_ASM",
       "decoded_name": "RP8-U45H-M-C028_STEP_ASM"
     },
-    "29465": {
+    "29540": {
       "raw_name": "_X2_57AB7247_X0_",
       "decoded_name": "垫片"
     },
-    "35211": {
+    "34617": {
       "raw_name": "_X2_51738282_X0_2__X2_65B0_X0_",
       "decoded_name": "关节2_新"
     },
-    "35916": {
-      "raw_name": "PRT0001",
-      "decoded_name": "PRT0001"
-    },
-    "36620": {
-      "raw_name": "PRT0002",
-      "decoded_name": "PRT0002"
-    },
-    "37579": {
+    "35576": {
       "raw_name": "NONE-64810",
       "decoded_name": "NONE-64810"
     },
-    "42326": {
+    "40323": {
       "raw_name": "NONE-18502",
       "decoded_name": "NONE-18502"
     },
-    "42448": {
+    "40445": {
       "raw_name": "NONE-102732",
       "decoded_name": "NONE-102732"
     },
-    "47813": {
+    "45810": {
       "raw_name": "NONE-23626",
       "decoded_name": "NONE-23626"
     },
-    "50722": {
+    "48719": {
       "raw_name": "NONE-59096",
       "decoded_name": "NONE-59096"
     },
-    "51179": {
+    "49176": {
       "raw_name": "NONE-60350",
       "decoded_name": "NONE-60350"
     },
-    "51301": {
+    "49298": {
       "raw_name": "NONE-21790",
       "decoded_name": "NONE-21790"
     },
-    "51758": {
+    "49755": {
       "raw_name": "NONE-99896",
       "decoded_name": "NONE-99896"
     },
-    "51880": {
+    "49877": {
       "raw_name": "NONE-58286",
       "decoded_name": "NONE-58286"
     },
-    "52001": {
+    "49998": {
       "raw_name": "NONE-63791",
       "decoded_name": "NONE-63791"
     },
-    "52123": {
+    "50120": {
       "raw_name": "NONE-107878",
       "decoded_name": "NONE-107878"
     },
-    "55223": {
+    "53220": {
       "raw_name": "NONE-62191",
       "decoded_name": "NONE-62191"
     },
-    "55345": {
+    "53342": {
       "raw_name": "NONE-103767",
       "decoded_name": "NONE-103767"
     },
-    "55668": {
+    "53665": {
       "raw_name": "NONE-60759",
       "decoded_name": "NONE-60759"
     },
-    "55700": {
+    "53697": {
       "raw_name": "_25-50KG-0001_ASM_ASM",
       "decoded_name": "_25-50KG-0001_ASM_ASM"
     },
-    "66078": {
+    "64264": {
       "raw_name": "_X2_51738282_X0_3",
       "decoded_name": "关节3"
     },
-    "77328": {
+    "75582": {
       "raw_name": "_X2_51738282_X0_4",
       "decoded_name": "关节4"
     },
-    "86268": {
+    "84888": {
       "raw_name": "_X2_51738282_X0_5_NEW",
       "decoded_name": "关节5_NEW"
     },
-    "90662": {
+    "89282": {
       "raw_name": "_X2_51738282_X0_6_NEW",
       "decoded_name": "关节6_NEW"
     },
-    "91375": {
-      "raw_name": "GB_T70_1-M3X400",
-      "decoded_name": "GB_T70_1-M3X400"
+    "89966": {
+      "raw_name": "GB_T70_1-M3X530001",
+      "decoded_name": "GB_T70_1-M3X530001"
     },
-    "92606": {
+    "91198": {
       "raw_name": "A000",
       "decoded_name": "A000"
     },
-    "93090": {
+    "91683": {
       "raw_name": "M2X4X30001",
       "decoded_name": "M2X4X30001"
     },
-    "93572": {
-      "raw_name": "B000",
-      "decoded_name": "B000"
-    },
-    "103442": {
+    "101501": {
       "raw_name": "NONE-4037_1",
       "decoded_name": "NONE-4037_1"
     },
-    "103477": {
+    "101535": {
       "raw_name": "_____STAR-ARM-102-LD-HD-ASSEM_1_ASM",
       "decoded_name": "_____STAR-ARM-102-LD-HD-ASSEM_1_ASM"
     },
-    "103509": {
+    "101568": {
       "raw_name": "SHOUBING_ASM",
       "decoded_name": "SHOUBING_ASM"
     },
-    "107734": {
+    "105793": {
       "raw_name": "LEFT_ZHUA",
       "decoded_name": "LEFT_ZHUA"
     },
-    "111955": {
+    "110016": {
       "raw_name": "RIGHT_ZHUA",
       "decoded_name": "RIGHT_ZHUA"
     },
-    "111983": {
+    "112460": {
+      "raw_name": "0002",
+      "decoded_name": "0002"
+    },
+    "113237": {
+      "raw_name": "PRT0007",
+      "decoded_name": "PRT0007"
+    },
+    "113282": {
       "raw_name": "45_X2_535551FA8235673A_X0__ASM",
       "decoded_name": "45单出舵机_ASM"
     }
   },
   "source_product_definitions": {
-    "7114": 7112,
-    "11864": 11862,
-    "12191": 12189,
-    "17624": 17622,
-    "18082": 18080,
-    "18206": 18204,
-    "18328": 18326,
-    "18449": 18447,
-    "18481": 18479,
-    "21388": 21386,
-    "26799": 26797,
-    "26830": 26828,
-    "28654": 28652,
-    "28685": 28683,
-    "29467": 29465,
-    "35213": 35211,
-    "35918": 35916,
-    "36622": 36620,
-    "37581": 37579,
-    "42328": 42326,
-    "42450": 42448,
-    "47815": 47813,
-    "50724": 50722,
-    "51181": 51179,
-    "51303": 51301,
-    "51760": 51758,
-    "51882": 51880,
-    "52003": 52001,
-    "52125": 52123,
-    "55225": 55223,
-    "55347": 55345,
-    "55670": 55668,
-    "55702": 55700,
-    "66080": 66078,
-    "77330": 77328,
-    "86270": 86268,
-    "90664": 90662,
-    "91377": 91375,
-    "92608": 92606,
-    "93092": 93090,
-    "93574": 93572,
-    "103444": 103442,
-    "103479": 103477,
-    "103511": 103509,
-    "107736": 107734,
-    "111957": 111955,
-    "111985": 111983
+    "7188": 7186,
+    "11938": 11936,
+    "12265": 12263,
+    "17698": 17696,
+    "18156": 18154,
+    "18280": 18278,
+    "18402": 18400,
+    "18523": 18521,
+    "18555": 18553,
+    "21462": 21460,
+    "26874": 26872,
+    "26905": 26903,
+    "28729": 28727,
+    "28760": 28758,
+    "29542": 29540,
+    "34619": 34617,
+    "35578": 35576,
+    "40325": 40323,
+    "40447": 40445,
+    "45812": 45810,
+    "48721": 48719,
+    "49178": 49176,
+    "49300": 49298,
+    "49757": 49755,
+    "49879": 49877,
+    "50000": 49998,
+    "50122": 50120,
+    "53222": 53220,
+    "53344": 53342,
+    "53667": 53665,
+    "53699": 53697,
+    "64266": 64264,
+    "75584": 75582,
+    "84890": 84888,
+    "89284": 89282,
+    "89968": 89966,
+    "91200": 91198,
+    "91685": 91683,
+    "101503": 101501,
+    "101537": 101535,
+    "101570": 101568,
+    "105795": 105793,
+    "110018": 110016,
+    "112462": 112460,
+    "113239": 113237,
+    "113284": 113282
   },
   "source_assembly_edges": [
     {
-      "entity": 7120,
-      "parent_definition": 111985,
-      "child_definition": 7114
+      "entity": 7194,
+      "parent_definition": 113284,
+      "child_definition": 7188
     },
     {
-      "entity": 11870,
-      "parent_definition": 28685,
-      "child_definition": 11864
+      "entity": 11944,
+      "parent_definition": 28760,
+      "child_definition": 11938
     },
     {
-      "entity": 12197,
-      "parent_definition": 26830,
-      "child_definition": 12191
+      "entity": 12271,
+      "parent_definition": 26905,
+      "child_definition": 12265
     },
     {
-      "entity": 17627,
-      "parent_definition": 26830,
-      "child_definition": 17624
+      "entity": 17701,
+      "parent_definition": 26905,
+      "child_definition": 17698
     },
     {
-      "entity": 18088,
-      "parent_definition": 18481,
-      "child_definition": 18082
+      "entity": 18162,
+      "parent_definition": 18555,
+      "child_definition": 18156
     },
     {
-      "entity": 18209,
-      "parent_definition": 18481,
-      "child_definition": 18206
+      "entity": 18283,
+      "parent_definition": 18555,
+      "child_definition": 18280
     },
     {
-      "entity": 18331,
-      "parent_definition": 18481,
-      "child_definition": 18328
+      "entity": 18405,
+      "parent_definition": 18555,
+      "child_definition": 18402
     },
     {
-      "entity": 18452,
-      "parent_definition": 18481,
-      "child_definition": 18449
+      "entity": 18526,
+      "parent_definition": 18555,
+      "child_definition": 18523
     },
     {
-      "entity": 18482,
-      "parent_definition": 26830,
-      "child_definition": 18481
+      "entity": 18556,
+      "parent_definition": 26905,
+      "child_definition": 18555
     },
     {
-      "entity": 18495,
-      "parent_definition": 26830,
-      "child_definition": 18481
+      "entity": 18569,
+      "parent_definition": 26905,
+      "child_definition": 18555
     },
     {
-      "entity": 21391,
-      "parent_definition": 26830,
-      "child_definition": 21388
+      "entity": 21465,
+      "parent_definition": 26905,
+      "child_definition": 21462
     },
     {
-      "entity": 26802,
-      "parent_definition": 26830,
-      "child_definition": 26799
+      "entity": 26877,
+      "parent_definition": 26905,
+      "child_definition": 26874
     },
     {
-      "entity": 26831,
-      "parent_definition": 28685,
-      "child_definition": 26830
+      "entity": 26906,
+      "parent_definition": 28760,
+      "child_definition": 26905
     },
     {
-      "entity": 28657,
-      "parent_definition": 28685,
-      "child_definition": 28654
+      "entity": 28732,
+      "parent_definition": 28760,
+      "child_definition": 28729
     },
     {
-      "entity": 28686,
-      "parent_definition": 111985,
-      "child_definition": 28685
+      "entity": 28761,
+      "parent_definition": 113284,
+      "child_definition": 28760
     },
     {
-      "entity": 29470,
-      "parent_definition": 111985,
-      "child_definition": 29467
+      "entity": 29545,
+      "parent_definition": 113284,
+      "child_definition": 29542
     },
     {
-      "entity": 35216,
-      "parent_definition": 111985,
-      "child_definition": 35213
+      "entity": 34622,
+      "parent_definition": 113284,
+      "child_definition": 34619
     },
     {
-      "entity": 35921,
-      "parent_definition": 111985,
-      "child_definition": 35918
+      "entity": 35584,
+      "parent_definition": 53699,
+      "child_definition": 35578
     },
     {
-      "entity": 36625,
-      "parent_definition": 111985,
-      "child_definition": 36622
+      "entity": 40328,
+      "parent_definition": 53699,
+      "child_definition": 40325
     },
     {
-      "entity": 37587,
-      "parent_definition": 55702,
-      "child_definition": 37581
+      "entity": 40450,
+      "parent_definition": 53699,
+      "child_definition": 40447
     },
     {
-      "entity": 42331,
-      "parent_definition": 55702,
-      "child_definition": 42328
+      "entity": 45815,
+      "parent_definition": 53699,
+      "child_definition": 45812
     },
     {
-      "entity": 42453,
-      "parent_definition": 55702,
-      "child_definition": 42450
+      "entity": 48724,
+      "parent_definition": 53699,
+      "child_definition": 48721
     },
     {
-      "entity": 47818,
-      "parent_definition": 55702,
-      "child_definition": 47815
+      "entity": 49181,
+      "parent_definition": 53699,
+      "child_definition": 49178
     },
     {
-      "entity": 50727,
-      "parent_definition": 55702,
-      "child_definition": 50724
+      "entity": 49303,
+      "parent_definition": 53699,
+      "child_definition": 49300
     },
     {
-      "entity": 51184,
-      "parent_definition": 55702,
-      "child_definition": 51181
+      "entity": 49760,
+      "parent_definition": 53699,
+      "child_definition": 49757
     },
     {
-      "entity": 51306,
-      "parent_definition": 55702,
-      "child_definition": 51303
+      "entity": 49882,
+      "parent_definition": 53699,
+      "child_definition": 49879
     },
     {
-      "entity": 51763,
-      "parent_definition": 55702,
-      "child_definition": 51760
+      "entity": 50003,
+      "parent_definition": 53699,
+      "child_definition": 50000
     },
     {
-      "entity": 51885,
-      "parent_definition": 55702,
-      "child_definition": 51882
+      "entity": 50125,
+      "parent_definition": 53699,
+      "child_definition": 50122
     },
     {
-      "entity": 52006,
-      "parent_definition": 55702,
-      "child_definition": 52003
+      "entity": 53225,
+      "parent_definition": 53699,
+      "child_definition": 53222
     },
     {
-      "entity": 52128,
-      "parent_definition": 55702,
-      "child_definition": 52125
+      "entity": 53347,
+      "parent_definition": 53699,
+      "child_definition": 53344
     },
     {
-      "entity": 55228,
-      "parent_definition": 55702,
-      "child_definition": 55225
+      "entity": 53670,
+      "parent_definition": 53699,
+      "child_definition": 53667
     },
     {
-      "entity": 55350,
-      "parent_definition": 55702,
-      "child_definition": 55347
+      "entity": 53700,
+      "parent_definition": 113284,
+      "child_definition": 53699
     },
     {
-      "entity": 55673,
-      "parent_definition": 55702,
-      "child_definition": 55670
+      "entity": 64269,
+      "parent_definition": 113284,
+      "child_definition": 64266
     },
     {
-      "entity": 55703,
-      "parent_definition": 111985,
-      "child_definition": 55702
+      "entity": 64278,
+      "parent_definition": 113284,
+      "child_definition": 53699
     },
     {
-      "entity": 66083,
-      "parent_definition": 111985,
-      "child_definition": 66080
+      "entity": 75587,
+      "parent_definition": 113284,
+      "child_definition": 75584
     },
     {
-      "entity": 66092,
-      "parent_definition": 111985,
-      "child_definition": 55702
+      "entity": 75596,
+      "parent_definition": 113284,
+      "child_definition": 53699
     },
     {
-      "entity": 77333,
-      "parent_definition": 111985,
-      "child_definition": 77330
+      "entity": 84893,
+      "parent_definition": 113284,
+      "child_definition": 84890
     },
     {
-      "entity": 77342,
-      "parent_definition": 111985,
-      "child_definition": 55702
+      "entity": 84902,
+      "parent_definition": 113284,
+      "child_definition": 28760
     },
     {
-      "entity": 86273,
-      "parent_definition": 111985,
-      "child_definition": 86270
+      "entity": 89287,
+      "parent_definition": 113284,
+      "child_definition": 89284
     },
     {
-      "entity": 86282,
-      "parent_definition": 111985,
-      "child_definition": 28685
+      "entity": 89296,
+      "parent_definition": 113284,
+      "child_definition": 28760
     },
     {
-      "entity": 90667,
-      "parent_definition": 111985,
-      "child_definition": 90664
+      "entity": 89971,
+      "parent_definition": 113284,
+      "child_definition": 89968
     },
     {
-      "entity": 90676,
-      "parent_definition": 111985,
-      "child_definition": 28685
+      "entity": 91203,
+      "parent_definition": 113284,
+      "child_definition": 91200
     },
     {
-      "entity": 91380,
-      "parent_definition": 111985,
-      "child_definition": 91377
+      "entity": 91688,
+      "parent_definition": 113284,
+      "child_definition": 91685
     },
     {
-      "entity": 92611,
-      "parent_definition": 111985,
-      "child_definition": 92608
+      "entity": 101509,
+      "parent_definition": 101537,
+      "child_definition": 101503
     },
     {
-      "entity": 93095,
-      "parent_definition": 111985,
-      "child_definition": 93092
+      "entity": 101541,
+      "parent_definition": 101570,
+      "child_definition": 101537
     },
     {
-      "entity": 93104,
-      "parent_definition": 111985,
-      "child_definition": 93092
+      "entity": 101571,
+      "parent_definition": 113284,
+      "child_definition": 101570
     },
     {
-      "entity": 93577,
-      "parent_definition": 111985,
-      "child_definition": 93574
+      "entity": 101580,
+      "parent_definition": 113284,
+      "child_definition": 28760
     },
     {
-      "entity": 103450,
-      "parent_definition": 103479,
-      "child_definition": 103444
+      "entity": 105798,
+      "parent_definition": 113284,
+      "child_definition": 105795
     },
     {
-      "entity": 103483,
-      "parent_definition": 103511,
-      "child_definition": 103479
+      "entity": 110021,
+      "parent_definition": 113284,
+      "child_definition": 110018
     },
     {
-      "entity": 103512,
-      "parent_definition": 111985,
-      "child_definition": 103511
+      "entity": 112465,
+      "parent_definition": 113284,
+      "child_definition": 112462
     },
     {
-      "entity": 103521,
-      "parent_definition": 111985,
-      "child_definition": 28685
+      "entity": 113242,
+      "parent_definition": 113284,
+      "child_definition": 113239
     },
     {
-      "entity": 107739,
-      "parent_definition": 111985,
-      "child_definition": 107736
+      "entity": 113251,
+      "parent_definition": 113284,
+      "child_definition": 89968
     },
     {
-      "entity": 111960,
-      "parent_definition": 111985,
-      "child_definition": 111957
+      "entity": 113260,
+      "parent_definition": 113284,
+      "child_definition": 89968
     }
   ],
   "tool": {
