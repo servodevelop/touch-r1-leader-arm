@@ -10,6 +10,7 @@ import json
 from pathlib import Path
 import re
 import struct
+import zipfile
 
 import FreeCAD as App
 import Import
@@ -50,6 +51,12 @@ STL_ITEMS = {'touch-r1-joint-1', 'touch-r1-joint-2', 'touch-r1-joint-3', 'touch-
              'touch-r1-joint-5', 'touch-r1-joint-6', 'touch-r1-handle-assembly',
              'touch-r1-finger-left', 'touch-r1-finger-right', 'touch-r1-part-a000',
              'touch-r1-base-plate'}
+# 标准紧固件按标准号采购，不提供独立 STEP 导出件，只在 BOM 内记录来源与规格。
+NO_STEP_EXPORT = {'touch-r1-fastener-gb-t70-1-m3x530001', 'touch-r1-fastener-m3x3x60001',
+                  'touch-r1-fastener-prt0007'}
+# 下载包名与包内目录沿用 Star Arm 102 的写法：包名带装配体日期，包内是固定目录。
+STL_ARCHIVE = 'touch-r1-stl-2026-10-23.zip'
+STL_ARCHIVE_FOLDER = 'touch-r1-stl'
 
 
 def decode_name(text):
@@ -126,8 +133,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--mesh-dir', type=Path, required=True,
                         help='Temporary directory for render meshes; keep outside the repository')
-    parser.add_argument('--stl-dir', type=Path, default=MODEL / 'printing/stl',
-                        help='Directory for the printable STL meshes (default: hardware/printing/stl)')
+    parser.add_argument('--stl-dir', type=Path, default=MODEL / 'stl',
+                        help='Directory for the printable STL meshes (default: hardware/stl)')
     args = parser.parse_args()
     data = SOURCE.read_bytes()
     assert hashlib.sha256(data).hexdigest() == SOURCE_SHA256, 'Source changed: review the mapping first'
@@ -190,22 +197,25 @@ def main():
     meshes = []
     for number, (product, identifier, zh) in enumerate(ITEMS, 1):
         shape = shapes[product]
-        filename = parts / f'{identifier}.step'
-        shape.exportStep(str(filename))
-        check = Part.read(str(filename))
-        original, exported = metrics(shape), metrics(check)
-        assert exported['valid'] and exported['solid_count'] == original['solid_count']
-        assert abs(exported['volume_mm3'] - original['volume_mm3']) <= max(1e-3, original['volume_mm3'] * 1e-4)
-        assert all(abs(a-b) < .001 for a,b in zip(original['local_bbox_mm'], exported['local_bbox_mm']))
+        original = metrics(shape)
         row = {'no': number, 'id': identifier, 'name_zh': zh,
                'source_product_entity': product, 'source_name': products[product],
                'decoded_source_name': decode_name(products[product]),
                'quantity': counts[product], 'unit': 'subassembly' if original['solid_count'] > 1 else 'piece',
-               'step_file': f'step/parts/{identifier}.step', 'image': f'images/{identifier}.png',
-               'geometry': original, 'source_shape_max_tolerance_mm': shape.getTolerance(1), 'export_roundtrip_valid': True,
-               'export_volume_relative_error': abs(exported['volume_mm3'] - original['volume_mm3']) / original['volume_mm3'],
-               'export_bbox_max_error_mm': max(abs(a-b) for a,b in zip(original['local_bbox_mm'], exported['local_bbox_mm'])),
+               'step_file': None, 'image': f'images/{identifier}.png',
+               'geometry': original, 'source_shape_max_tolerance_mm': shape.getTolerance(1),
                'occurrences': occurrences[product]}
+        if identifier not in NO_STEP_EXPORT:
+            filename = parts / f'{identifier}.step'
+            shape.exportStep(str(filename))
+            check = Part.read(str(filename))
+            exported = metrics(check)
+            assert exported['valid'] and exported['solid_count'] == original['solid_count']
+            assert abs(exported['volume_mm3'] - original['volume_mm3']) <= max(1e-3, original['volume_mm3'] * 1e-4)
+            assert all(abs(a-b) < .001 for a,b in zip(original['local_bbox_mm'], exported['local_bbox_mm']))
+            row.update({'step_file': f'step/parts/{identifier}.step', 'export_roundtrip_valid': True,
+                        'export_volume_relative_error': abs(exported['volume_mm3'] - original['volume_mm3']) / original['volume_mm3'],
+                        'export_bbox_max_error_mm': max(abs(a-b) for a,b in zip(original['local_bbox_mm'], exported['local_bbox_mm']))})
         fastener = describe_fastener(product, shape)
         if fastener:
             row['name_zh'] = fastener['name_zh']
@@ -214,13 +224,23 @@ def main():
             stl_path = stl_dir / f'{identifier}.stl'
             mesh = write_stl(shape, stl_path)
             assert mesh['triangles'] and mesh['open_edges'] == 0, (identifier, mesh)
-            row['stl_file'] = f'printing/stl/{identifier}.stl'
+            row['stl_file'] = f'stl/{identifier}.stl'
             row['stl_mesh'] = mesh
-            meshes.append((identifier, mesh))
+            meshes.append((identifier, stl_path, mesh))
         rows.append(row)
         (args.mesh_dir / f'{identifier}.json').write_text(json.dumps(mesh_data(shape)), encoding='utf-8')
         print(f"Exported {number:02d}: {identifier} x {counts[product]}", flush=True)
     (args.mesh_dir / 'touch-r1-assembly.json').write_text(json.dumps(mesh_data(assembly.Shape)), encoding='utf-8')
+    # 单包下载：与 stl/ 散件逐字节同源，条目放在同名子目录里（参照 Star Arm 102 的打包方式）。
+    archive = stl_dir / 'downloads' / STL_ARCHIVE
+    archive.parent.mkdir(exist_ok=True, parents=True)
+    folder = STL_ARCHIVE_FOLDER
+    with zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED) as bundle:
+        for identifier, stl_path, _ in meshes:
+            bundle.write(stl_path, f'{folder}/{stl_path.name}')
+    with zipfile.ZipFile(archive) as bundle:
+        archived = {info.filename.split('/')[-1]: info.file_size for info in bundle.infolist()}
+    assert archived == {path.name: mesh['bytes'] for _, path, mesh in meshes}, '下载包与散件不一致'
     manifest = {'schema_version': 2, 'model': 'Touch R1 Leader Arm', 'revision': 'V3.3',
                 'source_file': SOURCE.relative_to(MODEL).as_posix(), 'source_sha256': SOURCE_SHA256,
                 'source_length_unit': 'mm', 'root_product_entity': definitions[root_id],
@@ -230,6 +250,8 @@ def main():
                 'export_check_tolerances': {'relative_volume': 1e-4, 'absolute_volume_mm3': 1e-3, 'bbox_mm': .001},
                 'stl_tessellation': {'linear_deflection_mm': .05, 'angular_deflection_rad': .3,
                                      'format': 'binary STL', 'closed_mesh_required': True},
+                'stl_archive': {'file': archive.relative_to(MODEL).as_posix(), 'entries': len(archived),
+                                'folder': folder, 'bytes': archive.stat().st_size},
                 'quantity_basis': '按根装配直接子项统计，合并重复 PRODUCT 引用；舵机内部零件不重复列为 BOM 行。',
                 'procurement_status': '由 CAD 提取；采购规格、未建模组件与清单完整性待工程确认。',
                 'items': rows,
@@ -242,7 +264,8 @@ def main():
         if placeholder.exists():
             placeholder.unlink()
     App.closeDocument(document.Name)
-    print(f'Verified {len(rows)} STEP exports; {len(meshes)} closed STL meshes; '
+    print(f'Verified {len(rows) - len(NO_STEP_EXPORT)} STEP exports; {len(meshes)} closed STL meshes '
+          f'in {len(archived)}-file archive {STL_ARCHIVE}; '
           f'{len(top_edges)} top-level occurrences; {leaves(root_id)} expanded solids.')
 
 

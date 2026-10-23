@@ -31,6 +31,12 @@
     "format": "binary STL",
     "closed_mesh_required": true
   },
+  "stl_archive": {
+    "file": "stl/downloads/touch-r1-stl-2026-10-23.zip",
+    "entries": 11,
+    "folder": "touch-r1-stl",
+    "bytes": 1419984
+  },
   "quantity_basis": "按根装配直接子项统计，合并重复 PRODUCT 引用；舵机内部零件不重复列为 BOM 行。",
   "procurement_status": "由 CAD 提取；采购规格、未建模组件与清单完整性待工程确认。",
   "items": [
@@ -56,9 +62,6 @@
         ]
       },
       "source_shape_max_tolerance_mm": 0.002687723576375987,
-      "export_roundtrip_valid": true,
-      "export_volume_relative_error": 6.952443352385674e-07,
-      "export_bbox_max_error_mm": 8.256506589532364e-12,
       "occurrences": [
         {
           "source_occurrence_entity": 28761,
@@ -152,7 +155,10 @@
             1.0
           ]
         }
-      ]
+      ],
+      "export_roundtrip_valid": true,
+      "export_volume_relative_error": 6.952443352385674e-07,
+      "export_bbox_max_error_mm": 8.256506589532364e-12
     },
     {
       "no": 2,
@@ -176,9 +182,6 @@
         ]
       },
       "source_shape_max_tolerance_mm": 0.002613290455982457,
-      "export_roundtrip_valid": true,
-      "export_volume_relative_error": 8.438354382367208e-07,
-      "export_bbox_max_error_mm": 1.8474111129762605e-13,
       "occurrences": [
         {
           "source_occurrence_entity": 53700,
@@ -249,7 +252,10 @@
             1.0
           ]
         }
-      ]
+      ],
+      "export_roundtrip_valid": true,
+      "export_volume_relative_error": 8.438354382367208e-07,
+      "export_bbox_max_error_mm": 1.8474111129762605e-13
     },
     {
       "no": 3,
@@ -273,9 +279,6 @@
         ]
       },
       "source_shape_max_tolerance_mm": 0.0015235942859630422,
-      "export_roundtrip_valid": true,
-      "export_volume_relative_error": 1.2439374343997524e-13,
-      "export_bbox_max_error_mm": 0.0,
       "occurrences": [
         {
           "source_occurrence_entity": 7194,
@@ -301,7 +304,10 @@
           ]
         }
       ],
-      "stl_file": "printing/stl/touch-r1-joint-1.stl",
+      "export_roundtrip_valid": true,
+      "export_volume_relative_error": 1.2439374343997524e-13,
+      "export_bbox_max_error_mm": 0.0,
+      "stl_file": "stl/touch-r1-joint-1.stl",
       "stl_mesh": {
         "triangles": 12854,
         "vertices": 6405,
@@ -331,9 +337,6 @@
         ]
       },
       "source_shape_max_tolerance_mm": 0.0026533734882536507,
-      "export_roundtrip_valid": true,
-      "export_volume_relative_error": 3.4410384537431677e-13,
-      "export_bbox_max_error_mm": 2.2737367544323206e-13,
       "occurrences": [
         {
           "source_occurrence_entity": 34622,
@@ -359,7 +362,10 @@
           ]
         }
       ],
-      "stl_file": "printing/stl/touch-r1-joint-2.stl",
+      "export_roundtrip_valid": true,
+      "export_volume_relative_error": 3.4410384537431677e-13,
+      "export_bbox_max_error_mm": 2.2737367544323206e-13,
+      "stl_file": "stl/touch-r1-joint-2.stl",
       "stl_mesh": {
         "triangles": 10700,
         "vertices": 5318,
@@ -389,9 +395,6 @@
         ]
       },
       "source_shape_max_tolerance_mm": 0.01826507030015742,
-      "export_roundtrip_valid": true,
-      "export_volume_relative_error": 6.253414919166611e-06,
-      "export_bbox_max_error_mm": 7.105427357601002e-15,
       "occurrences": [
         {
           "source_occurrence_entity": 64269,
@@ -417,7 +420,10 @@
           ]
         }
       ],
-      "stl_file": "printing/stl/touch-r1-joint-3.stl",
+      "export_roundtrip_valid": true,
+      "export_volume_relative_error": 6.253414919166611e-06,
+      "export_bbox_max_error_mm": 7.105427357601002e-15,
+      "stl_file": "stl/touch-r1-joint-3.stl",
       "stl_mesh": {
         "triangles": 22450,
         "vertices": 11191,
@@ -447,9 +453,6 @@
         ]
       },
       "source_shape_max_tolerance_mm": 0.016008793682779087,
-      "export_roundtrip_valid": true,
-      "export_volume_relative_error": 4.728007487021462e-06,
-      "export_bbox_max_error_mm": 0.0,
       "occurrences": [
         {
           "source_occurrence_entity": 75587,
@@ -475,7 +478,10 @@
           ]
         }
       ],
-      "stl_file": "printing/stl/touch-r1-joint-4.stl",
+      "export_roundtrip_valid": true,
+      "export_volume_relative_error": 4.728007487021462e-06,
+      "export_bbox_max_error_mm": 0.0,
+      "stl_file": "stl/touch-r1-joint-4.stl",
       "stl_mesh": {
         "triangles": 28712,
         "vertices": 14320,
@@ -505,9 +511,6 @@
         ]
       },
       "source_shape_max_tolerance_mm": 0.010711089958440025,
-      "export_roundtrip_valid": true,
-      "export_volume_relative_error": 1.0198915605815414e-05,
-      "export_bbox_max_error_mm": 3.0169644560373854e-11,
       "occurrences": [
         {
           "source_occurrence_entity": 84893,
@@ -533,7 +536,10 @@
           ]
         }
       ],
-      "stl_file": "printing/stl/touch-r1-joint-5.stl",
+      "export_roundtrip_valid": true,
+      "export_volume_relative_error": 1.0198915605815414e-05,
+      "export_bbox_max_error_mm": 3.0169644560373854e-11,
+      "stl_file": "stl/touch-r1-joint-5.stl",
       "stl_mesh": {
         "triangles": 19040,
         "vertices": 9490,
@@ -563,9 +569,6 @@
         ]
       },
       "source_shape_max_tolerance_mm": 0.0015774734607027305,
-      "export_roundtrip_valid": true,
-      "export_volume_relative_error": 1.724531165138586e-06,
-      "export_bbox_max_error_mm": 1.4210854715202004e-13,
       "occurrences": [
         {
           "source_occurrence_entity": 89287,
@@ -591,7 +594,10 @@
           ]
         }
       ],
-      "stl_file": "printing/stl/touch-r1-joint-6.stl",
+      "export_roundtrip_valid": true,
+      "export_volume_relative_error": 1.724531165138586e-06,
+      "export_bbox_max_error_mm": 1.4210854715202004e-13,
+      "stl_file": "stl/touch-r1-joint-6.stl",
       "stl_mesh": {
         "triangles": 7226,
         "vertices": 3579,
@@ -621,9 +627,6 @@
         ]
       },
       "source_shape_max_tolerance_mm": 0.016009723727941943,
-      "export_roundtrip_valid": true,
-      "export_volume_relative_error": 9.344982358064952e-07,
-      "export_bbox_max_error_mm": 7.142375579860527e-11,
       "occurrences": [
         {
           "source_occurrence_entity": 101571,
@@ -649,7 +652,10 @@
           ]
         }
       ],
-      "stl_file": "printing/stl/touch-r1-handle-assembly.stl",
+      "export_roundtrip_valid": true,
+      "export_volume_relative_error": 9.344982358064952e-07,
+      "export_bbox_max_error_mm": 7.142375579860527e-11,
+      "stl_file": "stl/touch-r1-handle-assembly.stl",
       "stl_mesh": {
         "triangles": 21078,
         "vertices": 10523,
@@ -679,9 +685,6 @@
         ]
       },
       "source_shape_max_tolerance_mm": 0.004774368067699173,
-      "export_roundtrip_valid": true,
-      "export_volume_relative_error": 3.9391550999849746e-07,
-      "export_bbox_max_error_mm": 2.8954616482224083e-12,
       "occurrences": [
         {
           "source_occurrence_entity": 105798,
@@ -707,7 +710,10 @@
           ]
         }
       ],
-      "stl_file": "printing/stl/touch-r1-finger-left.stl",
+      "export_roundtrip_valid": true,
+      "export_volume_relative_error": 3.9391550999849746e-07,
+      "export_bbox_max_error_mm": 2.8954616482224083e-12,
+      "stl_file": "stl/touch-r1-finger-left.stl",
       "stl_mesh": {
         "triangles": 12436,
         "vertices": 6216,
@@ -737,9 +743,6 @@
         ]
       },
       "source_shape_max_tolerance_mm": 0.0012989080674625799,
-      "export_roundtrip_valid": true,
-      "export_volume_relative_error": 4.28233178731024e-06,
-      "export_bbox_max_error_mm": 1.4335199693960021e-11,
       "occurrences": [
         {
           "source_occurrence_entity": 110021,
@@ -765,7 +768,10 @@
           ]
         }
       ],
-      "stl_file": "printing/stl/touch-r1-finger-right.stl",
+      "export_roundtrip_valid": true,
+      "export_volume_relative_error": 4.28233178731024e-06,
+      "export_bbox_max_error_mm": 1.4335199693960021e-11,
+      "stl_file": "stl/touch-r1-finger-right.stl",
       "stl_mesh": {
         "triangles": 13288,
         "vertices": 6626,
@@ -795,9 +801,6 @@
         ]
       },
       "source_shape_max_tolerance_mm": 1e-07,
-      "export_roundtrip_valid": true,
-      "export_volume_relative_error": 1.3686143778559997e-13,
-      "export_bbox_max_error_mm": 0.0,
       "occurrences": [
         {
           "source_occurrence_entity": 91203,
@@ -823,7 +826,10 @@
           ]
         }
       ],
-      "stl_file": "printing/stl/touch-r1-part-a000.stl",
+      "export_roundtrip_valid": true,
+      "export_volume_relative_error": 1.3686143778559997e-13,
+      "export_bbox_max_error_mm": 0.0,
+      "stl_file": "stl/touch-r1-part-a000.stl",
       "stl_mesh": {
         "triangles": 1116,
         "vertices": 554,
@@ -853,9 +859,6 @@
         ]
       },
       "source_shape_max_tolerance_mm": 0.0057295773900782184,
-      "export_roundtrip_valid": true,
-      "export_volume_relative_error": 8.162808964269675e-07,
-      "export_bbox_max_error_mm": 0.0,
       "occurrences": [
         {
           "source_occurrence_entity": 112465,
@@ -881,7 +884,10 @@
           ]
         }
       ],
-      "stl_file": "printing/stl/touch-r1-base-plate.stl",
+      "export_roundtrip_valid": true,
+      "export_volume_relative_error": 8.162808964269675e-07,
+      "export_bbox_max_error_mm": 0.0,
+      "stl_file": "stl/touch-r1-base-plate.stl",
       "stl_mesh": {
         "triangles": 4054,
         "vertices": 2013,
@@ -898,7 +904,7 @@
       "decoded_source_name": "GB_T70_1-M3X530001",
       "quantity": 3,
       "unit": "piece",
-      "step_file": "step/parts/touch-r1-fastener-gb-t70-1-m3x530001.step",
+      "step_file": null,
       "image": "images/touch-r1-fastener-gb-t70-1-m3x530001.png",
       "geometry": {
         "solid_count": 1,
@@ -911,9 +917,6 @@
         ]
       },
       "source_shape_max_tolerance_mm": 4.949856337316889e-05,
-      "export_roundtrip_valid": true,
-      "export_volume_relative_error": 3.0386109049972995e-16,
-      "export_bbox_max_error_mm": 0.0,
       "occurrences": [
         {
           "source_occurrence_entity": 89971,
@@ -1010,7 +1013,7 @@
       "decoded_source_name": "M2X4X30001",
       "quantity": 1,
       "unit": "piece",
-      "step_file": "step/parts/touch-r1-fastener-m3x3x60001.step",
+      "step_file": null,
       "image": "images/touch-r1-fastener-m3x3x60001.png",
       "geometry": {
         "solid_count": 1,
@@ -1023,9 +1026,6 @@
         ]
       },
       "source_shape_max_tolerance_mm": 1e-07,
-      "export_roundtrip_valid": true,
-      "export_volume_relative_error": 1.3299957379896202e-14,
-      "export_bbox_max_error_mm": 0.0,
       "occurrences": [
         {
           "source_occurrence_entity": 91688,
@@ -1079,7 +1079,7 @@
       "decoded_source_name": "PRT0007",
       "quantity": 1,
       "unit": "piece",
-      "step_file": "step/parts/touch-r1-fastener-prt0007.step",
+      "step_file": null,
       "image": "images/touch-r1-fastener-prt0007.png",
       "geometry": {
         "solid_count": 1,
@@ -1092,9 +1092,6 @@
         ]
       },
       "source_shape_max_tolerance_mm": 4.949856337316889e-05,
-      "export_roundtrip_valid": true,
-      "export_volume_relative_error": 3.505883242057338e-14,
-      "export_bbox_max_error_mm": 0.0,
       "occurrences": [
         {
           "source_occurrence_entity": 113242,
@@ -1159,9 +1156,6 @@
         ]
       },
       "source_shape_max_tolerance_mm": 1e-07,
-      "export_roundtrip_valid": true,
-      "export_volume_relative_error": 0.0,
-      "export_bbox_max_error_mm": 0.0,
       "occurrences": [
         {
           "source_occurrence_entity": 29545,
@@ -1186,7 +1180,10 @@
             1.0
           ]
         }
-      ]
+      ],
+      "export_roundtrip_valid": true,
+      "export_volume_relative_error": 0.0,
+      "export_bbox_max_error_mm": 0.0
     }
   ],
   "source_products": {
